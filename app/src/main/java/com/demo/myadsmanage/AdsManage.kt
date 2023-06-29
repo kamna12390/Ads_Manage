@@ -57,6 +57,7 @@ import com.google.gson.GsonBuilder
 
 
 object AdsManage {
+    public class ActivityBuilder() : Builder()
     val TAG=this.javaClass.simpleName
     private val COUNTER_TIME = 2L
     private var mcountRemaining: Long = 0L
@@ -71,126 +72,163 @@ object AdsManage {
             return FirebaseRemoteConfig.getInstance()
         }
 
+    abstract class Builder()  {
+        fun Splash_Init(context: Context,onSplachAds: OnSplachAds) {
+            with(context){
+                if (isOnline) {
+                    mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
+                    mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
+                        if (it.isSuccessful){
+                            val mobject= mFirebaseRemoteConfig.getString("AdsManage")
+                            val gson: Gson = GsonBuilder().create()
+                            val lessons: AdsModel = gson.fromJson(
+                                mobject,
+                                AdsModel::class.java
+                            )
+                            with(lessons.appChanging!!){
+                                isShowAdmobAds = misShowAdmobAds!!
+                                isTestMode=testAdsShow!!
+                                mInterstitialAds_clickCount= interstitialClickCountShow!!
+                                Interstitial_CountShow=interstitialClickCountShow
+                                isHomeNativeShow=misHomeNativeShow!!
+                                isSettingNativeShow=misSettingNativeShow!!
+                                isCreationNativeShow=misCreationNativeShow!!
+                                is_ProgressShow=misProgressShow!!
+                            }
 
-    fun Context.Splash_Init(onSplachAds: OnSplachAds) {
-        if (isOnline) {
-            mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
-            mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
-                if (it.isSuccessful){
-                    val mobject= mFirebaseRemoteConfig.getString("AdsManage")
-                    val gson: Gson = GsonBuilder().create()
-                    val lessons: AdsModel = gson.fromJson(
-                        mobject,
-                        AdsModel::class.java
-                    )
-                    with(lessons.appChanging!!){
-                        isShowAdmobAds = misShowAdmobAds!!
-                        isTestMode=testAdsShow!!
-                        mInterstitialAds_clickCount= interstitialClickCountShow!!
-                        Interstitial_CountShow=interstitialClickCountShow
-                        isHomeNativeShow=misHomeNativeShow!!
-                        isSettingNativeShow=misSettingNativeShow!!
-                        isCreationNativeShow=misCreationNativeShow!!
-                        is_ProgressShow=misProgressShow!!
-                    }
+                            with(lessons.appChanging.admob!!){
+                                AD_Interstitial=adInterstitial!!
+                                AD_Banner=adBanner
+                                AD_AppOpen=adAppOpen
+                                AD_NativeAds=adNativeAds!!
+                                AD_RewardedAds=adRewardedAds
 
-                    with(lessons.appChanging.admob!!){
-                        AD_Interstitial=adInterstitial!!
-                        AD_Banner=adBanner
-                        AD_AppOpen=adAppOpen
-                        AD_NativeAds=adNativeAds!!
-                        AD_RewardedAds=adRewardedAds
+                            }
+                            with(lessons.appChanging.faceBook!!){
+                                FB_Interstitial=fbInterstitial
+                                FB_Banner=fbBanner
+                                FB_AppOpen=fbAppOpen
+                                FB_NativeAds=fbNativeAds
+                                FB_RewardedAds=fbRewardedAds
+                            }
+                            Load_AppOpenAd(context,false,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT)
+                            onSplachAds.OnNextAds()
+                            logD(TAG, "$AD_Interstitial==$AD_Banner")
+                        }else{
 
-                    }
-                    with(lessons.appChanging.faceBook!!){
-                        FB_Interstitial=fbInterstitial
-                        FB_Banner=fbBanner
-                        FB_AppOpen=fbAppOpen
-                        FB_NativeAds=fbNativeAds
-                        FB_RewardedAds=fbRewardedAds
-                    }
-                    Load_AppOpenAd(false,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT)
-                    onSplachAds.OnNextAds()
-                    logD(TAG, "$AD_Interstitial==$AD_Banner")
-                }else{
-
+                        }
+                    })
+                } else {
+                    Toast.makeText(this, "Please connect internet", Toast.LENGTH_LONG).show()
                 }
-            })
-        } else {
-            Toast.makeText(this, "Please connect internet", Toast.LENGTH_LONG).show()
-        }
-    }
-    fun Context.Show_AdaptiveBanner(is_SUBSCRIBED: Boolean, view:ViewGroup){
-        if (isShowAdmobAds){
-            loadAdaptiveBanner(is_SUBSCRIBED,view, AD_Banner!!)
-        }else{
-            loadFBAdaptiveBanner(is_SUBSCRIBED,view, FB_Banner!!)
-        }
-    }
-    fun Context.Load_HOME_NativeAds(is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
-         if (isHomeNativeShow){
-            if (isShowAdmobAds){
-                loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,nativeAD,onNativeAds)
-            }else{
-                loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds)
-            }
-        }else{
-            onNativeAds.OnNativeAdsError()
-        }
-
-
-    }
-    fun Context.Load_SETTING_NativeAds(is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
-        if (isSettingNativeShow){
-            if (isShowAdmobAds){
-                loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,nativeAD,onNativeAds)
-            }else{
-                loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds)
             }
 
-        }else{
-            onNativeAds.OnNativeAdsError()
         }
+        fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
+            with(context){
 
-
-    }
-    fun Context.Load_CREATION_NativeAds(is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
-        if (isCreationNativeShow){
-            if (isShowAdmobAds){
-                loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,nativeAD,onNativeAds)
-            }else{
-                loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds)
+                if (isShowAdmobAds){
+                    loadAdaptiveBanner(is_SUBSCRIBED,view, AD_Banner!!)
+                }else{
+                    loadFBAdaptiveBanner(is_SUBSCRIBED,view, FB_Banner!!)
+                }
             }
-        }else{
-            onNativeAds.OnNativeAdsError()
         }
+        fun Load_HOME_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
+            with(context){
+
+                if (isHomeNativeShow){
+                    if (isShowAdmobAds){
+                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,nativeAD,onNativeAds)
+                    }else{
+                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds)
+                    }
+                }else{
+                    onNativeAds.OnNativeAdsError()
+                }
+            }
 
 
-    }
-    fun Context.Load_InterstitialAd(is_SUBSCRIBED: Boolean,inter_pos:Int) {
-        if (isShowAdmobAds){
-            loadInterstitialAd(is_SUBSCRIBED,AD_Interstitial[inter_pos],inter_pos)
-        }else{
-            loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
         }
+        fun Load_SETTING_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
+            with(context){
 
-
-    }
-    fun Context.Show_InterstitialAds(is_SUBSCRIBED: Boolean,intent: Intent?=null,inter_pos:Int){
-
-        if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
-            mInterstitialAds_clickCount=0
-            if (is_ProgressShow){
-                showDialog()
-                val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        mcountRemaining = millisUntilFinished / 1000 + 1
+                if (isSettingNativeShow){
+                    if (isShowAdmobAds){
+                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,nativeAD,onNativeAds)
+                    }else{
+                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds)
                     }
 
-                    override fun onFinish() {
-                        mcountRemaining = 0
+                }else{
+                    onNativeAds.OnNativeAdsError()
+                }
+            }
+
+
+        }
+        fun Load_CREATION_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
+            with(context){
+
+                if (isCreationNativeShow){
+                    if (isShowAdmobAds){
+                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,nativeAD,onNativeAds)
+                    }else{
+                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds)
+                    }
+                }else{
+                    onNativeAds.OnNativeAdsError()
+                }
+            }
+
+
+        }
+        fun Load_InterstitialAd(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int) {
+            with(context){
+
+                if (isShowAdmobAds){
+                    loadInterstitialAd(is_SUBSCRIBED,AD_Interstitial[inter_pos],inter_pos)
+                }else{
+                    loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                }
+            }
+
+
+        }
+        fun Show_InterstitialAds(context: Context,is_SUBSCRIBED: Boolean,intent: Intent?=null,inter_pos:Int){
+            with(context){
+
+                if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
+                    mInterstitialAds_clickCount=0
+                    if (is_ProgressShow){
+                        showDialog()
+                        val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
+                            override fun onTick(millisUntilFinished: Long) {
+                                mcountRemaining = millisUntilFinished / 1000 + 1
+                            }
+
+                            override fun onFinish() {
+                                mcountRemaining = 0
+                                if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
+                                    dismiss()
+                                    showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
+                                        override fun OnDismissAds() {
+                                            NextScreen(intent)
+                                        }
+
+                                        override fun OnError() {
+                                            NextScreen(intent)
+                                        }
+                                    })
+                                }else{
+                                    dismiss()
+                                    NextScreen(intent)
+                                }
+                            }
+                        }
+                        countDownTimer.start()
+                    }else{
                         if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
-                            dismiss()
                             showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
                                 override fun OnDismissAds() {
                                     NextScreen(intent)
@@ -201,83 +239,80 @@ object AdsManage {
                                 }
                             })
                         }else{
-                            dismiss()
                             NextScreen(intent)
                         }
                     }
-                }
-                countDownTimer.start()
-            }else{
-                if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
-                    showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
-                        override fun OnDismissAds() {
-                            NextScreen(intent)
-                        }
 
-                        override fun OnError() {
-                            NextScreen(intent)
-                        }
-                    })
-                }else{
+
+                }
+                else{
+                    mInterstitialAds_clickCount++
                     NextScreen(intent)
                 }
             }
-
-
         }
-        else{
-            mInterstitialAds_clickCount++
-            NextScreen(intent)
-        }
-    }
-    fun Context.NextScreen(intent: Intent?){
-        if (intent!=null){
-            startActivity(intent)
-        }
-    }
-    fun Context.Load_AppOpenAd(is_SUBSCRIBED: Boolean,appOpenAd:Int){
-        loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
-    }
-    fun Context.Show_AppOpenAd(is_SUBSCRIBED: Boolean,onAppOpenShowAds: OnAppOpenShowAds){
-        showAppOpenAd(is_SUBSCRIBED,onAppOpenShowAds)
-    }
-
-    fun Context.Load_RewardedAd(is_SUBSCRIBED: Boolean){
-        if (isShowAdmobAds){
-            loadRewardedAds(is_SUBSCRIBED, AD_RewardedAds!!)
-        }else{
-            loadFBRewatdedAD(is_SUBSCRIBED, FB_RewardedAds!!)
-        }
-    }
-    fun Context.Show_RewardedAd(is_SUBSCRIBED: Boolean,onRewardedShowAds: OnRewardedShowAds){
-        showDialog()
-        val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                mcountRemaining = millisUntilFinished / 1000 + 1
-            }
-
-            override fun onFinish() {
-                mcountRemaining = 0
-             dismiss()
-                showRewarded(is_SUBSCRIBED,onRewardedShowAds)
+        fun Context.NextScreen(intent: Intent?){
+            if (intent!=null){
+                startActivity(intent)
             }
         }
-        countDownTimer.start()
-    }
-    fun Context.showDialog() {
-        dialog_ad = ProgressDialog(this)
-        dialog_ad!!.setCancelable(false)
-        dialog_ad!!.setCanceledOnTouchOutside(false)
-        dialog_ad!!.setTitle(this.getString(R.string.please_wait))
-        dialog_ad!!.setMessage(this.getString(R.string.load_ad))
-        dialog_ad!!.show()
+        fun Load_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd:Int){
+            with(context){
 
-    }
-    fun Context.dismiss(){
-        if (dialog_ad!=null){
-            dialog_ad!!.dismiss()
+                loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
+            }
+        }
+        fun Show_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,onAppOpenShowAds: OnAppOpenShowAds){
+            with(context){
+
+                showAppOpenAd(is_SUBSCRIBED,onAppOpenShowAds)
+            }
         }
 
+        fun Load_RewardedAd(context: Context,is_SUBSCRIBED: Boolean){
+            with(context){
+
+                if (isShowAdmobAds){
+                    loadRewardedAds(is_SUBSCRIBED, AD_RewardedAds!!)
+                }else{
+                    loadFBRewatdedAD(is_SUBSCRIBED, FB_RewardedAds!!)
+                }
+            }
+        }
+        fun Show_RewardedAd(context: Context,is_SUBSCRIBED: Boolean,onRewardedShowAds: OnRewardedShowAds){
+            with(context){
+
+                showDialog()
+                val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        mcountRemaining = millisUntilFinished / 1000 + 1
+                    }
+
+                    override fun onFinish() {
+                        mcountRemaining = 0
+                        dismiss()
+                        showRewarded(is_SUBSCRIBED,onRewardedShowAds)
+                    }
+                }
+                countDownTimer.start()
+            }
+        }
+        fun Context.showDialog() {
+            dialog_ad = ProgressDialog(this)
+            dialog_ad!!.setCancelable(false)
+            dialog_ad!!.setCanceledOnTouchOutside(false)
+            dialog_ad!!.setTitle(this.getString(R.string.please_wait))
+            dialog_ad!!.setMessage(this.getString(R.string.load_ad))
+            dialog_ad!!.show()
+
+        }
+        fun Context.dismiss(){
+            if (dialog_ad!=null){
+                dialog_ad!!.dismiss()
+            }
+
+        }
     }
+
 
 }

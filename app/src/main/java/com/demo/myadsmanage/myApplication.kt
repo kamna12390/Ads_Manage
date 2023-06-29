@@ -12,7 +12,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.demo.myadsmanage.AdsClass.AppOpenAds.loadAppOpenAd
-import com.demo.myadsmanage.AdsManage.Show_AppOpenAd
 import com.demo.myadsmanage.Commen.Constants.isAdsClicking
 import com.demo.myadsmanage.Commen.Constants.isAdsShowing
 import com.demo.myadsmanage.InterFace.OnAppOpenShowAds
@@ -56,7 +55,7 @@ class myApplication : Application(), LifecycleObserver,
     fun onAppForegrounded() {
         currentActivity?.let {
             if (!isAdsClicking && !isAdsShowing){
-                it.Show_AppOpenAd(false,object : OnAppOpenShowAds {
+                AdsManage.ActivityBuilder().Show_AppOpenAd(it,false,object : OnAppOpenShowAds {
                     override fun OnDismissAds() {
                         loadAppOpenAd(false, AD_AppOpen!!,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT)
                     }
