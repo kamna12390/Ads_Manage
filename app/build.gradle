@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
 }
-
+apply plugin: 'maven-publish'
 android {
     namespace 'com.demo.myadsmanage'
     compileSdk 33
@@ -66,4 +66,18 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
 
+}
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.kamna12390'
+            artifactId = 'Ads_Manage'
+            version = "1.0.5"
+//            from components.java
+
+            pom {
+                description = 'A Commen Ads Manage'
+            }
+        }
+    }
 }
