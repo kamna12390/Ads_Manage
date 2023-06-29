@@ -6,10 +6,12 @@ object Constants {
     var mNativeAdlist= arrayListOf<Any?>(null,null)
     var mRewardedAds:Any?=null
     var mAppOpenAds:Any?=null
+    var mAppOpenAds_LANDSCAPE:Any?=null
 
     var isInter_RequestSend: Boolean=false
     var isRewarde_RequestSend: Boolean=false
     var isAppOpen_RequestSend: Boolean=false
+    var isAppOpen_RequestSend_LANDSCAPE: Boolean=false
     var isAdsShowing: Boolean=false
     var isTestMode: Boolean=false
     var isDebugMode: Boolean=true

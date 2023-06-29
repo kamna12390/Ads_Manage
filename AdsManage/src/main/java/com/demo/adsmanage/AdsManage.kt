@@ -323,10 +323,10 @@ object AdsManage {
                 loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
             }
         }
-        fun Show_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,onAppOpenShowAds: OnAppOpenShowAds){
+        fun Show_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd: Int,onAppOpenShowAds: OnAppOpenShowAds){
             with(context){
 
-                showAppOpenAd(is_SUBSCRIBED,onAppOpenShowAds)
+                showAppOpenAd(is_SUBSCRIBED,appOpenAd,onAppOpenShowAds)
             }
         }
 
