@@ -62,16 +62,3 @@ dependencies {
 
 
 }
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'com.github.kamna12390'
-            artifactId = 'Ads_Manage'
-            version = "1.0.6"
-
-            pom {
-                description = 'A Commen Ads Manage'
-            }
-        }
-    }
-}
