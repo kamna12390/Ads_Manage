@@ -2,7 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
-
+apply plugin: 'maven-publish'
 android {
     namespace 'com.demo.adsmanage'
     compileSdk 33
@@ -54,4 +54,17 @@ dependencies {
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
 
 
+}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.github.kamna12390'
+                artifactId = 'Ads_Manage'
+                version = "1.0.7"
+            }
+        }
+    }
 }
