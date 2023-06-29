@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.demo.myadsmanage.AdsManage
-import com.demo.myadsmanage.InterFace.NativeAD
-import com.demo.myadsmanage.InterFace.OnNativeAds
-import com.demo.myadsmanage.InterFace.OnRewardedShowAds
+import com.demo.adsmanage.AdsManage
+import com.demo.adsmanage.InterFace.NativeAD
+import com.demo.adsmanage.InterFace.OnNativeAds
+import com.demo.adsmanage.InterFace.OnRewardedShowAds
 import com.demo.myadsmanage.R
 import com.demo.myadsmanage.databinding.ActivityMainBinding
 

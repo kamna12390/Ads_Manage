@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "My Ads Manage"
 include ':app'
+include ':AdsManage'

@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.demo.myadsmanage.AdsManage
-import com.demo.myadsmanage.InterFace.OnSplachAds
+import com.demo.adsmanage.AdsManage
+import com.demo.adsmanage.InterFace.OnSplachAds
 import com.demo.myadsmanage.R
 
 class SplachActivity : AppCompatActivity() {
@@ -15,7 +15,7 @@ class SplachActivity : AppCompatActivity() {
         AdsManage.ActivityBuilder().Splash_Init(this,object : OnSplachAds {
             override fun OnNextAds() {
                 Handler().postDelayed({
-                    startActivity(Intent(this@SplachActivity,MainActivity::class.java))
+                    startActivity(Intent(this@SplachActivity, MainActivity::class.java))
                 }, 2000)
 
             }
