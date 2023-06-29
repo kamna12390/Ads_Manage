@@ -12,7 +12,7 @@ class SplachActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splach)
-        AdsManage.ActivityBuilder().Splash_Init(this,object : OnSplachAds {
+        AdsManage.ActivityBuilder().Splash_Init(this,"AdsManage",object : OnSplachAds {
             override fun OnNextAds() {
                 Handler().postDelayed({
                     startActivity(Intent(this@SplachActivity, MainActivity::class.java))

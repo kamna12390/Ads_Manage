@@ -75,7 +75,7 @@ object AdsManage {
         }
 
     abstract class Builder()  {
-        fun Splash_Init(context: Context,onSplachAds: OnSplachAds) {
+        fun Splash_Init(context: Context,firebasename:String,onSplachAds: OnSplachAds) {
             with(context){
                 if (isOnline) {
                     mPreferences = applicationContext.getSharedPreferences("MyAdsClass", Context.MODE_PRIVATE)
@@ -83,7 +83,7 @@ object AdsManage {
                     mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
                     mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
                         if (it.isSuccessful){
-                            val mobject= mFirebaseRemoteConfig.getString("AdsManage")
+                            val mobject= mFirebaseRemoteConfig.getString(firebasename)
                             val gson: Gson = GsonBuilder().create()
                             val lessons: AdsModel = gson.fromJson(
                                 mobject,

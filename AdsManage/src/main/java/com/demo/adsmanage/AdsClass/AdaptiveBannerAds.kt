@@ -71,9 +71,9 @@ object AdaptiveBannerAds {
                     TAG,
                     "ADSMANAGE: onAdFailedToLoad:AdaptiveBannerAds->Admob--${p0.message}"
                 )
-                if (isShowAdmobAds){
-                    loadFBAdaptiveBanner(is_SUBSCRIBED, view, FB_Banner!!)
-                }
+//                if (isShowAdmobAds){
+//                    loadFBAdaptiveBanner(is_SUBSCRIBED, view, FB_Banner!!)
+//                }
             }
         }
         val params: LinearLayout.LayoutParams =
@@ -112,9 +112,9 @@ object AdaptiveBannerAds {
         view.addView(madView)
         val adListener: com.facebook.ads.AdListener = object : com.facebook.ads.AdListener {
             override fun onError(p0: Ad?, p1: AdError?) {
-                if (!isShowAdmobAds){
-                    loadAdaptiveBanner(is_SUBSCRIBED,view, MySharedPreferences.AD_Banner!!)
-                }
+//                if (!isShowAdmobAds){
+//                    loadAdaptiveBanner(is_SUBSCRIBED,view, MySharedPreferences.AD_Banner!!)
+//                }
                 logD(
                     TAG,
                     "ADSMANAGE: onAdFailedToLoad:AdaptiveBannerAds->Facebook"
