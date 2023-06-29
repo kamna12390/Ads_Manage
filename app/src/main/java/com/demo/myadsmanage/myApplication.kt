@@ -51,7 +51,7 @@ class myApplication : Application(), LifecycleObserver,
     fun onAppForegrounded() {
         currentActivity?.let {
             if (!isAdsClicking && !isAdsShowing){
-                AdsManage.ActivityBuilder().Show_AppOpenAd(it,false,object : OnAppOpenShowAds {
+                AdsManage.ActivityBuilder().Show_AppOpenAd(it,false,Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT,object : OnAppOpenShowAds {
                     override fun OnDismissAds() {
                         loadAppOpenAd(false, AD_AppOpen!!, Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT)
                     }
