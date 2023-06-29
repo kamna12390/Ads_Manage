@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1084504049429",
+    "project_id": "test-ads-manager-1a806",
+    "storage_bucket": "test-ads-manager-1a806.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084504049429:android:3cf9f234265d01163a4b1c",
+        "android_client_info": {
+          "package_name": "com.demo.myadsmanage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084504049429-t3m7cejm8af9q9if5vvefu4a137ktglr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE2Ei3KDiZC85wu5tAoLXMZ0XnrQ9KrBY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084504049429-t3m7cejm8af9q9if5vvefu4a137ktglr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
