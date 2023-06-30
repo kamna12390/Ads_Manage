@@ -7,6 +7,7 @@ import com.demo.adsmanage.Commen.Constants.isAppOpen_RequestSend_LANDSCAPE
 import com.demo.adsmanage.Commen.Constants.mAppOpenAds
 import com.demo.adsmanage.Commen.Constants.mAppOpenAds_LANDSCAPE
 import com.demo.adsmanage.InterFace.OnAppOpenShowAds
+import com.demo.adsmanage.InterFace.OnSplachAds
 import com.demo.adsmanage.helper.isOnline
 import com.demo.adsmanage.helper.logD
 import com.google.android.gms.ads.AdError
@@ -67,6 +68,66 @@ object AppOpenAds {
                         TAG,
                         "ADSMANAGE: onAdFailedToLoad:AppOpenAds->AdMob ->${p0.message}"
                     )
+                }
+            })
+        }
+
+    }
+    fun Context.loadFirsttimeAppOpenAd(  is_SUBSCRIBED: Boolean,
+                                mAD_AppOpenID: String,appOpenAd: Int,onSplachAds: OnSplachAds
+    ){
+        if (appOpenAd==APP_OPEN_AD_ORIENTATION_PORTRAIT){
+            if (mAppOpenAds!=null && isAppOpen_RequestSend && !isOnline && is_SUBSCRIBED){
+                return
+            }
+            isAppOpen_RequestSend=true
+            logD(TAG, "ADSMANAGE  AppOpenID Admob->$mAD_AppOpenID")
+            AppOpenAd.load(this,mAD_AppOpenID,AdRequest.Builder().build(),appOpenAd,object : AppOpenAd.AppOpenAdLoadCallback() {
+                override fun onAdLoaded(p0: AppOpenAd) {
+                    isAppOpen_RequestSend=false
+                    mAppOpenAds=p0
+                    logD(
+                        TAG,
+                        "ADSMANAGE: onAdLoaded:AppOpenAds->AdMob"
+                    )
+                    onSplachAds.OnNextAds()
+                }
+
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    isAppOpen_RequestSend=false
+                    mAppOpenAds=null
+                    logD(
+                        TAG,
+                        "ADSMANAGE: onAdFailedToLoad:AppOpenAds->AdMob ->${p0.message}"
+                    )
+                    onSplachAds.OnNextAds()
+                }
+            })
+        }else{
+            if (mAppOpenAds_LANDSCAPE!=null && isAppOpen_RequestSend_LANDSCAPE && !isOnline && is_SUBSCRIBED){
+                return
+            }
+            isAppOpen_RequestSend_LANDSCAPE=true
+            logD(TAG, "ADSMANAGE  AppOpenID Admob->$mAD_AppOpenID")
+            AppOpenAd.load(this,mAD_AppOpenID,AdRequest.Builder().build(),appOpenAd,object : AppOpenAd.AppOpenAdLoadCallback() {
+                override fun onAdLoaded(p0: AppOpenAd) {
+                    isAppOpen_RequestSend_LANDSCAPE=false
+                    mAppOpenAds_LANDSCAPE=p0
+                    logD(
+                        TAG,
+                        "ADSMANAGE: onAdLoaded:AppOpenAds->AdMob"
+                    )
+                    onSplachAds.OnNextAds()
+                }
+
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    isAppOpen_RequestSend_LANDSCAPE=false
+                    mAppOpenAds_LANDSCAPE=null
+                    logD(
+                        TAG,
+                        "ADSMANAGE: onAdFailedToLoad:AppOpenAds->AdMob ->${p0.message}"
+                    )
+                    onSplachAds.OnNextAds()
                 }
             })
         }

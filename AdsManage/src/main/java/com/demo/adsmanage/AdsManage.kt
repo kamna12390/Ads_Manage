@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBanner
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadFBAdaptiveBanner
 import com.demo.adsmanage.AdsClass.AppOpenAds.loadAppOpenAd
+import com.demo.adsmanage.AdsClass.AppOpenAds.loadFirsttimeAppOpenAd
 import com.demo.adsmanage.AdsClass.AppOpenAds.showAppOpenAd
 import com.demo.adsmanage.AdsClass.InterstitialAds.loadFBInterstitialSd
 import com.demo.adsmanage.AdsClass.InterstitialAds.loadInterstitialAd
@@ -116,8 +117,9 @@ object AdsManage {
                                 FB_NativeAds=fbNativeAds
                                 FB_RewardedAds=fbRewardedAds
                             }
-                            Load_AppOpenAd(context,false,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT)
-                            onSplachAds.OnNextAds()
+                            loadFirsttimeAppOpenAd(false, AD_AppOpen!!,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,onSplachAds)
+
+//                            onSplachAds.OnNextAds()
                             logD(TAG, "$AD_Interstitial==$AD_Banner")
                         }else{
 
