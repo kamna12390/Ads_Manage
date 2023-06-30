@@ -141,14 +141,14 @@ object AdsManage {
                 }
             }
         }
-        fun Load_HOME_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
+        fun Load_HOME_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
 
                 if (isHomeNativeShow){
                     if (isShowAdmobAds){
-                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,nativeAD,onNativeAds)
+                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
                     }else{
-                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds)
+                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
                     }
                 }else{
                     onNativeAds.OnNativeAdsError()
@@ -157,14 +157,14 @@ object AdsManage {
 
 
         }
-        fun Load_SETTING_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
+        fun Load_SETTING_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
 
                 if (isSettingNativeShow){
                     if (isShowAdmobAds){
-                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,nativeAD,onNativeAds)
+                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
                     }else{
-                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds)
+                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
                     }
 
                 }else{
@@ -174,14 +174,14 @@ object AdsManage {
 
 
         }
-        fun Load_CREATION_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
+        fun Load_CREATION_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
 
                 if (isCreationNativeShow){
                     if (isShowAdmobAds){
-                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,nativeAD,onNativeAds)
+                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
                     }else{
-                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds)
+                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
                     }
                 }else{
                     onNativeAds.OnNativeAdsError()

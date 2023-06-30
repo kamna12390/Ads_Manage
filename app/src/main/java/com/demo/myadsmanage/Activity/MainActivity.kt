@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
                 0,
                 binding.adsNativeOne,
                 R.layout.ads_native_layout,
+                R.layout.ads_fbnative_layout,
                 NativeAD.NativeFull,
                 object : OnNativeAds {
                     override fun OnNativeAdsShow() {
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                 1,
                 binding.adsNativeTwo,
                 R.layout.ads_native_layout,
+                R.layout.ads_fbnative_layout,
                 NativeAD.NativeFull,
                 object : OnNativeAds {
                     override fun OnNativeAdsShow() {
@@ -69,6 +71,7 @@ class MainActivity : AppCompatActivity() {
                 1,
                 binding.adsNativeThree,
                 R.layout.ads_native_banner_layout,
+                R.layout.ads_fbnative_layout,
                 NativeAD.NariveBanner,
                 object : OnNativeAds {
                     override fun OnNativeAdsShow() {

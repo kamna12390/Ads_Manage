@@ -23,6 +23,7 @@ import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.AdOptionsView
 import com.facebook.ads.MediaView
+import com.facebook.ads.NativeAdLayout
 import com.facebook.ads.NativeAdListener
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -42,6 +43,7 @@ object NativeAds {
         mAD_Native: String,
         inter_pos: Int,
         mlayout: Int,
+        mfbLayout:Int,
         nativeAD: NativeAD,
         onNativeAds: OnNativeAds
     ) {
@@ -75,7 +77,7 @@ object NativeAds {
                                 if (isShowAdmobAds){
                                     loadFBNativeAd(
                                         is_SUBSCRIBED, adsNative,
-                                        FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds
+                                        FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds
                                     )
                                 }
 
@@ -102,13 +104,14 @@ object NativeAds {
                                         mAD_Native,
                                         inter_pos,
                                         mlayout,
+                                        mfbLayout,
                                         nativeAD,
                                         onNativeAds
                                     )
                                 }else{
                                     loadFBNativeAd(
                                         is_SUBSCRIBED, adsNative,
-                                        FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds
+                                        FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds
                                     )
                                 }
 
@@ -136,6 +139,7 @@ object NativeAds {
         mAD_Native: String,
         inter_pos: Int,
         mlayout: Int,
+        mfbLayout:Int,
         nativeAD: NativeAD,
         onNativeAds: OnNativeAds
     ) {
@@ -147,7 +151,7 @@ object NativeAds {
                 logD(TAG, "ADSMANAGE: onAdFailedToLoad:NativeAd->Facebook--${p1!!.errorMessage} ")
                 mNativeAdlist[inter_pos] = null
                 if (!isShowAdmobAds){
-                    loadNativeAd(is_SUBSCRIBED,adsNative, AD_NativeAds[inter_pos], inter_pos, mlayout, nativeAD, onNativeAds)
+                    loadNativeAd(is_SUBSCRIBED,adsNative, AD_NativeAds[inter_pos], inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
                 }
                 onNativeAds.OnNativeAdsError()
             }
@@ -157,10 +161,10 @@ object NativeAds {
 
                 val mview =
                     LayoutInflater.from(this@loadFBNativeAd).inflate(
-                        mlayout,
+                        mfbLayout,
                         null
-                    ) as com.facebook.ads.NativeAdLayout
-                FBinflateAd(nativead, mview, nativeAD)
+                    )
+                FBinflateAd(nativead, mview as NativeAdLayout, nativeAD)
                 adsNative.removeAllViews()
                 adsNative.addView(mview)
                 onNativeAds.OnNativeAdsShow()
@@ -178,13 +182,14 @@ object NativeAds {
                         AD_NativeAds[inter_pos],
                         inter_pos,
                         mlayout,
+                        mfbLayout,
                         nativeAD,
                         onNativeAds
                     )
                 }else{
                     loadFBNativeAd(
                         is_SUBSCRIBED, adsNative,
-                        FB_NativeAds!!, inter_pos, mlayout, nativeAD, onNativeAds
+                        FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds
                     )
                 }
 
