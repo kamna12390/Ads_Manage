@@ -134,9 +134,12 @@ object AdsManage {
         fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
             with(context){
                 if (isOnline){
-                    if (isShowAdmobAds){
+                    if (isShowAdmobAds && AD_Banner!=null){
                         loadAdaptiveBanner(is_SUBSCRIBED,view, AD_Banner!!)
-                    }else{
+                    }else {
+                        if(FB_Banner!=null){
+                            return
+                        }
                         loadFBAdaptiveBanner(is_SUBSCRIBED,view, FB_Banner!!)
                     }
                 }
@@ -148,9 +151,12 @@ object AdsManage {
                 if (isOnline){
 
                     if (isHomeNativeShow){
-                        if (isShowAdmobAds){
+                        if (isShowAdmobAds && AD_NativeAds[inter_pos]!=null){
                             loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
                         }else{
+                            if(FB_NativeAds!=null){
+                                return
+                            }
                             loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
                         }
                     }else{
@@ -166,9 +172,13 @@ object AdsManage {
                 if (isOnline){
 
                     if (isSettingNativeShow){
-                        if (isShowAdmobAds){
+                        if (isShowAdmobAds && AD_NativeAds[inter_pos]!=null ){
+
                             loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
                         }else{
+                            if(FB_NativeAds!=null){
+                                return
+                            }
                             loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
                         }
 
@@ -185,9 +195,12 @@ object AdsManage {
                 if (isOnline){
 
                     if (isCreationNativeShow){
-                        if (isShowAdmobAds){
+                        if (isShowAdmobAds && AD_NativeAds[inter_pos]!=null){
                             loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
                         }else{
+                            if(FB_NativeAds!=null){
+                                return
+                            }
                             loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
                         }
                     }else{
@@ -202,7 +215,7 @@ object AdsManage {
             with(context){
                 if (isOnline){
 
-                    if (isShowAdmobAds){
+                    if (isShowAdmobAds && AD_Interstitial[inter_pos]!=null){
                         loadInterstitialAd(is_SUBSCRIBED,AD_Interstitial[inter_pos],inter_pos)
                     }else{
                         loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
@@ -337,7 +350,7 @@ object AdsManage {
         }
         fun Load_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd:Int){
             with(context){
-                if (isOnline){
+                if (isOnline && AD_AppOpen!=null){
 
                     loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
                 }
@@ -356,9 +369,12 @@ object AdsManage {
             with(context){
                 if (isOnline){
 
-                    if (isShowAdmobAds){
+                    if (isShowAdmobAds && AD_RewardedAds!=null){
                         loadRewardedAds(is_SUBSCRIBED, AD_RewardedAds!!)
                     }else{
+                        if (FB_RewardedAds!=null){
+                            return
+                        }
                         loadFBRewatdedAD(is_SUBSCRIBED, FB_RewardedAds!!)
                     }
                 }
