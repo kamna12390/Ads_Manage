@@ -258,7 +258,7 @@ object AdsManage {
                 }
             }
         }
-        fun Show_InterstitialBackPressAds(context: Context,is_SUBSCRIBED: Boolean,onInterAdsShowAds: OnInterAdsShowAds,inter_pos:Int){
+        fun Show_InterstitialInterfaceAds(context: Context,is_SUBSCRIBED: Boolean,onInterAdsShowAds: OnInterAdsShowAds,inter_pos:Int){
             with(context){
 
                 if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
