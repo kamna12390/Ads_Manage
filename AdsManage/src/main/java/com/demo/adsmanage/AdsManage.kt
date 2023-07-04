@@ -133,25 +133,29 @@ object AdsManage {
         }
         fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
             with(context){
-
-                if (isShowAdmobAds){
-                    loadAdaptiveBanner(is_SUBSCRIBED,view, AD_Banner!!)
-                }else{
-                    loadFBAdaptiveBanner(is_SUBSCRIBED,view, FB_Banner!!)
+                if (isOnline){
+                    if (isShowAdmobAds){
+                        loadAdaptiveBanner(is_SUBSCRIBED,view, AD_Banner!!)
+                    }else{
+                        loadFBAdaptiveBanner(is_SUBSCRIBED,view, FB_Banner!!)
+                    }
                 }
+
             }
         }
         fun Load_HOME_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
+                if (isOnline){
 
-                if (isHomeNativeShow){
-                    if (isShowAdmobAds){
-                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
+                    if (isHomeNativeShow){
+                        if (isShowAdmobAds){
+                            loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
+                        }else{
+                            loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                        }
                     }else{
-                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                        onNativeAds.OnNativeAdsError()
                     }
-                }else{
-                    onNativeAds.OnNativeAdsError()
                 }
             }
 
@@ -159,16 +163,18 @@ object AdsManage {
         }
         fun Load_SETTING_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
+                if (isOnline){
 
-                if (isSettingNativeShow){
-                    if (isShowAdmobAds){
-                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
+                    if (isSettingNativeShow){
+                        if (isShowAdmobAds){
+                            loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
+                        }else{
+                            loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                        }
+
                     }else{
-                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                        onNativeAds.OnNativeAdsError()
                     }
-
-                }else{
-                    onNativeAds.OnNativeAdsError()
                 }
             }
 
@@ -176,15 +182,17 @@ object AdsManage {
         }
         fun Load_CREATION_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
+                if (isOnline){
 
-                if (isCreationNativeShow){
-                    if (isShowAdmobAds){
-                        loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
+                    if (isCreationNativeShow){
+                        if (isShowAdmobAds){
+                            loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
+                        }else{
+                            loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                        }
                     }else{
-                        loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                        onNativeAds.OnNativeAdsError()
                     }
-                }else{
-                    onNativeAds.OnNativeAdsError()
                 }
             }
 
@@ -192,11 +200,13 @@ object AdsManage {
         }
         fun Load_InterstitialAd(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int) {
             with(context){
+                if (isOnline){
 
-                if (isShowAdmobAds){
-                    loadInterstitialAd(is_SUBSCRIBED,AD_Interstitial[inter_pos],inter_pos)
-                }else{
-                    loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                    if (isShowAdmobAds){
+                        loadInterstitialAd(is_SUBSCRIBED,AD_Interstitial[inter_pos],inter_pos)
+                    }else{
+                        loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                    }
                 }
             }
 
@@ -204,113 +214,117 @@ object AdsManage {
         }
         fun Show_InterstitialAds(context: Context,is_SUBSCRIBED: Boolean,intent: Intent?=null,inter_pos:Int){
             with(context){
+                if (isOnline){
 
-                if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
-                    mInterstitialAds_clickCount=0
-                    if (is_ProgressShow){
-                        showDialog()
-                        val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
-                            override fun onTick(millisUntilFinished: Long) {
-                                mcountRemaining = millisUntilFinished / 1000 + 1
-                            }
+                    if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
+                        mInterstitialAds_clickCount=0
+                        if (is_ProgressShow){
+                            showDialog()
+                            val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
+                                override fun onTick(millisUntilFinished: Long) {
+                                    mcountRemaining = millisUntilFinished / 1000 + 1
+                                }
 
-                            override fun onFinish() {
-                                mcountRemaining = 0
-                                if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
-                                    dismiss()
-                                    showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
-                                        override fun OnDismissAds() {
-                                            NextScreen(intent)
-                                        }
+                                override fun onFinish() {
+                                    mcountRemaining = 0
+                                    if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
+                                        dismiss()
+                                        showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
+                                            override fun OnDismissAds() {
+                                                NextScreen(intent)
+                                            }
 
-                                        override fun OnError() {
-                                            NextScreen(intent)
-                                        }
-                                    })
-                                }else{
-                                    dismiss()
-                                    NextScreen(intent)
+                                            override fun OnError() {
+                                                NextScreen(intent)
+                                            }
+                                        })
+                                    }else{
+                                        dismiss()
+                                        NextScreen(intent)
+                                    }
                                 }
                             }
-                        }
-                        countDownTimer.start()
-                    }else{
-                        if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
-                            showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
-                                override fun OnDismissAds() {
-                                    NextScreen(intent)
-                                }
-
-                                override fun OnError() {
-                                    NextScreen(intent)
-                                }
-                            })
+                            countDownTimer.start()
                         }else{
-                            NextScreen(intent)
+                            if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
+                                showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
+                                    override fun OnDismissAds() {
+                                        NextScreen(intent)
+                                    }
+
+                                    override fun OnError() {
+                                        NextScreen(intent)
+                                    }
+                                })
+                            }else{
+                                NextScreen(intent)
+                            }
                         }
+
+
                     }
-
-
-                }
-                else{
-                    mInterstitialAds_clickCount++
-                    NextScreen(intent)
+                    else{
+                        mInterstitialAds_clickCount++
+                        NextScreen(intent)
+                    }
                 }
             }
         }
         fun Show_InterstitialInterfaceAds(context: Context,is_SUBSCRIBED: Boolean,onInterAdsShowAds: OnInterAdsShowAds,inter_pos:Int){
             with(context){
+                if (isOnline){
 
-                if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
-                    mInterstitialAds_clickCount=0
-                    if (is_ProgressShow){
-                        showDialog()
-                        val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
-                            override fun onTick(millisUntilFinished: Long) {
-                                mcountRemaining = millisUntilFinished / 1000 + 1
-                            }
+                    if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
+                        mInterstitialAds_clickCount=0
+                        if (is_ProgressShow){
+                            showDialog()
+                            val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
+                                override fun onTick(millisUntilFinished: Long) {
+                                    mcountRemaining = millisUntilFinished / 1000 + 1
+                                }
 
-                            override fun onFinish() {
-                                mcountRemaining = 0
-                                if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
-                                    dismiss()
-                                    showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
-                                        override fun OnDismissAds() {
-                                            onInterAdsShowAds.OnDismissAds()
-                                        }
+                                override fun onFinish() {
+                                    mcountRemaining = 0
+                                    if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
+                                        dismiss()
+                                        showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
+                                            override fun OnDismissAds() {
+                                                onInterAdsShowAds.OnDismissAds()
+                                            }
 
-                                        override fun OnError() {
-                                            onInterAdsShowAds.OnError()
-                                        }
-                                    })
-                                }else{
-                                    dismiss()
-                                    onInterAdsShowAds.OnError()
+                                            override fun OnError() {
+                                                onInterAdsShowAds.OnError()
+                                            }
+                                        })
+                                    }else{
+                                        dismiss()
+                                        onInterAdsShowAds.OnError()
+                                    }
                                 }
                             }
-                        }
-                        countDownTimer.start()
-                    }else{
-                        if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
-                            showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
-                                override fun OnDismissAds() {
-                                    onInterAdsShowAds.OnDismissAds()
-                                }
-
-                                override fun OnError() {
-                                    onInterAdsShowAds.OnError()
-                                }
-                            })
+                            countDownTimer.start()
                         }else{
-                            onInterAdsShowAds.OnError()
+                            if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
+                                showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
+                                    override fun OnDismissAds() {
+                                        onInterAdsShowAds.OnDismissAds()
+                                    }
+
+                                    override fun OnError() {
+                                        onInterAdsShowAds.OnError()
+                                    }
+                                })
+                            }else{
+                                onInterAdsShowAds.OnError()
+                            }
                         }
+
+
                     }
-
-
-                }
-                else{
-                    mInterstitialAds_clickCount++
-                    onInterAdsShowAds.OnDismissAds()
+                    else{
+                        mInterstitialAds_clickCount++
+                        onInterAdsShowAds.OnDismissAds()
+                    }
                 }
             }
         }
@@ -321,43 +335,51 @@ object AdsManage {
         }
         fun Load_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd:Int){
             with(context){
+                if (isOnline){
 
-                loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
+                    loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
+                }
             }
         }
         fun Show_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd: Int,onAppOpenShowAds: OnAppOpenShowAds){
             with(context){
+                if (isOnline){
 
-                showAppOpenAd(is_SUBSCRIBED,appOpenAd,onAppOpenShowAds)
+                    showAppOpenAd(is_SUBSCRIBED,appOpenAd,onAppOpenShowAds)
+                }
             }
         }
 
         fun Load_RewardedAd(context: Context,is_SUBSCRIBED: Boolean){
             with(context){
+                if (isOnline){
 
-                if (isShowAdmobAds){
-                    loadRewardedAds(is_SUBSCRIBED, AD_RewardedAds!!)
-                }else{
-                    loadFBRewatdedAD(is_SUBSCRIBED, FB_RewardedAds!!)
+                    if (isShowAdmobAds){
+                        loadRewardedAds(is_SUBSCRIBED, AD_RewardedAds!!)
+                    }else{
+                        loadFBRewatdedAD(is_SUBSCRIBED, FB_RewardedAds!!)
+                    }
                 }
             }
         }
         fun Show_RewardedAd(context: Context,is_SUBSCRIBED: Boolean,onRewardedShowAds: OnRewardedShowAds){
             with(context){
+                if (isOnline){
 
-                showDialog()
-                val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        mcountRemaining = millisUntilFinished / 1000 + 1
-                    }
+                    showDialog()
+                    val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            mcountRemaining = millisUntilFinished / 1000 + 1
+                        }
 
-                    override fun onFinish() {
-                        mcountRemaining = 0
-                        dismiss()
-                        showRewarded(is_SUBSCRIBED,onRewardedShowAds)
+                        override fun onFinish() {
+                            mcountRemaining = 0
+                            dismiss()
+                            showRewarded(is_SUBSCRIBED,onRewardedShowAds)
+                        }
                     }
+                    countDownTimer.start()
                 }
-                countDownTimer.start()
             }
         }
         fun Context.showDialog() {
