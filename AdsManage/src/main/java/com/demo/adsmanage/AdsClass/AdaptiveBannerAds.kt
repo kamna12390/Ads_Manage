@@ -32,6 +32,9 @@ object AdaptiveBannerAds {
         view: ViewGroup,
         mAD_AbannerID: String
     ) {
+        if (mAD_AbannerID==null){
+            return
+        }
         logD(TAG, "ADSMANAGE  AdaptiveBannerAds AdmodID->$mAD_AbannerID--${AdSize.BANNER.height}--${AdSize.BANNER.width}")
         val madView = AdView(this)
         madView.adUnitId = mAD_AbannerID
@@ -107,6 +110,9 @@ object AdaptiveBannerAds {
         view: ViewGroup,
         mAD_AbannerID: String
     ) {
+        if (mAD_AbannerID==null){
+            return
+        }
         logD(TAG, "ADSMANAGE  AdaptiveBannerAds Facebook->$mAD_AbannerID---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.height}---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.width}")
         val madView = com.facebook.ads.AdView(this, mAD_AbannerID, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
         view.addView(madView)

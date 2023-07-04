@@ -29,7 +29,7 @@ object RewardedAds {
         is_SUBSCRIBED: Boolean,
         mAD_RewardID: String
     ) {
-        if (isRewarde_RequestSend && mRewardedAds!=null && !isOnline && is_SUBSCRIBED){
+        if (isRewarde_RequestSend && mRewardedAds!=null && !isOnline && is_SUBSCRIBED && mAD_RewardID==null){
             return
         }
         logD(TAG, "ADSMANAGE  RewardedID Admob->$mAD_RewardID")
@@ -60,6 +60,9 @@ object RewardedAds {
 
     fun Context.loadFBRewatdedAD(is_SUBSCRIBED: Boolean,
                                  mAD_RewardID: String){
+        if (mAD_RewardID==null){
+            return
+        }
         logD(TAG, "ADSMANAGE  RewardedID Facebook->$mAD_RewardID")
         isRewarde_RequestSend=true
         mRewardedAds = RewardedVideoAd(this, mAD_RewardID)

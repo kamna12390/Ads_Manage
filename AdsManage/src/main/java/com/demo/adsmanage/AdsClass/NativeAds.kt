@@ -47,7 +47,7 @@ object NativeAds {
         nativeAD: NativeAD,
         onNativeAds: OnNativeAds
     ) {
-        if ( !isOnline) {
+        if ( !isOnline && mAD_Native==null) {
             return
         }
         logD(TAG, "ADSMANAGE  NativeAdID Admob->$mAD_Native--Position->$inter_pos")
@@ -143,6 +143,9 @@ object NativeAds {
         nativeAD: NativeAD,
         onNativeAds: OnNativeAds
     ) {
+        if (mAD_Native==null){
+            return
+        }
         logD(TAG, "ADSMANAGE  NativeAdID Admob->$mAD_Native--Position->$inter_pos")
 
         val nativead = com.facebook.ads.NativeAd(this, mAD_Native)

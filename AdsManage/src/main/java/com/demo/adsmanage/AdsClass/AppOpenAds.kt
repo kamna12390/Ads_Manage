@@ -20,6 +20,9 @@ object AppOpenAds {
     val TAG = this.javaClass.simpleName
     fun Context.loadAppOpenAd(  is_SUBSCRIBED: Boolean,
                                 mAD_AppOpenID: String,appOpenAd: Int){
+        if (mAD_AppOpenID==null){
+            return
+        }
         if (appOpenAd==APP_OPEN_AD_ORIENTATION_PORTRAIT){
             if (mAppOpenAds!=null && isAppOpen_RequestSend && !isOnline && is_SUBSCRIBED){
                 return
@@ -76,6 +79,9 @@ object AppOpenAds {
     fun Context.loadFirsttimeAppOpenAd(  is_SUBSCRIBED: Boolean,
                                 mAD_AppOpenID: String,appOpenAd: Int,onSplachAds: OnSplachAds
     ){
+        if (mAD_AppOpenID==null){
+            return
+        }
         if (appOpenAd==APP_OPEN_AD_ORIENTATION_PORTRAIT){
             if (mAppOpenAds!=null && isAppOpen_RequestSend && !isOnline && is_SUBSCRIBED){
                 return

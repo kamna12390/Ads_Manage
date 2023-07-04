@@ -30,7 +30,7 @@ object InterstitialAds {
         mAD_Interstitial: String,
         inter_pos:Int
     ) {
-        if ( !isOnline && is_SUBSCRIBED) {
+        if ( !isOnline && is_SUBSCRIBED && mAD_Interstitial==null) {
             return
         }
 
@@ -84,7 +84,7 @@ object InterstitialAds {
     }
 
     fun Context.loadFBInterstitialSd(is_SUBSCRIBED: Boolean,inter_pos:Int) {
-        if ( !isOnline && is_SUBSCRIBED) {
+        if ( !isOnline && is_SUBSCRIBED && FB_Interstitial==null) {
             return
         }
         if (mInterstitialAdlist[inter_pos] == null) {
