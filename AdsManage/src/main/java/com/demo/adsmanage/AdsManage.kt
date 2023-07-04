@@ -79,9 +79,9 @@ object AdsManage {
     abstract class Builder()  {
         fun Splash_Init(context: Context,firebasename:String,onSplachAds: OnSplachAds) {
             with(context){
+                mPreferences = applicationContext.getSharedPreferences("MyAdsClass", Context.MODE_PRIVATE)
+                editor = mPreferences!!.edit()
                 if (isOnline) {
-                    mPreferences = applicationContext.getSharedPreferences("MyAdsClass", Context.MODE_PRIVATE)
-                    editor = mPreferences!!.edit()
                     mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
                     mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
                         if (it.isSuccessful){
@@ -126,6 +126,7 @@ object AdsManage {
                         }
                     })
                 } else {
+                    onSplachAds.OnNextAds()
                     Toast.makeText(this, "Please connect internet", Toast.LENGTH_LONG).show()
                 }
             }
