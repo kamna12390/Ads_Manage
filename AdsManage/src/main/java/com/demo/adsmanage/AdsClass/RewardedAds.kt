@@ -169,6 +169,57 @@ object RewardedAds {
                 TAG,
                 "ADSMANAGE: Showing:RewardedAds->Facebook"
             )
+            val rewardedVideoAdListener = object : RewardedVideoAdListener {
+                override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
+                    isRewarde_RequestSend=false
+                    mRewardedAds=null
+                    if (!isShowAdmobAds){
+                        loadRewardedAds(is_SUBSCRIBED!!, AD_RewardedAds!!)
+                    }
+                    logD(
+                        TAG,
+                        "ADSMANAGE: onAdFailedToLoad:RewardedAds->Facebook ->${p1!!.errorMessage}"
+                    )
+                }
+
+                override fun onAdLoaded(p0: Ad?) {
+                    isRewarde_RequestSend=false
+                    logD(
+                        TAG,
+                        "ADSMANAGE: onAdLoaded:RewardedAds->Facebook"
+                    )
+                }
+                override fun onAdClicked(p0: Ad?) {
+                    isAdsClicking =true
+                }
+
+                override fun onLoggingImpression(p0: Ad?) {
+
+                }
+
+                override fun onRewardedVideoCompleted() {
+
+                }
+
+                override fun onRewardedVideoClosed() {
+                    isAdsShowing=false
+                    isRewarde_RequestSend=false
+                    mRewardedAds=null
+                    if (isShowAdmobAds){
+                        loadRewardedAds(is_SUBSCRIBED!!, AD_RewardedAds!!)
+                    }else{
+                        loadFBRewatdedAD(is_SUBSCRIBED!!, FB_RewardedAds!!)
+                    }
+
+                    logD(
+                        TAG,
+                        "ADSMANAGE: onRewardedVideoClosed:RewardedAds->Facebook"
+                    )
+                    onRewardedShowAds.OnUserEarned()
+                }
+
+            }
+            (mRewardedAds as RewardedVideoAd).buildLoadAdConfig().withAdListener(rewardedVideoAdListener)
             (mRewardedAds as RewardedVideoAd).show()
         }else{
             logD(
