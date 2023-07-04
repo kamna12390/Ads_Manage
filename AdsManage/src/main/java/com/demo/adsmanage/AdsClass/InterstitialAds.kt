@@ -133,6 +133,7 @@ object InterstitialAds {
                 override fun onInterstitialDismissed(p0: Ad?) {
                     isInter_RequestSend=false
                     mInterstitialAdlist[inter_pos]=null
+
                     logD(TAG, "ADSMANAGE: onAdDismissed:interstitialAd->Facebook ")
                     if (isShowAdmobAds){
                         loadInterstitialAd(
@@ -217,6 +218,59 @@ object InterstitialAds {
                     TAG,
                     "ADSMANAGE: OnAdShow:interstitialAd->Facebook "
                 )
+                val interstitialAdListener = object : InterstitialAdListener {
+                    override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
+                        mInterstitialAdlist[inter_pos]=null
+                        onInterstitialAds.OnError()
+                        if (!isShowAdmobAds){
+                            loadInterstitialAd(is_SUBSCRIBED, AD_Interstitial[inter_pos],inter_pos)
+                        }
+                        logD(
+                            TAG,
+                            "ADSMANAGE: tttonAdFailedToLoad:interstitialAd->Facebook ->${p1!!.errorMessage}"
+                        )
+                    }
+
+                    override fun onAdLoaded(p0: Ad?) {
+
+                        mInterAdsRequest_pos=0
+                        logD(TAG, "ADSMANAGE: ttonAdLoaded:interstitialAd->Facebook ")
+                    }
+
+                    override fun onAdClicked(p0: Ad?) {
+                        isAdsClicking =true
+                        isInter_RequestSend=false
+
+                    }
+
+                    override fun onLoggingImpression(p0: Ad?) {
+
+                    }
+
+                    override fun onInterstitialDisplayed(p0: Ad?) {
+
+                    }
+
+                    override fun onInterstitialDismissed(p0: Ad?) {
+                        isInter_RequestSend=false
+                        mInterstitialAdlist[inter_pos]=null
+
+                        logD(TAG, "ADSMANAGE: onAdDismissed:interstitialAd->Facebook ")
+                        if (isShowAdmobAds){
+                            loadInterstitialAd(
+                                is_SUBSCRIBED,
+                                AD_Interstitial[inter_pos],
+                                inter_pos
+                            )
+                        }else{
+                            loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                        }
+                        onInterstitialAds.OnDismissAds()
+
+                    }
+
+                }
+                (mInterstitialAdlist[inter_pos] as com.facebook.ads.InterstitialAd).buildLoadAdConfig().withAdListener(interstitialAdListener)
                 (mInterstitialAdlist[inter_pos] as com.facebook.ads.InterstitialAd).show()
             } else {
                 logD(TAG, "ADSMANAGE: Ads Not Loaded:interstitialAd->AdMob ")
