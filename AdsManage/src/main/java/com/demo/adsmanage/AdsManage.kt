@@ -325,6 +325,8 @@ object AdsManage {
                         mInterstitialAds_clickCount++
                         onInterAdsShowAds.OnDismissAds()
                     }
+                }else{
+                    onInterAdsShowAds.OnDismissAds()
                 }
             }
         }
