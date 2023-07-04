@@ -51,6 +51,7 @@ import com.demo.adsmanage.helper.MySharedPreferences.FB_RewardedAds
 import com.demo.adsmanage.helper.MySharedPreferences.Interstitial_CountShow
 import com.demo.adsmanage.helper.isOnline
 import com.demo.adsmanage.helper.logD
+import com.demo.adsmanage.helper.misOnline
 import com.demo.adsmanage.model.AdsModel
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.tasks.OnCompleteListener
@@ -81,7 +82,7 @@ object AdsManage {
             with(context){
                 mPreferences = applicationContext.getSharedPreferences("MyAdsClass", Context.MODE_PRIVATE)
                 editor = mPreferences!!.edit()
-                if (isOnline) {
+                if (misOnline) {
                     mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
                     mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
                         if (it.isSuccessful){

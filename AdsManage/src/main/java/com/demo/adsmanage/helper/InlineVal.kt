@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.SystemClock
 import android.text.Editable
@@ -57,20 +58,26 @@ inline val Context.isOnline: Boolean
                 }
 
             }
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.let {
-//                    return it.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-//                }
-//            } else {
-//                try {
-//                    connectivityManager.activeNetworkInfo?.let {
-//                        if (it.isConnected && it.isAvailable) {
-//                            return true
-//                        }
-//                    }
-//                } catch (e: Exception) {
-//                }
-//            }
+        }
+        return false
+    }
+inline val Context.misOnline: Boolean
+    get() {
+        (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).let { connectivityManager ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.let {
+                    return it.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                }
+            } else {
+                try {
+                    connectivityManager.activeNetworkInfo?.let {
+                        if (it.isConnected && it.isAvailable) {
+                            return true
+                        }
+                    }
+                } catch (e: Exception) {
+                }
+            }
         }
         return false
     }
