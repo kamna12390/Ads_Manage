@@ -38,26 +38,20 @@ import com.google.android.gms.ads.nativead.NativeAdView
 object NativeAds {
     val TAG = this.javaClass.simpleName
     fun Context.loadNativeAd(
-        is_SUBSCRIBED: Boolean,
         adsNative: ViewGroup,
-        mAD_Native: String,
-        inter_pos: Int,
         mlayout: Int,
         mfbLayout:Int,
         nativeAD: NativeAD,
         onNativeAds: OnNativeAds
     ) {
-        if ( !isOnline && mAD_Native==null) {
-            return
-        }
-        logD(TAG, "ADSMANAGE  NativeAdID Admob->$mAD_Native--Position->$inter_pos")
-        if (mNativeAdlist[inter_pos] == null) {
-            val builder = AdLoader.Builder(this, mAD_Native)
+        logD(TAG, "ADSMANAGE  NativeAdID Admob->$AD_NativeAds")
+        if (mNativeAdlist == null) {
+            val builder = AdLoader.Builder(this, AD_NativeAds!!)
             builder.forNativeAd { nativeAd ->
-                mNativeAdlist[inter_pos] = nativeAd
+                mNativeAdlist = nativeAd
                 val mview =
                     LayoutInflater.from(this).inflate(mlayout, null) as NativeAdView
-                populateNativeAdView((mNativeAdlist[inter_pos] as NativeAd), mview, nativeAD)
+                populateNativeAdView((mNativeAdlist as NativeAd), mview, nativeAD)
                 adsNative.removeAllViews()
                 adsNative.addView(mview)
                 onNativeAds.OnNativeAdsShow()
@@ -72,12 +66,10 @@ object NativeAds {
                     .withAdListener(
                         object : AdListener() {
                             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                                mNativeAdlist[inter_pos] = null
+                                mNativeAdlist = null
                                 logD(TAG, "ADSMANAGE: onAdFailedToLoad:NativeAd->AdMob ")
                                 if (isShowAdmobAds){
-                                    loadFBNativeAd(
-                                        is_SUBSCRIBED, adsNative,
-                                        FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds
+                                    loadFBNativeAd( adsNative, mlayout,mfbLayout, nativeAD, onNativeAds
                                     )
                                 }
 
@@ -88,7 +80,7 @@ object NativeAds {
                                 super.onAdLoaded()
                                 logD(
                                     TAG,
-                                    "ADSMANAGE: onAdLoaded:NativeAd->AdMob--inter_pos=>$inter_pos---mNativeAdlist->${mNativeAdlist.size} "
+                                    "ADSMANAGE: onAdLoaded:NativeAd->AdMob"
                                 )
                             }
 
@@ -96,22 +88,17 @@ object NativeAds {
                                 super.onAdClicked()
                                 logD(TAG, "ADSMANAGE: onAdClicked:NativeAd->AdMob ")
                                 isAdsClicking=true
-                                mNativeAdlist[inter_pos] = null
+                                mNativeAdlist = null
                                 if (isShowAdmobAds){
                                     loadNativeAd(
-                                        is_SUBSCRIBED,
                                         adsNative,
-                                        mAD_Native,
-                                        inter_pos,
                                         mlayout,
                                         mfbLayout,
                                         nativeAD,
                                         onNativeAds
                                     )
                                 }else{
-                                    loadFBNativeAd(
-                                        is_SUBSCRIBED, adsNative,
-                                        FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds
+                                    loadFBNativeAd(adsNative, mlayout,mfbLayout, nativeAD, onNativeAds
                                     )
                                 }
 
@@ -125,7 +112,7 @@ object NativeAds {
         } else {
             val unifiedAdBinding =
                 LayoutInflater.from(this).inflate(mlayout, null) as NativeAdView
-            populateNativeAdView((mNativeAdlist[inter_pos] as NativeAd), unifiedAdBinding, nativeAD)
+            populateNativeAdView((mNativeAdlist as NativeAd), unifiedAdBinding, nativeAD)
             adsNative.removeAllViews()
             adsNative.addView(unifiedAdBinding)
             onNativeAds.OnNativeAdsShow()
@@ -134,27 +121,21 @@ object NativeAds {
     }
 
     fun Context.loadFBNativeAd(
-        is_SUBSCRIBED: Boolean,
         adsNative: ViewGroup,
-        mAD_Native: String,
-        inter_pos: Int,
         mlayout: Int,
         mfbLayout:Int,
         nativeAD: NativeAD,
         onNativeAds: OnNativeAds
     ) {
-        if (mAD_Native==null){
-            return
-        }
-        logD(TAG, "ADSMANAGE  NativeAdID Admob->$mAD_Native--Position->$inter_pos")
+        logD(TAG, "ADSMANAGE  NativeAdID Admob->$FB_NativeAds")
 
-        val nativead = com.facebook.ads.NativeAd(this, mAD_Native)
+        val nativead = com.facebook.ads.NativeAd(this, FB_NativeAds)
         val nativeAdListener = object : NativeAdListener {
             override fun onError(p0: Ad?, p1: AdError?) {
                 logD(TAG, "ADSMANAGE: onAdFailedToLoad:NativeAd->Facebook--${p1!!.errorMessage} ")
-                mNativeAdlist[inter_pos] = null
+                mNativeAdlist = null
                 if (!isShowAdmobAds){
-                    loadNativeAd(is_SUBSCRIBED,adsNative, AD_NativeAds[inter_pos], inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                    loadNativeAd(adsNative, mlayout,mfbLayout, nativeAD, onNativeAds)
                 }
                 onNativeAds.OnNativeAdsError()
             }
@@ -176,23 +157,18 @@ object NativeAds {
             }
 
             override fun onAdClicked(p0: Ad?) {
-                mNativeAdlist[inter_pos] = null
+                mNativeAdlist = null
                 isAdsClicking=true
                 if (isShowAdmobAds){
                     loadNativeAd(
-                        is_SUBSCRIBED,
                         adsNative,
-                        AD_NativeAds[inter_pos],
-                        inter_pos,
                         mlayout,
                         mfbLayout,
                         nativeAD,
                         onNativeAds
                     )
                 }else{
-                    loadFBNativeAd(
-                        is_SUBSCRIBED, adsNative,
-                        FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds
+                    loadFBNativeAd(adsNative, mlayout,mfbLayout, nativeAD, onNativeAds
                     )
                 }
 

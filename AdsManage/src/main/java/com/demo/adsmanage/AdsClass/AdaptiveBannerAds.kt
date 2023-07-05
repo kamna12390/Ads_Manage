@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import com.demo.adsmanage.Commen.Constants.isAdsClicking
 import com.demo.adsmanage.Commen.Constants.isShowAdmobAds
 import com.demo.adsmanage.helper.MySharedPreferences
+import com.demo.adsmanage.helper.MySharedPreferences.AD_Banner
 import com.demo.adsmanage.helper.MySharedPreferences.FB_Banner
 import com.demo.adsmanage.helper.displayMetrics
 import com.demo.adsmanage.helper.logD
@@ -28,16 +29,11 @@ object AdaptiveBannerAds {
     val TAG = this.javaClass.simpleName
     @SuppressLint("NewApi")
     fun Context.loadAdaptiveBanner(
-        is_SUBSCRIBED: Boolean,
-        view: ViewGroup,
-        mAD_AbannerID: String
+        view: ViewGroup
     ) {
-        if (mAD_AbannerID==null){
-            return
-        }
-        logD(TAG, "ADSMANAGE  AdaptiveBannerAds AdmodID->$mAD_AbannerID--${AdSize.BANNER.height}--${AdSize.BANNER.width}")
+        logD(TAG, "ADSMANAGE  AdaptiveBannerAds AdmodID->${AD_Banner}--${AdSize.BANNER.height}--${AdSize.BANNER.width}")
         val madView = AdView(this)
-        madView.adUnitId = mAD_AbannerID
+        madView.adUnitId = AD_Banner!!
         madView.setAdSize(getAdSize(view)!!)
 //        madView.setAdSize(AdSize.SMART_BANNER)
 //        val screenWidth = resources.displayMetrics.widthPixels
@@ -106,15 +102,11 @@ object AdaptiveBannerAds {
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this,pxToDp(displayMetrics.widthPixels))
     }
     fun Context.loadFBAdaptiveBanner(
-        is_SUBSCRIBED: Boolean,
-        view: ViewGroup,
-        mAD_AbannerID: String
+        view: ViewGroup
     ) {
-        if (mAD_AbannerID==null){
-            return
-        }
-        logD(TAG, "ADSMANAGE  AdaptiveBannerAds Facebook->$mAD_AbannerID---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.height}---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.width}")
-        val madView = com.facebook.ads.AdView(this, mAD_AbannerID, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
+
+        logD(TAG, "ADSMANAGE  AdaptiveBannerAds Facebook->$FB_Banner---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.height}---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.width}")
+        val madView = com.facebook.ads.AdView(this, FB_Banner, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
         view.addView(madView)
         val adListener: com.facebook.ads.AdListener = object : com.facebook.ads.AdListener {
             override fun onError(p0: Ad?, p1: AdError?) {

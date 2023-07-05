@@ -6,30 +6,20 @@ import com.google.gson.Gson
 
 object MySharedPreferences {
 
-     var AD_Interstitial:List<String>
+     var AD_Interstitial:String?
         get(){
-            val gson = Gson()
-            val jsonText = mPreferences!!.getString("ad_Interstitial", "")
-            val list = gson.fromJson(jsonText, Array<String>::class.java)
-          return list.toList()
+          return mPreferences!!.getString("ad_Interstitial", "")
         }
         set(string) {
-            val gson = Gson()
-            val jsonText = gson.toJson(string)
-            editor!!.putString("ad_Interstitial", jsonText!!)
+            editor!!.putString("ad_Interstitial", string!!)
             editor!!.commit()
         }
-    var AD_NativeAds:List<String>
+    var AD_NativeAds:String?
         get() {
-            val gson = Gson()
-            val jsonText = mPreferences!!.getString("ad_NativeAds", "")
-            val list = gson.fromJson(jsonText, Array<String>::class.java)
-            return list.toList()
+            return mPreferences!!.getString("ad_NativeAds", "")
         }
         set(string) {
-            val gson = Gson()
-            val jsonText = gson.toJson(string)
-            editor!!.putString("ad_NativeAds", jsonText!!)
+            editor!!.putString("ad_NativeAds", string!!)
             editor!!.commit()
         }
       var AD_Banner:String?
@@ -60,12 +50,6 @@ object MySharedPreferences {
         get() = mPreferences!!.getString("fb_Banner", "")
         set(string) {
             editor!!.putString("fb_Banner", string!!)
-            editor!!.commit()
-        }
-    var FB_AppOpen:String?
-        get() = mPreferences!!.getString("fb_AppOpen", "")
-        set(string) {
-            editor!!.putString("fb_AppOpen", string!!)
             editor!!.commit()
         }
     var FB_NativeAds:String?

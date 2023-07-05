@@ -26,20 +26,19 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 object RewardedAds {
     val TAG = this.javaClass.simpleName
     fun Context.loadRewardedAds(
-        is_SUBSCRIBED: Boolean,
-        mAD_RewardID: String
+        is_SUBSCRIBED: Boolean
     ) {
-        if (isRewarde_RequestSend && mRewardedAds!=null && !isOnline && is_SUBSCRIBED && mAD_RewardID==null){
+        if (isRewarde_RequestSend && mRewardedAds!=null && !isOnline && is_SUBSCRIBED && AD_RewardedAds==null){
             return
         }
-        logD(TAG, "ADSMANAGE  RewardedID Admob->$mAD_RewardID")
+        logD(TAG, "ADSMANAGE  RewardedID Admob->$AD_RewardedAds")
         isRewarde_RequestSend=true
-        RewardedAd.load(this,mAD_RewardID,AdRequest.Builder().build(),object : RewardedAdLoadCallback() {
+        RewardedAd.load(this,AD_RewardedAds!!,AdRequest.Builder().build(),object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(p0: LoadAdError) {
                 isRewarde_RequestSend=false
                 mRewardedAds=null
                 if (isShowAdmobAds){
-                    loadFBRewatdedAD(is_SUBSCRIBED, FB_RewardedAds!!)
+                    loadFBRewatdedAD(is_SUBSCRIBED)
                 }
                 logD(
                     TAG,
@@ -58,20 +57,19 @@ object RewardedAds {
         })
     }
 
-    fun Context.loadFBRewatdedAD(is_SUBSCRIBED: Boolean,
-                                 mAD_RewardID: String){
-        if (mAD_RewardID==null){
+    fun Context.loadFBRewatdedAD(is_SUBSCRIBED: Boolean){
+        if (FB_RewardedAds==null){
             return
         }
-        logD(TAG, "ADSMANAGE  RewardedID Facebook->$mAD_RewardID")
+        logD(TAG, "ADSMANAGE  RewardedID Facebook->$FB_RewardedAds")
         isRewarde_RequestSend=true
-        mRewardedAds = RewardedVideoAd(this, mAD_RewardID)
+        mRewardedAds = RewardedVideoAd(this, FB_RewardedAds)
         val rewardedVideoAdListener = object : RewardedVideoAdListener {
             override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
                 isRewarde_RequestSend=false
                 mRewardedAds=null
                 if (!isShowAdmobAds){
-                    loadRewardedAds(is_SUBSCRIBED, AD_RewardedAds!!)
+                    loadRewardedAds(is_SUBSCRIBED)
                 }
                 logD(
                     TAG,
@@ -103,9 +101,9 @@ object RewardedAds {
                 isRewarde_RequestSend=false
                 mRewardedAds=null
                 if (isShowAdmobAds){
-                    loadRewardedAds(is_SUBSCRIBED, AD_RewardedAds!!)
+                    loadRewardedAds(is_SUBSCRIBED)
                 }else{
-                    loadFBRewatdedAD(is_SUBSCRIBED, FB_RewardedAds!!)
+                    loadFBRewatdedAD(is_SUBSCRIBED)
                 }
 
                 logD(
@@ -129,9 +127,9 @@ object RewardedAds {
                     isAdsShowing=false
                     mRewardedAds=null
                     if (isShowAdmobAds){
-                        loadRewardedAds(is_SUBSCRIBED!!, AD_RewardedAds!!)
+                        loadRewardedAds(is_SUBSCRIBED!!)
                     }else{
-                        loadFBRewatdedAD(is_SUBSCRIBED!!, FB_RewardedAds!!)
+                        loadFBRewatdedAD(is_SUBSCRIBED!!)
                     }
                     onRewardedShowAds.OnDismissAds()
                     logD(
@@ -177,7 +175,7 @@ object RewardedAds {
                     isRewarde_RequestSend=false
                     mRewardedAds=null
                     if (!isShowAdmobAds){
-                        loadRewardedAds(is_SUBSCRIBED!!, AD_RewardedAds!!)
+                        loadRewardedAds(is_SUBSCRIBED!!)
                     }
                     logD(
                         TAG,
@@ -209,9 +207,9 @@ object RewardedAds {
                     isRewarde_RequestSend=false
                     mRewardedAds=null
                     if (isShowAdmobAds){
-                        loadRewardedAds(is_SUBSCRIBED!!, AD_RewardedAds!!)
+                        loadRewardedAds(is_SUBSCRIBED!!)
                     }else{
-                        loadFBRewatdedAD(is_SUBSCRIBED!!, FB_RewardedAds!!)
+                        loadFBRewatdedAD(is_SUBSCRIBED!!)
                     }
 
                     logD(
@@ -230,9 +228,9 @@ object RewardedAds {
                 "ADSMANAGE: Ads Not Load:RewardedAds->AdMob"
             )
             if (isShowAdmobAds){
-                loadRewardedAds(is_SUBSCRIBED!!, AD_RewardedAds!!)
+                loadRewardedAds(is_SUBSCRIBED!!)
             }else{
-                loadFBRewatdedAD(is_SUBSCRIBED!!, FB_RewardedAds!!)
+                loadFBRewatdedAD(is_SUBSCRIBED!!)
             }
             onRewardedShowAds.OnError()
         }

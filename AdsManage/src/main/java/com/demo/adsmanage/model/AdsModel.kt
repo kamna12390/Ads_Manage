@@ -9,10 +9,6 @@ data class AdsModel(
 )
 
 data class FaceBook(
-
-	@field:SerializedName("fb_AppOpen")
-	val fbAppOpen: String? = null,
-
 	@field:SerializedName("fb_Interstitial")
 	val fbInterstitial: String? = null,
 
@@ -59,10 +55,10 @@ data class AppChanging(
 data class Admob(
 
 	@field:SerializedName("ad_NativeAds")
-	val adNativeAds: List<String>? = null,
+	val adNativeAds: String? = null,
 
 	@field:SerializedName("ad_Interstitial")
-	val adInterstitial: List<String>? = null,
+	val adInterstitial: String? = null,
 
 	@field:SerializedName("ad_Banner")
 	val adBanner: String? = null,

@@ -2,8 +2,8 @@ package com.demo.adsmanage.Commen
 import android.content.SharedPreferences
 
 object Constants {
-    var mInterstitialAdlist= arrayListOf<Any?>(null,null,null,null,null)
-    var mNativeAdlist= arrayListOf<Any?>(null,null)
+    var mInterstitialAdlist:Any?=null
+    var mNativeAdlist:Any?=null
     var mRewardedAds:Any?=null
     var mAppOpenAds:Any?=null
     var mAppOpenAds_LANDSCAPE:Any?=null

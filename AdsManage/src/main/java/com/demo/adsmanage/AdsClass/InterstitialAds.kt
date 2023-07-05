@@ -26,20 +26,14 @@ object InterstitialAds {
     val TAG = this.javaClass.simpleName
 
     fun Context.loadInterstitialAd(
-        is_SUBSCRIBED: Boolean,
-        mAD_Interstitial: String,
-        inter_pos:Int
     ) {
-        if ( !isOnline && is_SUBSCRIBED && mAD_Interstitial==null) {
-            return
-        }
 
             var id = if (isTestMode!!) {
                 "ca-app-pub-3940256099942544/1033173712"
             } else {
-                mAD_Interstitial
+                AD_Interstitial
             }
-            logD(TAG, "ADSMANAGE  InterstitialID Admob->$id->$inter_pos")
+            logD(TAG, "ADSMANAGE  InterstitialID Admob->$id")
             isInter_RequestSend = true
             InterstitialAd.load(
                 this,
@@ -48,7 +42,7 @@ object InterstitialAds {
                 object : InterstitialAdLoadCallback() {
                     override fun onAdFailedToLoad(adError: LoadAdError) {
                         isInter_RequestSend = false
-                        mInterstitialAdlist[inter_pos]=null
+                        mInterstitialAdlist=null
 //                        val mid= AD_Interstitial[mInterAdsRequest_pos]
                         logD(
                             TAG,
@@ -63,7 +57,7 @@ object InterstitialAds {
 //
 //                        }else{
                         if (isShowAdmobAds){
-                            loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                            loadFBInterstitialSd()
                         }
 
 //                        }
@@ -73,9 +67,9 @@ object InterstitialAds {
 
                     override fun onAdLoaded(interstitialAd: InterstitialAd) {
                         isInter_RequestSend = false
-                        mInterstitialAdlist.set(inter_pos,interstitialAd)
+                        mInterstitialAdlist=interstitialAd
                         mInterAdsRequest_pos=0
-                        logD(TAG, "ADSMANAGE: onAdLoaded:interstitialAd->AdMob--inter_pos=>$inter_pos---mInterstitialAdlist->${mInterstitialAdlist.size} ")
+                        logD(TAG, "ADSMANAGE: onAdLoaded:interstitialAd->AdMob")
 
                     }
                 })
@@ -83,11 +77,9 @@ object InterstitialAds {
 
     }
 
-    fun Context.loadFBInterstitialSd(is_SUBSCRIBED: Boolean,inter_pos:Int) {
-        if ( !isOnline && is_SUBSCRIBED && FB_Interstitial==null) {
-            return
-        }
-        if (mInterstitialAdlist[inter_pos] == null) {
+    fun Context.loadFBInterstitialSd() {
+
+        if (mInterstitialAdlist == null) {
             isInter_RequestSend=true
             var id = if (isTestMode!!) {
                 "YOUR_PLACEMENT_ID"
@@ -96,13 +88,13 @@ object InterstitialAds {
                 FB_Interstitial
             }
             logD(TAG, "ADSMANAGE  InterstitialID Facebook->$id")
-            mInterstitialAdlist[inter_pos]=com.facebook.ads.InterstitialAd(this, id)
+            mInterstitialAdlist=com.facebook.ads.InterstitialAd(this, id)
             val interstitialAdListener = object : InterstitialAdListener {
                 override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
                     isInter_RequestSend=false
-                    mInterstitialAdlist[inter_pos]=null
+                    mInterstitialAdlist=null
                     if (!isShowAdmobAds){
-                        loadInterstitialAd(is_SUBSCRIBED, AD_Interstitial[inter_pos],inter_pos)
+                        loadInterstitialAd()
                     }
                     logD(
                         TAG,
@@ -132,24 +124,20 @@ object InterstitialAds {
 
                 override fun onInterstitialDismissed(p0: Ad?) {
                     isInter_RequestSend=false
-                    mInterstitialAdlist[inter_pos]=null
+                    mInterstitialAdlist=null
 
                     logD(TAG, "ADSMANAGE: onAdDismissed:interstitialAd->Facebook ")
                     if (isShowAdmobAds){
-                        loadInterstitialAd(
-                            is_SUBSCRIBED,
-                            AD_Interstitial[inter_pos],
-                            inter_pos
-                        )
+                        loadInterstitialAd()
                     }else{
-                        loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                        loadFBInterstitialSd()
                     }
 
                 }
 
             }
-            (mInterstitialAdlist[inter_pos] as com.facebook.ads.InterstitialAd).loadAd(
-                (mInterstitialAdlist[inter_pos] as com.facebook.ads.InterstitialAd).buildLoadAdConfig()
+            (mInterstitialAdlist as com.facebook.ads.InterstitialAd).loadAd(
+                (mInterstitialAdlist as com.facebook.ads.InterstitialAd).buildLoadAdConfig()
                     .withAdListener(interstitialAdListener)
                     .build()
             )
@@ -158,14 +146,13 @@ object InterstitialAds {
 
     fun Context.showInterstitialAd(
         is_SUBSCRIBED: Boolean? = false,
-        inter_pos:Int,
         onInterstitialAds: OnInterstitialAds
     ) {
-        if (is_SUBSCRIBED!!) {
+        if (is_SUBSCRIBED!! && isOnline) {
             onInterstitialAds.OnDismissAds()
         } else {
-            if ( mInterstitialAdlist[inter_pos] != null && mInterstitialAdlist[inter_pos] is InterstitialAd ) {
-                (mInterstitialAdlist[inter_pos] as InterstitialAd).fullScreenContentCallback =
+            if ( mInterstitialAdlist != null && mInterstitialAdlist is InterstitialAd ) {
+                (mInterstitialAdlist as InterstitialAd).fullScreenContentCallback =
                     object : FullScreenContentCallback() {
                         override fun onAdClicked() {
                             super.onAdClicked()
@@ -174,19 +161,15 @@ object InterstitialAds {
                         override fun onAdDismissedFullScreenContent() {
                             super.onAdDismissedFullScreenContent()
                             isAdsShowing = false
-                            mInterstitialAdlist[inter_pos] = null
+                            mInterstitialAdlist = null
                             logD(
                                 TAG,
                                 "ADSMANAGE: onAdDismissedFullScreenContent:interstitialAd->AdMob "
                             )
                             if (isShowAdmobAds){
-                                loadInterstitialAd(
-                                    is_SUBSCRIBED,
-                                    AD_Interstitial[inter_pos],
-                                    inter_pos
-                                )
+                                loadInterstitialAd()
                             }else{
-                                loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                                loadFBInterstitialSd()
                             }
 
                             onInterstitialAds.OnDismissAds()
@@ -197,7 +180,7 @@ object InterstitialAds {
                             super.onAdFailedToShowFullScreenContent(p0)
                             isAdsShowing = false
 //                            mInterstitialAd = null
-                            mInterstitialAdlist[inter_pos]=null
+                            mInterstitialAdlist=null
 
                             logD(
                                 TAG,
@@ -211,19 +194,19 @@ object InterstitialAds {
                             isAdsShowing = true
                         }
                     }
-                (mInterstitialAdlist[inter_pos] as InterstitialAd).show(this as Activity)
+                (mInterstitialAdlist as InterstitialAd).show(this as Activity)
             }
-            else if (mInterstitialAdlist[inter_pos]!=null && (mInterstitialAdlist[inter_pos] as com.facebook.ads.InterstitialAd).isAdLoaded){
+            else if (mInterstitialAdlist!=null && (mInterstitialAdlist as com.facebook.ads.InterstitialAd).isAdLoaded){
                 logD(
                     TAG,
                     "ADSMANAGE: OnAdShow:interstitialAd->Facebook "
                 )
                 val interstitialAdListener = object : InterstitialAdListener {
                     override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
-                        mInterstitialAdlist[inter_pos]=null
+                        mInterstitialAdlist=null
                         onInterstitialAds.OnError()
                         if (!isShowAdmobAds){
-                            loadInterstitialAd(is_SUBSCRIBED, AD_Interstitial[inter_pos],inter_pos)
+                            loadInterstitialAd()
                         }
                         logD(
                             TAG,
@@ -253,33 +236,29 @@ object InterstitialAds {
 
                     override fun onInterstitialDismissed(p0: Ad?) {
                         isInter_RequestSend=false
-                        mInterstitialAdlist[inter_pos]=null
+                        mInterstitialAdlist=null
 
                         logD(TAG, "ADSMANAGE: onAdDismissed:interstitialAd->Facebook ")
                         if (isShowAdmobAds){
-                            loadInterstitialAd(
-                                is_SUBSCRIBED,
-                                AD_Interstitial[inter_pos],
-                                inter_pos
-                            )
+                            loadInterstitialAd()
                         }else{
-                            loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                            loadFBInterstitialSd()
                         }
                         onInterstitialAds.OnDismissAds()
 
                     }
 
                 }
-                (mInterstitialAdlist[inter_pos] as com.facebook.ads.InterstitialAd).buildLoadAdConfig().withAdListener(interstitialAdListener)
-                (mInterstitialAdlist[inter_pos] as com.facebook.ads.InterstitialAd).show()
+                (mInterstitialAdlist as com.facebook.ads.InterstitialAd).buildLoadAdConfig().withAdListener(interstitialAdListener)
+                (mInterstitialAdlist as com.facebook.ads.InterstitialAd).show()
             } else {
                 logD(TAG, "ADSMANAGE: Ads Not Loaded:interstitialAd->AdMob ")
-                mInterstitialAdlist.add(inter_pos,null)
+                mInterstitialAdlist=null
                 isAdsShowing = false
                 if (isShowAdmobAds){
-                    loadInterstitialAd(is_SUBSCRIBED, AD_Interstitial[inter_pos],inter_pos)
+                    loadInterstitialAd()
                 }else{
-                    loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                    loadFBInterstitialSd()
                 }
 
                 onInterstitialAds.OnDismissAds()

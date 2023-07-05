@@ -43,7 +43,6 @@ import com.demo.adsmanage.helper.MySharedPreferences.AD_Banner
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Interstitial
 import com.demo.adsmanage.helper.MySharedPreferences.AD_NativeAds
 import com.demo.adsmanage.helper.MySharedPreferences.AD_RewardedAds
-import com.demo.adsmanage.helper.MySharedPreferences.FB_AppOpen
 import com.demo.adsmanage.helper.MySharedPreferences.FB_Banner
 import com.demo.adsmanage.helper.MySharedPreferences.FB_Interstitial
 import com.demo.adsmanage.helper.MySharedPreferences.FB_NativeAds
@@ -114,7 +113,6 @@ object AdsManage {
                             with(lessons.appChanging.faceBook!!){
                                 FB_Interstitial=fbInterstitial
                                 FB_Banner=fbBanner
-                                FB_AppOpen=fbAppOpen
                                 FB_NativeAds=fbNativeAds
                                 FB_RewardedAds=fbRewardedAds
                             }
@@ -135,31 +133,30 @@ object AdsManage {
         }
         fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
             with(context){
-                if (isOnline){
+                if (isOnline && !is_SUBSCRIBED){
                     if (isShowAdmobAds && AD_Banner!=null){
-                        loadAdaptiveBanner(is_SUBSCRIBED,view, AD_Banner!!)
+                        loadAdaptiveBanner(view)
                     }else {
-                        if(FB_Banner!=null){
+                        if(FB_Banner==null){
                             return
                         }
-                        loadFBAdaptiveBanner(is_SUBSCRIBED,view, FB_Banner!!)
+                        loadFBAdaptiveBanner(view)
                     }
                 }
 
             }
         }
-        fun Load_HOME_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
+        fun Load_HOME_NativeAds(context: Context,is_SUBSCRIBED: Boolean,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
-                if (isOnline){
-
+                if (isOnline && !is_SUBSCRIBED){
                     if (isHomeNativeShow){
-                        if (isShowAdmobAds && AD_NativeAds[inter_pos]!=null){
-                            loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
+                        if (isShowAdmobAds && AD_NativeAds!=null){
+                            loadNativeAd(adsNative,mlayout,mfbLayout,nativeAD,onNativeAds)
                         }else{
-                            if(FB_NativeAds!=null){
+                            if(FB_NativeAds==null){
                                 return
                             }
-                            loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                            loadFBNativeAd( adsNative,  mlayout,mfbLayout, nativeAD, onNativeAds)
                         }
                     }else{
                         onNativeAds.OnNativeAdsError()
@@ -169,19 +166,18 @@ object AdsManage {
 
 
         }
-        fun Load_SETTING_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
+        fun Load_SETTING_NativeAds(context: Context,is_SUBSCRIBED: Boolean,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
-                if (isOnline){
+                if (isOnline && !is_SUBSCRIBED){
 
                     if (isSettingNativeShow){
-                        if (isShowAdmobAds && AD_NativeAds[inter_pos]!=null ){
-
-                            loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
+                        if (isShowAdmobAds && AD_NativeAds!=null ){
+                            loadNativeAd(adsNative,mlayout,mfbLayout,nativeAD,onNativeAds)
                         }else{
-                            if(FB_NativeAds!=null){
+                            if(FB_NativeAds==null){
                                 return
                             }
-                            loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                            loadFBNativeAd( adsNative, mlayout,mfbLayout, nativeAD, onNativeAds)
                         }
 
                     }else{
@@ -192,18 +188,18 @@ object AdsManage {
 
 
         }
-        fun Load_CREATION_NativeAds(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
+        fun Load_CREATION_NativeAds(context: Context,is_SUBSCRIBED: Boolean,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
-                if (isOnline){
+                if (isOnline && !is_SUBSCRIBED){
 
                     if (isCreationNativeShow){
-                        if (isShowAdmobAds && AD_NativeAds[inter_pos]!=null){
-                            loadNativeAd(is_SUBSCRIBED,adsNative,AD_NativeAds[inter_pos],inter_pos,mlayout,mfbLayout,nativeAD,onNativeAds)
+                        if (isShowAdmobAds && AD_NativeAds!=null){
+                            loadNativeAd(adsNative,mlayout,mfbLayout,nativeAD,onNativeAds)
                         }else{
-                            if(FB_NativeAds!=null){
+                            if(FB_NativeAds==null){
                                 return
                             }
-                            loadFBNativeAd(is_SUBSCRIBED, adsNative, FB_NativeAds!!, inter_pos, mlayout,mfbLayout, nativeAD, onNativeAds)
+                            loadFBNativeAd(adsNative, mlayout,mfbLayout, nativeAD, onNativeAds)
                         }
                     }else{
                         onNativeAds.OnNativeAdsError()
@@ -213,24 +209,26 @@ object AdsManage {
 
 
         }
-        fun Load_InterstitialAd(context: Context,is_SUBSCRIBED: Boolean,inter_pos:Int) {
+        fun Load_InterstitialAd(context: Context,is_SUBSCRIBED: Boolean) {
             with(context){
-                if (isOnline){
+                if (isOnline && !is_SUBSCRIBED){
 
-                    if (isShowAdmobAds && AD_Interstitial[inter_pos]!=null){
-                        loadInterstitialAd(is_SUBSCRIBED,AD_Interstitial[inter_pos],inter_pos)
+                    if (isShowAdmobAds && AD_Interstitial!=null){
+                        loadInterstitialAd()
                     }else{
-                        loadFBInterstitialSd(is_SUBSCRIBED,inter_pos)
+                        if (FB_Interstitial==null){
+                            return
+                        }
+                        loadFBInterstitialSd()
                     }
                 }
             }
 
 
         }
-        fun Show_InterstitialAds(context: Context,is_SUBSCRIBED: Boolean,intent: Intent?=null,inter_pos:Int){
+        fun Show_InterstitialAds(context: Context,is_SUBSCRIBED: Boolean,intent: Intent?=null){
             with(context){
-                if (isOnline){
-
+                if (isOnline && !is_SUBSCRIBED){
                     if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
                         mInterstitialAds_clickCount=0
                         if (is_ProgressShow){
@@ -242,9 +240,9 @@ object AdsManage {
 
                                 override fun onFinish() {
                                     mcountRemaining = 0
-                                    if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
+                                    if (mInterstitialAdlist!=null || FB_Interstitial!=null){
                                         dismiss()
-                                        showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
+                                        showInterstitialAd(is_SUBSCRIBED,object : OnInterstitialAds {
                                             override fun OnDismissAds() {
                                                 NextScreen(intent)
                                             }
@@ -261,8 +259,8 @@ object AdsManage {
                             }
                             countDownTimer.start()
                         }else{
-                            if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
-                                showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
+                            if (mInterstitialAdlist!=null || FB_Interstitial!=null){
+                                showInterstitialAd(is_SUBSCRIBED,object : OnInterstitialAds {
                                     override fun OnDismissAds() {
                                         NextScreen(intent)
                                     }
@@ -282,12 +280,14 @@ object AdsManage {
                         mInterstitialAds_clickCount++
                         NextScreen(intent)
                     }
+                }else{
+                    NextScreen(intent)
                 }
             }
         }
-        fun Show_InterstitialInterfaceAds(context: Context,is_SUBSCRIBED: Boolean,onInterAdsShowAds: OnInterAdsShowAds,inter_pos:Int){
+        fun Show_InterstitialInterfaceAds(context: Context,is_SUBSCRIBED: Boolean,onInterAdsShowAds: OnInterAdsShowAds){
             with(context){
-                if (isOnline){
+                if (isOnline && !is_SUBSCRIBED){
 
                     if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
                         mInterstitialAds_clickCount=0
@@ -300,9 +300,9 @@ object AdsManage {
 
                                 override fun onFinish() {
                                     mcountRemaining = 0
-                                    if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
+                                    if (mInterstitialAdlist!=null || FB_Interstitial!=null){
                                         dismiss()
-                                        showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
+                                        showInterstitialAd(is_SUBSCRIBED,object : OnInterstitialAds {
                                             override fun OnDismissAds() {
                                                 onInterAdsShowAds.OnDismissAds()
                                             }
@@ -319,8 +319,8 @@ object AdsManage {
                             }
                             countDownTimer.start()
                         }else{
-                            if (mInterstitialAdlist[inter_pos]!=null || FB_Interstitial!=null){
-                                showInterstitialAd(is_SUBSCRIBED,inter_pos,object : OnInterstitialAds {
+                            if (mInterstitialAdlist!=null || FB_Interstitial!=null){
+                                showInterstitialAd(is_SUBSCRIBED,object : OnInterstitialAds {
                                     override fun OnDismissAds() {
                                         onInterAdsShowAds.OnDismissAds()
                                     }
@@ -352,7 +352,7 @@ object AdsManage {
         }
         fun Load_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd:Int){
             with(context){
-                if (isOnline && AD_AppOpen!=null){
+                if (isOnline && AD_AppOpen!=null && !is_SUBSCRIBED){
 
                     loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
                 }
@@ -360,7 +360,7 @@ object AdsManage {
         }
         fun Show_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd: Int,onAppOpenShowAds: OnAppOpenShowAds){
             with(context){
-                if (isOnline){
+                if (isOnline && !is_SUBSCRIBED){
 
                     showAppOpenAd(is_SUBSCRIBED,appOpenAd,onAppOpenShowAds)
                 }
@@ -369,15 +369,15 @@ object AdsManage {
 
         fun Load_RewardedAd(context: Context,is_SUBSCRIBED: Boolean){
             with(context){
-                if (isOnline){
+                if (isOnline && !is_SUBSCRIBED){
 
                     if (isShowAdmobAds && AD_RewardedAds!=null){
-                        loadRewardedAds(is_SUBSCRIBED, AD_RewardedAds!!)
+                        loadRewardedAds(is_SUBSCRIBED)
                     }else{
-                        if (FB_RewardedAds!=null){
+                        if (FB_RewardedAds==null){
                             return
                         }
-                        loadFBRewatdedAD(is_SUBSCRIBED, FB_RewardedAds!!)
+                        loadFBRewatdedAD(is_SUBSCRIBED)
                     }
                 }
             }
@@ -385,7 +385,10 @@ object AdsManage {
         fun Show_RewardedAd(context: Context,is_SUBSCRIBED: Boolean,onRewardedShowAds: OnRewardedShowAds){
             with(context){
                 if (isOnline){
-
+                    if (is_SUBSCRIBED){
+                        onRewardedShowAds.OnUserEarned()
+                        return
+                    }
                     showDialog()
                     val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME * 1000, 1000) {
                         override fun onTick(millisUntilFinished: Long) {
@@ -399,6 +402,8 @@ object AdsManage {
                         }
                     }
                     countDownTimer.start()
+                }else{
+                    onRewardedShowAds.OnError()
                 }
             }
         }
