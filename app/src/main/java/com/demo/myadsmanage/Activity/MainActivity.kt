@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
             Load_HOME_NativeAds(
                 this@MainActivity,
                 false,
-                0,
                 binding.adsNativeOne,
                 R.layout.ads_native_layout,
                 R.layout.ads_fbnative_layout,
@@ -47,7 +46,6 @@ class MainActivity : AppCompatActivity() {
             Load_SETTING_NativeAds(
                 this@MainActivity,
                 false,
-                1,
                 binding.adsNativeTwo,
                 R.layout.ads_native_layout,
                 R.layout.ads_fbnative_layout,
@@ -68,7 +66,6 @@ class MainActivity : AppCompatActivity() {
             Load_CREATION_NativeAds(
                 this@MainActivity,
                 false,
-                1,
                 binding.adsNativeThree,
                 R.layout.ads_native_banner_layout,
                 R.layout.ads_fbnative_layout,
@@ -87,29 +84,29 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
             Show_AdaptiveBanner(this@MainActivity, false, binding.adsAdaptivebanner)
-            Load_InterstitialAd(this@MainActivity, false, 0)
+            Load_InterstitialAd(this@MainActivity, false)
         }
         Handler().postDelayed(object : Runnable {
             override fun run() {
-                AdsManage.ActivityBuilder().Load_InterstitialAd(this@MainActivity,false, 1)
+                AdsManage.ActivityBuilder().Load_InterstitialAd(this@MainActivity,false)
             }
         }, 1500)
         Handler().postDelayed(object : Runnable {
             override fun run() {
-                AdsManage.ActivityBuilder().Load_InterstitialAd(this@MainActivity,false, 2)
+                AdsManage.ActivityBuilder().Load_InterstitialAd(this@MainActivity,false)
             }
         }, 1500)
         AdsManage.ActivityBuilder().Load_RewardedAd(this,false)
 
 
         binding.btnInterstitialOne.setOnClickListener {
-            AdsManage.ActivityBuilder().Show_InterstitialAds(this,false, null, 0)
+            AdsManage.ActivityBuilder().Show_InterstitialAds(this,false, null)
         }
         binding.btnInterstitialTwo.setOnClickListener {
-            AdsManage.ActivityBuilder().Show_InterstitialAds(this,false, null, 1)
+            AdsManage.ActivityBuilder().Show_InterstitialAds(this,false, null)
         }
         binding.btnInterstitialThree.setOnClickListener {
-            AdsManage.ActivityBuilder().Show_InterstitialAds(this,false, null, 2)
+            AdsManage.ActivityBuilder().Show_InterstitialAds(this,false, null)
         }
         binding.btnRewardeFour.setOnClickListener {
             AdsManage.ActivityBuilder().Show_RewardedAd(this,false, object : OnRewardedShowAds {

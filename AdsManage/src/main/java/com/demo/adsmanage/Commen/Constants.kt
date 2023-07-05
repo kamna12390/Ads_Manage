@@ -20,7 +20,7 @@ object Constants {
     var isHomeNativeShow: Boolean=true
     var isSettingNativeShow: Boolean=true
     var isCreationNativeShow: Boolean=true
-    var is_ProgressShow: Boolean=true
+    var is_ProgressShow: Boolean=false
 
     var mPreferences: SharedPreferences? = null
     var editor: SharedPreferences.Editor? = null

@@ -44,6 +44,7 @@ class myApplication : Application(), LifecycleObserver,
         AdSettings.addTestDevice("1af51df7-5a30-424b-9b37-3e996ad7adeb")
         AdSettings.addTestDevice("52b2b83c-a4a4-4982-bf25-14b8b787297d")
         AdSettings.addTestDevice("2e16c27e-34cf-432e-bfaf-18654b3791d3")
+        AdSettings.addTestDevice("0d016b06-da99-44a4-8362-e0d0b6ff733d");
 
     }
 
