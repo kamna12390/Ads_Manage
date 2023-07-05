@@ -126,7 +126,7 @@ object AdsManage {
                     })
                 } else {
                     onSplachAds.OnNextAds()
-                    Toast.makeText(this, "Please connect internet", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(this, "Please connect internet", Toast.LENGTH_LONG).show()
                 }
             }
 
