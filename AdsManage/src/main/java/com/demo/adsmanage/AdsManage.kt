@@ -363,6 +363,8 @@ object AdsManage {
                 if (isOnline && !is_SUBSCRIBED){
 
                     showAppOpenAd(is_SUBSCRIBED,appOpenAd,onAppOpenShowAds)
+                }else{
+                    onAppOpenShowAds.OnDismissAds()
                 }
             }
         }
