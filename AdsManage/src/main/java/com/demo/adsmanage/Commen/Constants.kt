@@ -29,4 +29,6 @@ object Constants {
     var mInterstitialAds_clickCount=0
     var mInterAdsRequest_pos=0
 
+    var Noads="NoAds"
+
 }

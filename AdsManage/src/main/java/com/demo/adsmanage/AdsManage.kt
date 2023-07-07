@@ -21,6 +21,7 @@ import com.demo.adsmanage.AdsClass.NativeAds.loadNativeAd
 import com.demo.adsmanage.AdsClass.RewardedAds.loadFBRewatdedAD
 import com.demo.adsmanage.AdsClass.RewardedAds.loadRewardedAds
 import com.demo.adsmanage.AdsClass.RewardedAds.showRewarded
+import com.demo.adsmanage.Commen.Constants.Noads
 import com.demo.adsmanage.Commen.Constants.editor
 import com.demo.adsmanage.Commen.Constants.isCreationNativeShow
 import com.demo.adsmanage.Commen.Constants.isHomeNativeShow
@@ -134,10 +135,10 @@ object AdsManage {
         fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
-                    if (isShowAdmobAds && AD_Banner!=null){
+                    if (isShowAdmobAds && AD_Banner!=null && AD_Banner!=Noads){
                         loadAdaptiveBanner(view)
                     }else {
-                        if(FB_Banner==null){
+                        if(FB_Banner==null && FB_Banner==Noads){
                             return
                         }
                         loadFBAdaptiveBanner(view)
@@ -150,10 +151,10 @@ object AdsManage {
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
                     if (isHomeNativeShow){
-                        if (isShowAdmobAds && AD_NativeAds!=null){
+                        if (isShowAdmobAds && AD_NativeAds!=null && AD_NativeAds!=Noads){
                             loadNativeAd(adsNative,mlayout,mfbLayout,nativeAD,onNativeAds)
                         }else{
-                            if(FB_NativeAds==null){
+                            if(FB_NativeAds==null && FB_NativeAds==Noads){
                                 return
                             }
                             loadFBNativeAd( adsNative,  mlayout,mfbLayout, nativeAD, onNativeAds)
@@ -171,10 +172,10 @@ object AdsManage {
                 if (isOnline && !is_SUBSCRIBED){
 
                     if (isSettingNativeShow){
-                        if (isShowAdmobAds && AD_NativeAds!=null ){
+                        if (isShowAdmobAds && AD_NativeAds!=null && AD_NativeAds!=Noads){
                             loadNativeAd(adsNative,mlayout,mfbLayout,nativeAD,onNativeAds)
                         }else{
-                            if(FB_NativeAds==null){
+                            if(FB_NativeAds==null && FB_NativeAds==Noads){
                                 return
                             }
                             loadFBNativeAd( adsNative, mlayout,mfbLayout, nativeAD, onNativeAds)
@@ -193,10 +194,10 @@ object AdsManage {
                 if (isOnline && !is_SUBSCRIBED){
 
                     if (isCreationNativeShow){
-                        if (isShowAdmobAds && AD_NativeAds!=null){
+                        if (isShowAdmobAds && AD_NativeAds!=null && AD_NativeAds!=Noads){
                             loadNativeAd(adsNative,mlayout,mfbLayout,nativeAD,onNativeAds)
                         }else{
-                            if(FB_NativeAds==null){
+                            if(FB_NativeAds==null && FB_NativeAds==Noads){
                                 return
                             }
                             loadFBNativeAd(adsNative, mlayout,mfbLayout, nativeAD, onNativeAds)
@@ -213,10 +214,10 @@ object AdsManage {
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
 
-                    if (isShowAdmobAds && AD_Interstitial!=null){
+                    if (isShowAdmobAds && AD_Interstitial!=null && AD_Interstitial!=Noads){
                         loadInterstitialAd()
                     }else{
-                        if (FB_Interstitial==null){
+                        if (FB_Interstitial==null && FB_Interstitial==Noads){
                             return
                         }
                         loadFBInterstitialSd()
@@ -352,7 +353,7 @@ object AdsManage {
         }
         fun Load_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd:Int){
             with(context){
-                if (isOnline && AD_AppOpen!=null && !is_SUBSCRIBED){
+                if (isOnline && AD_AppOpen!=null && !is_SUBSCRIBED && AD_AppOpen!=Noads){
 
                     loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
                 }
@@ -373,10 +374,10 @@ object AdsManage {
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
 
-                    if (isShowAdmobAds && AD_RewardedAds!=null){
+                    if (isShowAdmobAds && AD_RewardedAds!=null && AD_RewardedAds!=Noads){
                         loadRewardedAds(is_SUBSCRIBED)
                     }else{
-                        if (FB_RewardedAds==null){
+                        if (FB_RewardedAds==null && FB_RewardedAds==Noads){
                             return
                         }
                         loadFBRewatdedAD(is_SUBSCRIBED)
