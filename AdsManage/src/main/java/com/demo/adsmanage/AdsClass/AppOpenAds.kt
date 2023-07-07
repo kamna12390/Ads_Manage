@@ -161,7 +161,7 @@ object AppOpenAds {
                 }
                 (mAppOpenAds as AppOpenAd).show(this as Activity)
             }
-        }else{
+        }else if (mAppOpenAds_LANDSCAPE is AppOpenAd){
             if (mAppOpenAds_LANDSCAPE!=null && mAppOpenAds_LANDSCAPE is AppOpenAd){
                 (mAppOpenAds_LANDSCAPE as AppOpenAd).fullScreenContentCallback=object :FullScreenContentCallback(){
                     override fun onAdDismissedFullScreenContent() {
@@ -180,6 +180,8 @@ object AppOpenAds {
                 }
                 (mAppOpenAds_LANDSCAPE as AppOpenAd).show(this as Activity)
             }
+        }else{
+            onAppOpenShowAds.OnDismissAds()
         }
 
     }
