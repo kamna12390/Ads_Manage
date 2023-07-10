@@ -21,6 +21,9 @@ import com.demo.adsmanage.AdsClass.NativeAds.loadNativeAd
 import com.demo.adsmanage.AdsClass.RewardedAds.loadFBRewatdedAD
 import com.demo.adsmanage.AdsClass.RewardedAds.loadRewardedAds
 import com.demo.adsmanage.AdsClass.RewardedAds.showRewarded
+import com.demo.adsmanage.Commen.Constants
+import com.demo.adsmanage.Commen.Constants.APP_OPEN_AD_ORIENTATION_LANDSCAPE
+import com.demo.adsmanage.Commen.Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT
 import com.demo.adsmanage.Commen.Constants.Noads
 import com.demo.adsmanage.Commen.Constants.editor
 import com.demo.adsmanage.Commen.Constants.isCreationNativeShow
@@ -29,6 +32,8 @@ import com.demo.adsmanage.Commen.Constants.isSettingNativeShow
 import com.demo.adsmanage.Commen.Constants.isShowAdmobAds
 import com.demo.adsmanage.Commen.Constants.isTestMode
 import com.demo.adsmanage.Commen.Constants.is_ProgressShow
+import com.demo.adsmanage.Commen.Constants.mAppOpenAds
+import com.demo.adsmanage.Commen.Constants.mAppOpenAds_LANDSCAPE
 import com.demo.adsmanage.Commen.Constants.mInterstitialAdlist
 import com.demo.adsmanage.Commen.Constants.mInterstitialAds_clickCount
 import com.demo.adsmanage.Commen.Constants.mPreferences
@@ -130,7 +135,6 @@ object AdsManage {
 //                    Toast.makeText(this, "Please connect internet", Toast.LENGTH_LONG).show()
                 }
             }
-
         }
         fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
             with(context){
@@ -354,19 +358,24 @@ object AdsManage {
         fun Load_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd:Int){
             with(context){
                 if (isOnline && AD_AppOpen!=null && !is_SUBSCRIBED && AD_AppOpen!=Noads){
-
                     loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
                 }
             }
         }
         fun Show_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd: Int,onAppOpenShowAds: OnAppOpenShowAds){
             with(context){
-                if (isOnline && !is_SUBSCRIBED){
-
-                    showAppOpenAd(is_SUBSCRIBED,appOpenAd,onAppOpenShowAds)
+                if (isOnline &&  !is_SUBSCRIBED ){
+                    if (appOpenAd == APP_OPEN_AD_ORIENTATION_PORTRAIT && mAppOpenAds !=null){
+                        showAppOpenAd(appOpenAd,onAppOpenShowAds)
+                    }else  if (appOpenAd == APP_OPEN_AD_ORIENTATION_LANDSCAPE && mAppOpenAds_LANDSCAPE !=null){
+                        showAppOpenAd(appOpenAd,onAppOpenShowAds)
+                    }else{
+                        onAppOpenShowAds.OnDismissAds()
+                    }
                 }else{
                     onAppOpenShowAds.OnDismissAds()
                 }
+
             }
         }
 

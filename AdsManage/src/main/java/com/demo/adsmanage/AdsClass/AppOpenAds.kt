@@ -141,7 +141,7 @@ object AppOpenAds {
     }
 
 
-    fun Context.showAppOpenAd(is_SUBSCRIBED: Boolean? = false,appOpenAd: Int,onAppOpenShowAds: OnAppOpenShowAds){
+    fun Context.showAppOpenAd(appOpenAd: Int,onAppOpenShowAds: OnAppOpenShowAds){
         if (appOpenAd==APP_OPEN_AD_ORIENTATION_PORTRAIT){
             if (mAppOpenAds!=null && mAppOpenAds is AppOpenAd){
                 (mAppOpenAds as AppOpenAd).fullScreenContentCallback=object :FullScreenContentCallback(){
