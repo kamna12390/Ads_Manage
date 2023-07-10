@@ -1,6 +1,7 @@
 package com.demo.adsmanage
 
 
+import android.app.Application
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -83,10 +84,13 @@ object AdsManage {
         }
 
     abstract class Builder()  {
+        fun ApplicationCall(application: Application){
+            mPreferences = application.getSharedPreferences("MyAdsClass", Context.MODE_PRIVATE)
+            editor = mPreferences!!.edit()
+        }
         fun Splash_Init(context: Context,firebasename:String,onSplachAds: OnSplachAds) {
             with(context){
-                mPreferences = applicationContext.getSharedPreferences("MyAdsClass", Context.MODE_PRIVATE)
-                editor = mPreferences!!.edit()
+
                 if (misOnline) {
                     mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
                     mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
@@ -136,6 +140,7 @@ object AdsManage {
                 }
             }
         }
+
         fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){

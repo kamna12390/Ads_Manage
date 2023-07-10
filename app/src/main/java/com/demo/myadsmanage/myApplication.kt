@@ -31,6 +31,7 @@ class myApplication : Application(), LifecycleObserver,
 
     override fun onCreate() {
         super.onCreate()
+        AdsManage.ActivityBuilder().ApplicationCall(this)
         AudienceNetworkAds.initialize(this);
         registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
