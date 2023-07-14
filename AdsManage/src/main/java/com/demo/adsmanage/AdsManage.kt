@@ -96,47 +96,58 @@ object AdsManage {
                     mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
                         if (it.isSuccessful){
                             val mobject= mFirebaseRemoteConfig.getString(firebasename)
-                            val gson: Gson = GsonBuilder().create()
-                            val lessons: AdsModel = gson.fromJson(
-                                mobject,
-                                AdsModel::class.java
-                            )
-                            with(lessons.appChanging!!){
-                                isShowAdmobAds = misShowAdmobAds!!
-                                isTestMode=testAdsShow!!
-                                mInterstitialAds_clickCount= interstitialClickCountShow!!
-                                Interstitial_CountShow=interstitialClickCountShow
-                                isHomeNativeShow=misHomeNativeShow!!
-                                isSettingNativeShow=misSettingNativeShow!!
-                                isCreationNativeShow=misCreationNativeShow!!
-                                is_ProgressShow=misProgressShow!!
+                            if (!mobject.isNullOrBlank()){
+                                val gson: Gson = GsonBuilder().create()
+                                var lessons: AdsModel?=null
+                                try{
+                                     lessons = gson.fromJson(
+                                        mobject,
+                                        AdsModel::class.java
+                                    )
+                                }catch (e:Exception){
+
+                                }
+                                if (lessons==null){
+                                    onSplachAds.OnNextAds()
+                                    return@OnCompleteListener
+                                }
+                                with(lessons!!.appChanging!!){
+                                    isShowAdmobAds = misShowAdmobAds!!
+                                    isTestMode=testAdsShow!!
+                                    mInterstitialAds_clickCount= interstitialClickCountShow!!
+                                    Interstitial_CountShow=interstitialClickCountShow
+                                    isHomeNativeShow=misHomeNativeShow!!
+                                    isSettingNativeShow=misSettingNativeShow!!
+                                    isCreationNativeShow=misCreationNativeShow!!
+                                    is_ProgressShow=misProgressShow!!
+                                }
+
+                                with(lessons.appChanging!!.admob!!){
+                                    AD_Interstitial=adInterstitial!!
+                                    AD_Banner=adBanner
+                                    AD_AppOpen=adAppOpen
+                                    AD_NativeAds=adNativeAds!!
+                                    AD_RewardedAds=adRewardedAds
+
+                                }
+                                with(lessons.appChanging!!.faceBook!!){
+                                    FB_Interstitial=fbInterstitial
+                                    FB_Banner=fbBanner
+                                    FB_NativeAds=fbNativeAds
+                                    FB_RewardedAds=fbRewardedAds
+                                }
+                                loadFirsttimeAppOpenAd(false, AD_AppOpen!!,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,onSplachAds)
+                                logD(TAG, "$AD_Interstitial==$AD_Banner")
+                            }else{
+                                onSplachAds.OnNextAds()
                             }
 
-                            with(lessons.appChanging.admob!!){
-                                AD_Interstitial=adInterstitial!!
-                                AD_Banner=adBanner
-                                AD_AppOpen=adAppOpen
-                                AD_NativeAds=adNativeAds!!
-                                AD_RewardedAds=adRewardedAds
-
-                            }
-                            with(lessons.appChanging.faceBook!!){
-                                FB_Interstitial=fbInterstitial
-                                FB_Banner=fbBanner
-                                FB_NativeAds=fbNativeAds
-                                FB_RewardedAds=fbRewardedAds
-                            }
-                            loadFirsttimeAppOpenAd(false, AD_AppOpen!!,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,onSplachAds)
-
-//                            onSplachAds.OnNextAds()
-                            logD(TAG, "$AD_Interstitial==$AD_Banner")
                         }else{
-
+                            onSplachAds.OnNextAds()
                         }
                     })
                 } else {
                     onSplachAds.OnNextAds()
-//                    Toast.makeText(this, "Please connect internet", Toast.LENGTH_LONG).show()
                 }
             }
         }
