@@ -32,6 +32,7 @@ import com.demo.adsmanage.Commen.Constants.isHomeNativeShow
 import com.demo.adsmanage.Commen.Constants.isSettingNativeShow
 import com.demo.adsmanage.Commen.Constants.isShowAdmobAds
 import com.demo.adsmanage.Commen.Constants.isTestMode
+import com.demo.adsmanage.Commen.Constants.is_BackAdsShow
 import com.demo.adsmanage.Commen.Constants.is_ProgressShow
 import com.demo.adsmanage.Commen.Constants.mAppOpenAds
 import com.demo.adsmanage.Commen.Constants.mAppOpenAds_LANDSCAPE
@@ -120,6 +121,7 @@ object AdsManage {
                                     isSettingNativeShow=misSettingNativeShow!!
                                     isCreationNativeShow=misCreationNativeShow!!
                                     is_ProgressShow=misProgressShow!!
+                                    is_BackAdsShow=misBackAdsShow!!
                                 }
 
                                 with(lessons.appChanging!!.admob!!){
