@@ -52,7 +52,10 @@ data class AppChanging(
 	val misProgressShow: Boolean? = null,
 
 	@field:SerializedName("Is_BackAdsShow")
-	val misBackAdsShow: Boolean? = null
+	val misBackAdsShow: Boolean? = null,
+
+	@field:SerializedName("Is_ABTest")
+	val mIs_ABTest: Int? = null
 )
 
 data class Admob(

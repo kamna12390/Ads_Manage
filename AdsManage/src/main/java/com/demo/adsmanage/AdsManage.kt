@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.Toast
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBanner
@@ -32,6 +33,7 @@ import com.demo.adsmanage.Commen.Constants.isHomeNativeShow
 import com.demo.adsmanage.Commen.Constants.isSettingNativeShow
 import com.demo.adsmanage.Commen.Constants.isShowAdmobAds
 import com.demo.adsmanage.Commen.Constants.isTestMode
+import com.demo.adsmanage.Commen.Constants.is_ABTest
 import com.demo.adsmanage.Commen.Constants.is_BackAdsShow
 import com.demo.adsmanage.Commen.Constants.is_ProgressShow
 import com.demo.adsmanage.Commen.Constants.mAppOpenAds
@@ -93,6 +95,7 @@ object AdsManage {
             with(context){
 
                 if (misOnline) {
+
                     mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
                     mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
                         if (it.isSuccessful){
@@ -122,8 +125,11 @@ object AdsManage {
                                     isCreationNativeShow=misCreationNativeShow!!
                                     is_ProgressShow=misProgressShow!!
                                     is_BackAdsShow=misBackAdsShow!!
-                                }
+                                    is_ABTest=mIs_ABTest!!
+                                    logD("YagnikABtest","->${mIs_ABTest}")
 
+                                }
+//                                logD("YagnikABtest","->${Remote.remoteConfig.getString("show_ads")}")
                                 with(lessons.appChanging!!.admob!!){
                                     AD_Interstitial=adInterstitial!!
                                     AD_Banner=adBanner

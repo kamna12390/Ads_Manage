@@ -22,6 +22,7 @@ object Constants {
     var isCreationNativeShow: Boolean=true
     var is_ProgressShow: Boolean=false
     var is_BackAdsShow: Boolean=false
+    var is_ABTest: Int=0
 
     var mPreferences: SharedPreferences? = null
     var editor: SharedPreferences.Editor? = null

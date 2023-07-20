@@ -43,26 +43,7 @@ class MainActivity : AppCompatActivity() {
                         binding.clOne.visibility = View.GONE
                     }
                 })
-            Load_SETTING_NativeAds(
-                this@MainActivity,
-                false,
-                binding.adsNativeTwo,
-                R.layout.ads_native_layout,
-                R.layout.ads_fbnative_layout,
-                NativeAD.NativeFull,
-                object : OnNativeAds {
-                    override fun OnNativeAdsShow() {
-                        binding.clTwo.visibility = View.VISIBLE
-                    }
 
-                    override fun OnNativeAdsClick() {
-
-                    }
-
-                    override fun OnNativeAdsError() {
-                        binding.clTwo.visibility = View.GONE
-                    }
-                })
             Load_CREATION_NativeAds(
                 this@MainActivity,
                 false,
@@ -83,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                         binding.clThree.visibility = View.GONE
                     }
                 })
-            Show_AdaptiveBanner(this@MainActivity, false, binding.adsAdaptivebanner)
+
             Load_InterstitialAd(this@MainActivity, false)
         }
         Handler().postDelayed(object : Runnable {
