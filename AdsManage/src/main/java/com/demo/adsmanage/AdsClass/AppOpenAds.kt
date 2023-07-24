@@ -23,6 +23,7 @@ object AppOpenAds {
         if (mAD_AppOpenID==null){
             return
         }
+
         if (appOpenAd==APP_OPEN_AD_ORIENTATION_PORTRAIT){
             if (mAppOpenAds!=null && isAppOpen_RequestSend && !isOnline && is_SUBSCRIBED){
                 return

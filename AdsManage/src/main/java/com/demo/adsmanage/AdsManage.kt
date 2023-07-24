@@ -145,7 +145,13 @@ object AdsManage {
                                     FB_NativeAds=fbNativeAds
                                     FB_RewardedAds=fbRewardedAds
                                 }
-                                loadFirsttimeAppOpenAd(false, AD_AppOpen!!,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,onSplachAds)
+                                val id=if (Constants.isTestMode!!) {
+                                    "ca-app-pub-3940256099942544/3419835294"
+                                }else{
+                                    AD_AppOpen
+                                }
+                                loadFirsttimeAppOpenAd(false,
+                                    id!!,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,onSplachAds)
                                 logD(TAG, "$AD_Interstitial==$AD_Banner")
                             }else{
                                 onSplachAds.OnNextAds()
