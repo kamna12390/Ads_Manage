@@ -1,6 +1,7 @@
 package com.demo.adsmanage.AdsClass
 import android.app.Activity
 import android.content.Context
+import com.demo.adsmanage.Commen.Constants
 import com.demo.adsmanage.Commen.Constants.isAdsClicking
 import com.demo.adsmanage.Commen.Constants.isAdsShowing
 import com.demo.adsmanage.Commen.Constants.isRewarde_RequestSend
@@ -31,7 +32,13 @@ object RewardedAds {
         if (isRewarde_RequestSend && mRewardedAds!=null && !isOnline && is_SUBSCRIBED && AD_RewardedAds==null){
             return
         }
-        logD(TAG, "ADSMANAGE  RewardedID Admob->$AD_RewardedAds")
+
+        var id = if (Constants.isTestMode!!) {
+            "ca-app-pub-3940256099942544/5224354917"
+        } else{
+            AD_RewardedAds
+        }
+        logD(TAG, "ADSMANAGE  RewardedID Admob->$id")
         isRewarde_RequestSend=true
         RewardedAd.load(this,AD_RewardedAds!!,AdRequest.Builder().build(),object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(p0: LoadAdError) {
@@ -61,9 +68,14 @@ object RewardedAds {
         if (FB_RewardedAds==null){
             return
         }
-        logD(TAG, "ADSMANAGE  RewardedID Facebook->$FB_RewardedAds")
+        var id = if (Constants.isTestMode!!) {
+            "YOUR_PLACEMENT_ID"
+        } else{
+            FB_RewardedAds
+        }
+        logD(TAG, "ADSMANAGE  RewardedID Facebook->$id")
         isRewarde_RequestSend=true
-        mRewardedAds = RewardedVideoAd(this, FB_RewardedAds)
+        mRewardedAds = RewardedVideoAd(this, id)
         val rewardedVideoAdListener = object : RewardedVideoAdListener {
             override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
                 isRewarde_RequestSend=false

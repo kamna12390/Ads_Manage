@@ -115,6 +115,7 @@ object AdsManage {
                                     onSplachAds.OnNextAds()
                                     return@OnCompleteListener
                                 }
+                                logD("ResponseCheck","->$lessons")
                                 with(lessons!!.appChanging!!){
                                     isShowAdmobAds = misShowAdmobAds!!
                                     isTestMode=testAdsShow!!
@@ -382,7 +383,11 @@ object AdsManage {
         fun Load_AppOpenAd(context: Context,is_SUBSCRIBED: Boolean,appOpenAd:Int){
             with(context){
                 if (isOnline && AD_AppOpen!=null && !is_SUBSCRIBED && AD_AppOpen!=Noads){
-                    loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
+                  if (Constants.isTestMode!!) {
+                      loadAppOpenAd(is_SUBSCRIBED, "ca-app-pub-3940256099942544/3419835294", appOpenAd)
+                  } else{
+                      loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
+                  }
                 }
             }
         }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.WindowMetrics
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.demo.adsmanage.Commen.Constants
 import com.demo.adsmanage.Commen.Constants.isAdsClicking
 import com.demo.adsmanage.Commen.Constants.isShowAdmobAds
 import com.demo.adsmanage.helper.MySharedPreferences
@@ -32,8 +33,13 @@ object AdaptiveBannerAds {
         view: ViewGroup
     ) {
         logD(TAG, "ADSMANAGE  AdaptiveBannerAds AdmodID->${AD_Banner}--${AdSize.BANNER.height}--${AdSize.BANNER.width}")
+        var id = if (Constants.isTestMode!!) {
+            "ca-app-pub-3940256099942544/6300978111"
+        } else{
+            AD_Banner
+        }
         val madView = AdView(this)
-        madView.adUnitId = AD_Banner!!
+        madView.adUnitId = id!!
         madView.setAdSize(getAdSize(view)!!)
 //        madView.setAdSize(AdSize.SMART_BANNER)
 //        val screenWidth = resources.displayMetrics.widthPixels
@@ -104,9 +110,13 @@ object AdaptiveBannerAds {
     fun Context.loadFBAdaptiveBanner(
         view: ViewGroup
     ) {
-
-        logD(TAG, "ADSMANAGE  AdaptiveBannerAds Facebook->$FB_Banner---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.height}---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.width}")
-        val madView = com.facebook.ads.AdView(this, FB_Banner, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
+        var id = if (Constants.isTestMode!!) {
+            "YOUR_PLACEMENT_ID"
+        } else{
+            FB_Banner
+        }
+        logD(TAG, "ADSMANAGE  AdaptiveBannerAds Facebook->$id---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.height}---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.width}")
+        val madView = com.facebook.ads.AdView(this, id, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
         view.addView(madView)
         val adListener: com.facebook.ads.AdListener = object : com.facebook.ads.AdListener {
             override fun onError(p0: Ad?, p1: AdError?) {

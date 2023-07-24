@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
+import com.demo.adsmanage.Commen.Constants
 import com.demo.adsmanage.Commen.Constants.isAdsClicking
 import com.demo.adsmanage.Commen.Constants.isShowAdmobAds
 import com.demo.adsmanage.Commen.Constants.mNativeAdlist
@@ -44,9 +45,14 @@ object NativeAds {
         nativeAD: NativeAD,
         onNativeAds: OnNativeAds
     ) {
-        logD(TAG, "ADSMANAGE  NativeAdID Admob->$AD_NativeAds")
+        var id = if (Constants.isTestMode!!) {
+            "ca-app-pub-3940256099942544/2247696110"
+        } else{
+            AD_NativeAds
+        }
+        logD(TAG, "ADSMANAGE  NativeAdID Admob->$id")
         if (mNativeAdlist == null) {
-            val builder = AdLoader.Builder(this, AD_NativeAds!!)
+            val builder = AdLoader.Builder(this, id!!)
             builder.forNativeAd { nativeAd ->
                 mNativeAdlist = nativeAd
                 val mview =
@@ -127,9 +133,14 @@ object NativeAds {
         nativeAD: NativeAD,
         onNativeAds: OnNativeAds
     ) {
-        logD(TAG, "ADSMANAGE  NativeAdID Admob->$FB_NativeAds")
+        var id = if (Constants.isTestMode!!) {
+            "YOUR_PLACEMENT_ID"
+        } else{
+            FB_NativeAds
+        }
+        logD(TAG, "ADSMANAGE  NativeAdID Admob->$id")
 
-        val nativead = com.facebook.ads.NativeAd(this, FB_NativeAds)
+        val nativead = com.facebook.ads.NativeAd(this, id)
         val nativeAdListener = object : NativeAdListener {
             override fun onError(p0: Ad?, p1: AdError?) {
                 logD(TAG, "ADSMANAGE: onAdFailedToLoad:NativeAd->Facebook--${p1!!.errorMessage} ")
