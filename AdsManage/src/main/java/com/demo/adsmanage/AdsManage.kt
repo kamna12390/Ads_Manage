@@ -74,7 +74,6 @@ object AdsManage {
     public class ActivityBuilder() : Builder()
     val TAG=this.javaClass.simpleName
     private val COUNTER_TIME = 2L
-    private val COUNTER_TIME_appopen = 6L
     private var mcountRemaining: Long = 0L
     var dialog_ad:ProgressDialog?=null
     val configSettings: FirebaseRemoteConfigSettings
@@ -96,6 +95,7 @@ object AdsManage {
             with(context){
 
                 if (misOnline) {
+
                     mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
                     mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
                         if (it.isSuccessful){
@@ -104,7 +104,7 @@ object AdsManage {
                                 val gson: Gson = GsonBuilder().create()
                                 var lessons: AdsModel?=null
                                 try{
-                                    lessons = gson.fromJson(
+                                     lessons = gson.fromJson(
                                         mobject,
                                         AdsModel::class.java
                                     )
@@ -146,17 +146,6 @@ object AdsManage {
                                     FB_RewardedAds=fbRewardedAds
                                 }
                                 loadFirsttimeAppOpenAd(false, AD_AppOpen!!,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,onSplachAds)
-                                val countDownTimer: CountDownTimer = object : CountDownTimer(COUNTER_TIME_appopen * 1000, 1000) {
-                                    override fun onTick(millisUntilFinished: Long) {
-                                        mcountRemaining = millisUntilFinished / 1000 + 1
-                                    }
-
-                                    override fun onFinish() {
-                                        mcountRemaining = 0
-                                        onSplachAds.OnError()
-                                    }
-                                }
-                                countDownTimer.start()
                                 logD(TAG, "$AD_Interstitial==$AD_Banner")
                             }else{
                                 onSplachAds.OnNextAds()
@@ -166,8 +155,6 @@ object AdsManage {
                             onSplachAds.OnNextAds()
                         }
                     })
-
-
                 } else {
                     onSplachAds.OnNextAds()
                 }
