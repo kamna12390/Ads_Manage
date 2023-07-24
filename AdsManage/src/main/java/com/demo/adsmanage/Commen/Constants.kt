@@ -15,7 +15,7 @@ object Constants {
     var isAdsShowing: Boolean=false
     var isTestMode: Boolean=false
     var isDebugMode: Boolean=true
-    var isAdsClicking: Boolean=true
+    var isAdsClicking: Boolean=false
     var isShowAdmobAds: Boolean=true
     var isHomeNativeShow: Boolean=true
     var isSettingNativeShow: Boolean=true
