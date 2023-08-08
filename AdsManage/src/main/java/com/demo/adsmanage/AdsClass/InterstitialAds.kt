@@ -24,7 +24,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 object InterstitialAds {
     val TAG = this.javaClass.simpleName
 
-    fun Context.loadInterstitialAd(
+    internal  fun Context.loadInterstitialAd(
     ) {
 
             var id = if (isTestMode!!) {
@@ -62,7 +62,7 @@ object InterstitialAds {
 
     }
 
-    fun Context.loadFBInterstitialSd() {
+    internal   fun Context.loadFBInterstitialSd() {
 
         if (mInterstitialAdlist == null) {
             isInter_RequestSend=true
@@ -128,7 +128,7 @@ object InterstitialAds {
         }
     }
 
-    fun Context.showInterstitialAd(
+    internal  fun Context.showInterstitialAd(
         is_SUBSCRIBED: Boolean? = false,
         onInterstitialAds: OnInterstitialAds
     ) {

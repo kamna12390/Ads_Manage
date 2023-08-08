@@ -127,6 +127,8 @@ object AdsManage {
         get() {
             return FirebaseRemoteConfig.getInstance()
         }
+
+
     public class ActivityBuilder() :
         Builder() {
         override fun Subcall(context: Context): Builder {

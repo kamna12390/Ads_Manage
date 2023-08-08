@@ -26,7 +26,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
 object RewardedAds {
     val TAG = this.javaClass.simpleName
-    fun Context.loadRewardedAds(
+    internal fun Context.loadRewardedAds(
         is_SUBSCRIBED: Boolean
     ) {
         if (isRewarde_RequestSend && mRewardedAds!=null && !isOnline && is_SUBSCRIBED && AD_RewardedAds==null){
@@ -64,7 +64,7 @@ object RewardedAds {
         })
     }
 
-    fun Context.loadFBRewatdedAD(is_SUBSCRIBED: Boolean){
+    internal  fun Context.loadFBRewatdedAD(is_SUBSCRIBED: Boolean){
         if (FB_RewardedAds==null){
             return
         }
@@ -131,7 +131,7 @@ object RewardedAds {
                 .build()
         )
     }
-    fun Context.showRewarded(   is_SUBSCRIBED: Boolean? = false,onRewardedShowAds: OnRewardedShowAds){
+    internal  fun Context.showRewarded(   is_SUBSCRIBED: Boolean? = false,onRewardedShowAds: OnRewardedShowAds){
         if (mRewardedAds!=null && mRewardedAds is RewardedAd){
             (mRewardedAds as RewardedAd).fullScreenContentCallback=object :FullScreenContentCallback(){
                 override fun onAdDismissedFullScreenContent() {

@@ -29,7 +29,7 @@ import com.google.android.gms.ads.LoadAdError
 object AdaptiveBannerAds {
     val TAG = this.javaClass.simpleName
     @SuppressLint("NewApi")
-    fun Context.loadAdaptiveBanner(
+    internal   fun Context.loadAdaptiveBanner(
         view: ViewGroup
     ) {
         logD(TAG, "ADSMANAGE  AdaptiveBannerAds AdmodID->${AD_Banner}--${AdSize.BANNER.height}--${AdSize.BANNER.width}")
@@ -86,7 +86,7 @@ object AdaptiveBannerAds {
         view.removeAllViews()
         view.addView(madView,params)
     }
-     fun Context.getAdaptiveAdSize(screenWidth: Int): AdSize? {
+    internal   fun Context.getAdaptiveAdSize(screenWidth: Int): AdSize? {
         // Set the ad width based on the screen width
         var adWidth = screenWidth
         // Set the ad height to wrap content
@@ -107,7 +107,7 @@ object AdaptiveBannerAds {
          logD(TAG,"ooo-$adWidth-$adHeight--$aa==${pxToDp(displayMetrics.widthPixels)}----${displayMetrics.widthPixels}")
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this,pxToDp(displayMetrics.widthPixels))
     }
-    fun Context.loadFBAdaptiveBanner(
+    internal fun Context.loadFBAdaptiveBanner(
         view: ViewGroup
     ) {
         var id = if (Constants.isTestMode!!) {

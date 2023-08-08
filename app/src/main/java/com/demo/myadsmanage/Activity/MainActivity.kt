@@ -113,6 +113,7 @@ class MainActivity : BaseActivity() {
                 }
             })
         }
+
         binding.btnInterstitialTwo.setOnClickListener {
             AdsManage.ActivityBuilder().Show_InterstitialAds(this,false, null)
         }

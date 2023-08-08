@@ -38,7 +38,7 @@ import com.google.android.gms.ads.nativead.NativeAdView
 
 object NativeAds {
     val TAG = this.javaClass.simpleName
-    fun Context.loadNativeAd(
+    internal  fun Context.loadNativeAd(
         adsNative: ViewGroup,
         mlayout: Int,
         mfbLayout:Int,
@@ -126,7 +126,7 @@ object NativeAds {
 
     }
 
-    fun Context.loadFBNativeAd(
+    internal  fun Context.loadFBNativeAd(
         adsNative: ViewGroup,
         mlayout: Int,
         mfbLayout:Int,
@@ -198,7 +198,7 @@ object NativeAds {
         nativead.loadAd(nativead.buildLoadAdConfig().withAdListener(nativeAdListener).build())
     }
 
-    fun Context.FBinflateAd(
+    internal   fun Context.FBinflateAd(
         nativeAd: com.facebook.ads.NativeAd,
         adView: com.facebook.ads.NativeAdLayout,
         nativeAD: NativeAD

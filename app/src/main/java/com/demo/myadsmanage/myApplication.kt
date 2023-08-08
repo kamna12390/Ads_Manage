@@ -10,7 +10,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.demo.adsmanage.AdsClass.AppOpenAds.loadAppOpenAd
 import com.demo.adsmanage.AdsManage
 import com.demo.adsmanage.Commen.Constants
 import com.demo.adsmanage.Commen.Constants.IsOutAppPermission
@@ -18,7 +17,6 @@ import com.demo.adsmanage.Commen.Constants.isAdsClicking
 import com.demo.adsmanage.Commen.Constants.isAdsShowing
 import com.demo.adsmanage.InterFace.OnAppOpenShowAds
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
-import com.demo.adsmanage.helper.MySharedPreferences.AD_AppOpen
 import com.demo.adsmanage.viewmodel.AppSubscription
 import com.facebook.ads.AdSettings
 import com.facebook.ads.AudienceNetworkAds
