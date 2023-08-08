@@ -6,7 +6,6 @@ import com.demo.adsmanage.Commen.Constants.isAdsShowing
 import com.demo.adsmanage.Commen.Constants.isInter_RequestSend
 import com.demo.adsmanage.Commen.Constants.isShowAdmobAds
 import com.demo.adsmanage.Commen.Constants.isTestMode
-import com.demo.adsmanage.Commen.Constants.mInterAdsRequest_pos
 import com.demo.adsmanage.Commen.Constants.mInterstitialAdlist
 import com.demo.adsmanage.InterFace.OnInterstitialAds
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Interstitial
@@ -43,32 +42,18 @@ object InterstitialAds {
                     override fun onAdFailedToLoad(adError: LoadAdError) {
                         isInter_RequestSend = false
                         mInterstitialAdlist=null
-//                        val mid= AD_Interstitial[mInterAdsRequest_pos]
                         logD(
                             TAG,
                             "ADSMANAGE: onAdFailedToLoad:interstitialAd->AdMob ->${adError.message}"
                         )
-//                        if(mAD_Interstitial.equals(mid,true) && AD_Interstitial.size>(mInterAdsRequest_pos+1)){
-//                            mInterAdsRequest_pos++
-//                            loadInterstitialAd(
-//                                is_SUBSCRIBED,
-//                                AD_Interstitial[mInterAdsRequest_pos]
-//                            )
-//
-//                        }else{
                         if (isShowAdmobAds){
                             loadFBInterstitialSd()
                         }
-
-//                        }
-
-
                     }
 
                     override fun onAdLoaded(interstitialAd: InterstitialAd) {
                         isInter_RequestSend = false
                         mInterstitialAdlist=interstitialAd
-                        mInterAdsRequest_pos=0
                         logD(TAG, "ADSMANAGE: onAdLoaded:interstitialAd->AdMob")
 
                     }
@@ -104,7 +89,6 @@ object InterstitialAds {
 
                 override fun onAdLoaded(p0: Ad?) {
                     isInter_RequestSend=false
-                    mInterAdsRequest_pos=0
                     logD(TAG, "ADSMANAGE: onAdLoaded:interstitialAd->Facebook ")
                 }
 
@@ -179,7 +163,6 @@ object InterstitialAds {
                         override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                             super.onAdFailedToShowFullScreenContent(p0)
                             isAdsShowing = false
-//                            mInterstitialAd = null
                             mInterstitialAdlist=null
 
                             logD(
@@ -215,8 +198,6 @@ object InterstitialAds {
                     }
 
                     override fun onAdLoaded(p0: Ad?) {
-
-                        mInterAdsRequest_pos=0
                         logD(TAG, "ADSMANAGE: ttonAdLoaded:interstitialAd->Facebook ")
                     }
 

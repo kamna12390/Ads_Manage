@@ -6,12 +6,13 @@ plugins {
 apply plugin: 'maven-publish'
 android {
     namespace 'com.demo.myadsmanage'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
-        applicationId "com.demo.myadsmanage"
+//        applicationId "com.demo.myadsmanage"
+        applicationId "com.crop.photo.image.resize.cut.tools"
         minSdk 19
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -35,6 +36,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -51,7 +55,7 @@ dependencies {
     //SDP Dimen
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
-    // ViewModel and LiveData
+    // viewmodel and LiveData
     def lifecycle_version = '2.2.0'
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation project(path: ':AdsManage')
@@ -63,6 +67,9 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     //Multidex
     implementation 'com.android.support:multidex:1.0.3'
+
+    //Billing
+    implementation "com.android.billingclient:billing-ktx:5.0.0"
 
 
 

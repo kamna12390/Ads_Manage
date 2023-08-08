@@ -2,4 +2,12 @@
     <string name="app_name">My Ads Manage</string>
     <string name="please_wait">Please Wait</string>
     <string name="load_ad">Load Ad</string>
+    <string name="terms_condition" translatable="false"><![CDATA[Terms & Condition]]></string>
+    <string name="line_one" translatable="false">Recurring billing per Month/Year</string>
+    <string name="line_two" translatable="false">You can cancel subscription anytime</string>
+    <string name="line_three" translatable="false">After the trial period the amount will be changed from your payment method automatically</string>
+    <string name="line_four" translatable="false">Subscription will automatically renew at the end of each term and will be charged to your payment method through Google Play</string>
+    <string name="line_five" translatable="false">You can turn off auto-renew at anytime from Google Play account setting</string>
+    <string name="line_six" translatable="false">Purchase policy can be changed without any prior notice</string>
+    <string name="choose_one">Choose One</string>
 </resources>

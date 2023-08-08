@@ -1,17 +1,20 @@
 package com.demo.adsmanage
 
 
+import android.app.Activity
 import android.app.Application
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
+import android.graphics.drawable.Drawable
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.Toast
+import com.demo.adsmanage.Activity.SubscriptionBackgroundActivity
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBanner
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadFBAdaptiveBanner
+import com.demo.adsmanage.AdsClass.AppOpenAds
 import com.demo.adsmanage.AdsClass.AppOpenAds.loadAppOpenAd
 import com.demo.adsmanage.AdsClass.AppOpenAds.loadFirsttimeAppOpenAd
 import com.demo.adsmanage.AdsClass.AppOpenAds.showAppOpenAd
@@ -26,7 +29,15 @@ import com.demo.adsmanage.AdsClass.RewardedAds.showRewarded
 import com.demo.adsmanage.Commen.Constants
 import com.demo.adsmanage.Commen.Constants.APP_OPEN_AD_ORIENTATION_LANDSCAPE
 import com.demo.adsmanage.Commen.Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT
+import com.demo.adsmanage.Commen.Constants.BASIC_SKU
+import com.demo.adsmanage.Commen.Constants.BaseSubscriptionBackground
+import com.demo.adsmanage.Commen.Constants.NavigationBarColor
 import com.demo.adsmanage.Commen.Constants.Noads
+import com.demo.adsmanage.Commen.Constants.PREMIUM_SIX_SKU
+import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
+import com.demo.adsmanage.Commen.Constants.Purchase_ID
+import com.demo.adsmanage.Commen.Constants.SUBButtonTextColor
+import com.demo.adsmanage.Commen.Constants.SubscriptionBackground
 import com.demo.adsmanage.Commen.Constants.editor
 import com.demo.adsmanage.Commen.Constants.isCreationNativeShow
 import com.demo.adsmanage.Commen.Constants.isHomeNativeShow
@@ -36,11 +47,30 @@ import com.demo.adsmanage.Commen.Constants.isTestMode
 import com.demo.adsmanage.Commen.Constants.is_ABTest
 import com.demo.adsmanage.Commen.Constants.is_BackAdsShow
 import com.demo.adsmanage.Commen.Constants.is_ProgressShow
+import com.demo.adsmanage.Commen.Constants.mAppIcon
+import com.demo.adsmanage.Commen.Constants.mAppName
+import com.demo.adsmanage.Commen.Constants.mAppNameColor
 import com.demo.adsmanage.Commen.Constants.mAppOpenAds
 import com.demo.adsmanage.Commen.Constants.mAppOpenAds_LANDSCAPE
+import com.demo.adsmanage.Commen.Constants.mBasic_Line_Icon
+import com.demo.adsmanage.Commen.Constants.mClose_Icon
 import com.demo.adsmanage.Commen.Constants.mInterstitialAdlist
 import com.demo.adsmanage.Commen.Constants.mInterstitialAds_clickCount
+import com.demo.adsmanage.Commen.Constants.mIsRevenuCat
+import com.demo.adsmanage.Commen.Constants.mMainLineColor
 import com.demo.adsmanage.Commen.Constants.mPreferences
+import com.demo.adsmanage.Commen.Constants.mPremiumLine
+import com.demo.adsmanage.Commen.Constants.mPremiumScreenLine
+import com.demo.adsmanage.Commen.Constants.mPremium_Button_Icon
+import com.demo.adsmanage.Commen.Constants.mPremium_CardSelected_Icon
+import com.demo.adsmanage.Commen.Constants.mPremium_Cardunselected_Icon
+import com.demo.adsmanage.Commen.Constants.mPremium_True_Icon
+import com.demo.adsmanage.Commen.Constants.mPriceBackground
+import com.demo.adsmanage.Commen.Constants.mPriceLineColor
+import com.demo.adsmanage.Commen.Constants.mPrivacyPolicyURL
+import com.demo.adsmanage.Commen.Constants.mSmallSubLineColor
+import com.demo.adsmanage.Commen.Constants.mSubLineColor
+import com.demo.adsmanage.Commen.Constants.packagerenlist
 import com.demo.adsmanage.InterFace.NativeAD
 import com.demo.adsmanage.InterFace.OnAppOpenShowAds
 import com.demo.adsmanage.InterFace.OnInterAdsShowAds
@@ -48,6 +78,8 @@ import com.demo.adsmanage.InterFace.OnInterstitialAds
 import com.demo.adsmanage.InterFace.OnNativeAds
 import com.demo.adsmanage.InterFace.OnRewardedShowAds
 import com.demo.adsmanage.InterFace.OnSplachAds
+import com.demo.adsmanage.basemodule.BaseSharedPreferences
+import com.demo.adsmanage.billing.ProductPurchaseHelper.setSubscriptionKey
 import com.demo.adsmanage.helper.MySharedPreferences.AD_AppOpen
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Banner
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Interstitial
@@ -64,15 +96,25 @@ import com.demo.adsmanage.helper.misOnline
 import com.demo.adsmanage.model.AdsModel
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.FirebaseApp
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.PurchasesConfiguration
+import com.revenuecat.purchases.getOfferingsWith
+import io.reactivex.annotations.NonNull
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 object AdsManage {
-    public class ActivityBuilder() : Builder()
-    val TAG=this.javaClass.simpleName
+
+    val TAG="AdsManageclassTAG"
     private val COUNTER_TIME = 2L
     private var mcountRemaining: Long = 0L
     var dialog_ad:ProgressDialog?=null
@@ -85,17 +127,213 @@ object AdsManage {
         get() {
             return FirebaseRemoteConfig.getInstance()
         }
+    public class ActivityBuilder() :
+        Builder() {
+        override fun Subcall(context: Context): Builder {
+            if (mIsRevenuCat!!){
+                Purchases.debugLogsEnabled = true
+                Purchases.configure(
+                    PurchasesConfiguration.Builder(context, Purchase_ID).build()
+                )
+                Purchases.sharedInstance.getOfferingsWith({ error ->
+                    // An error occurred
+                    logD("SubscriptionList", "error->${error.message}")
+                }) { offerings ->
+                    offerings.current?.availablePackages?.takeUnless { it.isNullOrEmpty() }?.let {
+                        // Display packages for sale
+//                    logD(
+//                        "yagnik",
+//                        "suc-> 1 ${"originalPrice :- " + it[0].product.originalPrice + "\n" + "freeTrialPeriod :- " + it[0].product.freeTrialPeriod + "\n" + "title :- " + it[0].product.title + "\n" + "price :- " + it[0].product.price + "\n" + "description :- " + it[0].product.description + "\n" + "subscriptionPeriod :- " + it[0].product.subscriptionPeriod + "\n" + "sku :- " + it[0].product.sku + "\n"}"
+//                    )
+                        logD("SubscriptionList", "1->${it[0].product.sku}--2->${it[1].product.sku}--3->${it[0].product.sku}")
+                        packagerenlist?.clear()
+                        Constants.BASIC_SKU = it[0].product.sku
+                        Constants.PREMIUM_SKU = it[1].product.sku
+                        Constants.PREMIUM_SIX_SKU = it[0].product.sku
 
+                        packagerenlist = arrayListOf()
+                        packagerenlist?.add(
+                            Constants.PackagesRen(
+                                it[0].product.originalPrice.toString(),
+                                it[0].product.freeTrialPeriod.toString(),
+                                it[0].product.title,
+                                it[0].product.price,
+                                it[0].product.description,
+                                it[0].product.subscriptionPeriod.toString(),
+                                it[0].product.sku
+                            )
+                        )
+                        packagerenlist?.add(
+                            Constants.PackagesRen(
+                                it[1].product.originalPrice.toString(),
+                                it[1].product.freeTrialPeriod.toString(),
+                                it[1].product.title,
+                                it[1].product.price,
+                                it[1].product.description,
+                                it[1].product.subscriptionPeriod.toString(),
+                                it[1].product.sku
+                            )
+                        )
+//                    logD(
+//                        "yagnik",
+//                        "suc-> 2 ${"originalPrice :- " + it[1].product.originalPrice + "\n" + "freeTrialPeriod :- " + it[1].product.freeTrialPeriod + "\n" + "title :- " + it[1].product.title + "\n" + "price :- " + it[1].product.price + "\n" + "description :- " + it[1].product.description + "\n" + "subscriptionPeriod :- " + it[1].product.subscriptionPeriod + "\n" + "sku :- " + it[1].product.sku + "\n"}"
+//                    )
+
+                    }
+                }
+            }else{
+                setSubscriptionKey(BASIC_SKU, PREMIUM_SIX_SKU, PREMIUM_SKU)
+            }
+            return this
+        }
+    }
     abstract class Builder()  {
-        fun ApplicationCall(application: Application){
+
+        fun ApplicationCall(application: Application):Builder{
             mPreferences = application.getSharedPreferences("MyAdsClass", Context.MODE_PRIVATE)
             editor = mPreferences!!.edit()
+            return this
         }
-        fun Splash_Init(context: Context,firebasename:String,onSplachAds: OnSplachAds) {
+        fun setIsRevenuCat(boolean: Boolean): Builder {
+            mIsRevenuCat = boolean
+            return this
+        }
+        fun setRevenuCatPurchase_ID(string: String): Builder {
+            Purchase_ID=string
+            return this
+        }
+        fun setPREMIUM_SIX_SKU(string: String): Builder {
+            PREMIUM_SIX_SKU=string
+            return this
+        }
+        fun setPREMIUM_SKU(string: String): Builder {
+            PREMIUM_SKU=string
+            return this
+        }
+        fun setBASIC_SKU(string: String): Builder {
+            BASIC_SKU=string
+            return this
+        }
+        fun setPrivacyPolicyURL(string: String): Builder {
+            mPrivacyPolicyURL = string
+            return this
+        }
+        fun setAppName(AppName: String, color: Int): Builder {
+            mAppName = AppName
+            mAppNameColor=color
+            return this
+        }
+        fun setBackgroundSubscreenLineColor(color: Int): Builder {
+            mMainLineColor=color
+            return this
+        }
+        fun setSubLineColor(color: Int): Builder {
+            mSubLineColor=color
+            return this
+        }
+        fun setSmallSubLineColor(color: Int): Builder {
+            mSmallSubLineColor=color
+            return this
+        }
+        fun setSUBButtonTextColor(color: Int): Builder {
+            SUBButtonTextColor=color
+            return this
+        }
+        fun setPriceTextColor(color: Int): Builder {
+            mPriceLineColor=color
+            return this
+        }
+        fun setNavigationBarColor(color: Int): Builder {
+            NavigationBarColor =color
+            return this
+        }
+
+        fun setAppIcon(drawable: Drawable): Builder {
+            mAppIcon = drawable
+            return this
+        }
+        fun setPremium_True_Icon(drawable: Drawable): Builder {
+            mPremium_True_Icon = drawable
+            return this
+        }
+
+        fun setBasic_Line_Icon(drawable: Drawable): Builder {
+            mBasic_Line_Icon = drawable
+            return this
+        }
+        fun setBaseSubscriptionBackground(drawable: Drawable): Builder {
+            BaseSubscriptionBackground = drawable
+            return this
+        }
+        fun setSubscriptionBackground(drawable: Drawable): Builder {
+            SubscriptionBackground = drawable
+            return this
+        }
+        fun setPriceBackground(drawable: Drawable): Builder {
+            mPriceBackground = drawable
+            return this
+        }
+
+        fun setClose_Icon(drawable: Drawable): Builder {
+            mClose_Icon = drawable
+            return this
+        }
+
+        fun setPremium_Button_Icon(drawable: Drawable): Builder {
+            mPremium_Button_Icon = drawable
+            return this
+        }
+
+        fun setPremium_CardSelected_Icon(drawable: Drawable): Builder {
+            mPremium_CardSelected_Icon = drawable
+            return this
+        }
+
+        fun setPremium_Cardunselected_Icon(drawable: Drawable): Builder {
+            mPremium_Cardunselected_Icon = drawable
+            return this
+        }
+
+        fun setBackgroundSubscreenLine(premiumLine: ArrayList<Constants.LineWithIconModel>): Builder {
+            mPremiumLine = premiumLine
+            return this
+        }
+
+        fun setSubScreenOfLine(premiumLine: ArrayList<Constants.LineWithIconModel>): Builder {
+            mPremiumScreenLine = premiumLine
+            return this
+        }
+
+        fun setRevenuCatDefaultList(premiumLine: ArrayList<Constants.PackagesRen>): Builder {
+            packagerenlist = premiumLine
+            return this
+        }
+        fun setActivityOpen(boolean: Boolean, application: Application): Builder {
+            BaseSharedPreferences(application).mActivityOpen = boolean
+            return this
+        }
+        abstract fun Subcall(context: Context): Builder
+        fun Splash_Init(context: Context,firebasename:String,mClass:String) {
             with(context){
-
+                FirebaseInstallations.getInstance().id
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d("Installations", "Installation ID: " + task.result)
+                        } else {
+                            Log.e("Installations", "Unable to get Installation ID")
+                        }
+                    }
+                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                        return@OnCompleteListener
+                    }
+                    // Get new FCM registration token
+                    val token = task.result
+                    // Log and toast
+                    Log.d("Installations", "Token->$token")
+                })
                 if (misOnline) {
-
                     mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
                     mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(OnCompleteListener {
                         if (it.isSuccessful){
@@ -112,11 +350,12 @@ object AdsManage {
 
                                 }
                                 if (lessons==null){
-                                    onSplachAds.OnNextAds()
+                                    val intent=Intent(context, Class.forName(mClass))
+                                    context.NextScreen(intent)
                                     return@OnCompleteListener
                                 }
                                 logD("ResponseCheck","->$lessons")
-                                with(lessons!!.appChanging!!){
+                                with(lessons.appChanging!!){
                                     isShowAdmobAds = misShowAdmobAds!!
                                     isTestMode=testAdsShow!!
                                     mInterstitialAds_clickCount= interstitialClickCountShow!!
@@ -127,10 +366,8 @@ object AdsManage {
                                     is_ProgressShow=misProgressShow!!
                                     is_BackAdsShow=misBackAdsShow!!
                                     is_ABTest=mIs_ABTest!!
-                                    logD("YagnikABtest","->${mIs_ABTest}")
-
+//                                    logD("YagnikABtest","->${mIs_ABTest}")
                                 }
-//                                logD("YagnikABtest","->${Remote.remoteConfig.getString("show_ads")}")
                                 with(lessons.appChanging!!.admob!!){
                                     AD_Interstitial=adInterstitial!!
                                     AD_Banner=adBanner
@@ -145,28 +382,164 @@ object AdsManage {
                                     FB_NativeAds=fbNativeAds
                                     FB_RewardedAds=fbRewardedAds
                                 }
-                                val id=if (Constants.isTestMode!!) {
+                                val id=if (isTestMode) {
                                     "ca-app-pub-3940256099942544/3419835294"
                                 }else{
                                     AD_AppOpen
                                 }
-                                loadFirsttimeAppOpenAd(false,
-                                    id!!,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT,onSplachAds)
-                                logD(TAG, "$AD_Interstitial==$AD_Banner")
+                                if (!BaseSharedPreferences(this).mIS_SUBSCRIBED!!){
+                                    Load_AppOpenAd(context,false,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT)
+                                    Load_InterstitialAd(context,false)
+                                    Handler(mainLooper).postDelayed({
+                                        mSubscriptionFlow(context,mClass)
+                                    }, 5000)
+                                }else{
+                                    val intent=Intent(context, Class.forName(mClass))
+                                    context.NextScreen(intent)
+                                }
+
                             }else{
-                                onSplachAds.OnNextAds()
+                                val intent=Intent(context, Class.forName(mClass))
+                                context.NextScreen(intent)
                             }
 
                         }else{
-                            onSplachAds.OnNextAds()
+                            val intent=Intent(context, Class.forName(mClass))
+                            context.NextScreen(intent)
+//                            onSplachAds.OnNextAds()
                         }
                     })
                 } else {
-                    onSplachAds.OnNextAds()
+                    val intent=Intent(context, Class.forName(mClass))
+                    context.NextScreen(intent)
+//                    onSplachAds.OnNextAds()
                 }
             }
         }
+         fun mSubscriptionFlow(context: Context,mclass:String) {
+            with(BaseSharedPreferences(context)){
+                if (!mFirstTimePremium!!) {
+                    logD(TAG, "->First Day Subscription Screen Open")
+                    mFirstTimePremium = true
+                    val sdf = SimpleDateFormat("dd/MM/yyyy")
+                    val currentDate = sdf.format(Date())
+                    mFirstDate = currentDate
+                    mOneDay = true
+                    mFirstTimeApp = 0
 
+                    context.startActivity(
+                        Intent(context, SubscriptionBackgroundActivity::class.java)
+                            .putExtra("AppOpen", "SplashScreen")
+                            .putExtra("mNextActivityIntent", mclass)
+                    )
+                    (context as Activity).finish()
+                }
+                else {
+                    val sdf = SimpleDateFormat("dd/MM/yyyy")
+                    val currentDate = sdf.format(Date())
+                    val day = sdf.parse(currentDate)
+                    if (sdf.parse(mFirstDate!!)!!.before(day)) {
+                        if (!mSecondTimePremium!!) {
+                            logD(TAG, "->Second Day Subscription Screen Open")
+                            mOneDay = false
+                            mTwoDay = true
+                            mSecondTime = true
+                            mFirstTimeApp = 0
+                            mSecondTimePremium = true
+                            mOpenAdsload=true
+
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    SubscriptionBackgroundActivity::class.java
+                                )
+                                    .putExtra("AppOpen", "SplashScreen")
+                                    .putExtra("mNextActivityIntent", mclass)
+                            )
+                            (context as Activity).finish()
+                        }
+                        else {
+                            //Ads Showing
+                            mTwoDay=false
+                            mOneDay=false
+                            logD(TAG, "->Second Day Ads Showing")
+                            mOpenAdsShow = true
+                            ActivityBuilder().Show_AppOpenAd(context,mIS_SUBSCRIBED!!,Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT,object : OnAppOpenShowAds {
+                                override fun OnDismissAds() {
+                                    mOpenAdsShow = false
+                                    val intent=Intent(context, Class.forName(mclass))
+                                    context.NextScreen(intent)
+                                }
+
+                                override fun OnError() {
+                                    mOpenAdsShow = false
+                                    val intent=Intent(context, Class.forName(mclass))
+                                    context.NextScreen(intent)
+                                }
+                            })
+                        }
+                    }
+                    else if (mOneDay!! && sdf.parse(mFirstDate!!)!! == day) {
+                        if (mFirstTimePremium!! && !mSecondTime!!) {
+                            logD(TAG, "->First Day Second Time Subscription Screen Open")
+                            mOneDay = true
+                            mSecondTime = true
+                            mOpenAdsload=true
+
+                            context.startActivity(
+                                Intent(
+                                    context,
+                                    SubscriptionBackgroundActivity::class.java
+                                )
+                                    .putExtra("AppOpen", "SplashScreen")
+                                    .putExtra("mNextActivityIntent", mclass)
+                            )
+                            (context as Activity).finish()
+                        }
+                        else {
+                            //Ads Showing
+                            logD(TAG, "->First Day Three Time Ads Showing")
+                            mOpenAdsShow = true
+                            ActivityBuilder().Show_AppOpenAd(context,mIS_SUBSCRIBED!!,Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT,object : OnAppOpenShowAds {
+                                override fun OnDismissAds() {
+                                    mOpenAdsShow = false
+                                    val intent=Intent(context, Class.forName(mclass))
+                                    context.NextScreen(intent)
+                                }
+
+                                override fun OnError() {
+                                    mOpenAdsShow = false
+                                    val intent=Intent(context, Class.forName(mclass))
+                                    context.NextScreen(intent)
+                                }
+                            })
+
+                        }
+
+                    }
+                    else {
+                        //Ads Showing
+                        logD(TAG, "->Three Day Ads Showing")
+                        mOpenAdsShow = true
+                        mTwoDay=false
+                        mOneDay=false
+                        ActivityBuilder().Show_AppOpenAd(context,mIS_SUBSCRIBED!!,Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT,object : OnAppOpenShowAds {
+                            override fun OnDismissAds() {
+                                mOpenAdsShow = false
+                                val intent=Intent(context, Class.forName(mclass))
+                                context.NextScreen(intent)
+                            }
+
+                            override fun OnError() {
+                                mOpenAdsShow = false
+                                val intent=Intent(context, Class.forName(mclass))
+                                context.NextScreen(intent)
+                            }
+                        })
+                    }
+                }
+            }
+        }
         fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
@@ -390,7 +763,8 @@ object AdsManage {
             with(context){
                 if (isOnline && AD_AppOpen!=null && !is_SUBSCRIBED && AD_AppOpen!=Noads){
                   if (Constants.isTestMode!!) {
-                      loadAppOpenAd(is_SUBSCRIBED, "ca-app-pub-3940256099942544/3419835294", appOpenAd)
+
+                     loadAppOpenAd(is_SUBSCRIBED, "ca-app-pub-3940256099942544/3419835294", appOpenAd)
                   } else{
                       loadAppOpenAd(is_SUBSCRIBED, AD_AppOpen!!, appOpenAd)
                   }

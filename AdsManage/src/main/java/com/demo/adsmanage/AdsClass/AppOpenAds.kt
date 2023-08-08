@@ -1,13 +1,17 @@
 package com.demo.adsmanage.AdsClass
 import android.app.Activity
 import android.content.Context
+import com.demo.adsmanage.AdsClass.AppOpenAds.showAppOpenAd
 import com.demo.adsmanage.Commen.Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT
+import com.demo.adsmanage.Commen.Constants.isAdsClicking
+import com.demo.adsmanage.Commen.Constants.isAdsShowing
 import com.demo.adsmanage.Commen.Constants.isAppOpen_RequestSend
 import com.demo.adsmanage.Commen.Constants.isAppOpen_RequestSend_LANDSCAPE
 import com.demo.adsmanage.Commen.Constants.mAppOpenAds
 import com.demo.adsmanage.Commen.Constants.mAppOpenAds_LANDSCAPE
 import com.demo.adsmanage.InterFace.OnAppOpenShowAds
 import com.demo.adsmanage.InterFace.OnSplachAds
+import com.demo.adsmanage.basemodule.BaseSharedPreferences
 import com.demo.adsmanage.helper.isOnline
 import com.demo.adsmanage.helper.logD
 import com.google.android.gms.ads.AdError
@@ -77,8 +81,7 @@ object AppOpenAds {
         }
 
     }
-    fun Context.loadFirsttimeAppOpenAd(  is_SUBSCRIBED: Boolean,
-                                mAD_AppOpenID: String,appOpenAd: Int,onSplachAds: OnSplachAds
+    fun Context.loadFirsttimeAppOpenAd(  is_SUBSCRIBED: Boolean,mAD_AppOpenID: String,appOpenAd: Int,onSplachAds: OnSplachAds
     ){
         if (mAD_AppOpenID==null){
             return
@@ -141,42 +144,105 @@ object AppOpenAds {
 
     }
 
-
+    fun isAdAvailable(): Boolean {
+        return mAppOpenAds!=null || mAppOpenAds_LANDSCAPE!=null
+    }
     fun Context.showAppOpenAd(appOpenAd: Int,onAppOpenShowAds: OnAppOpenShowAds){
+
+        with(BaseSharedPreferences(this)) {
+            if (mSecondTimePremium == true && mFirstTimePremium == true && mFirstTimeApp >= 3 && !isAdsClicking!!
+            ) {
+                if (!isAdsShowing && isAdAvailable()) {
+                    isAdsShowing = true
+                    logD(
+                        TAG,
+                        "NextActivity :Show Ads One--${isAdAvailable()}--${
+                            mOpenAdsShow!!
+                        }"
+                    )
+                    openAdsShow(appOpenAd,onAppOpenShowAds)
+                } else {
+                }
+            } else {
+                if (!isAdsShowing && isAdAvailable() && mFirstTimeApp > 4 && isAdsClicking != true  ) {
+                    logD(
+                        TAG,
+                        "NextActivity :Show Ads Two--${isAdAvailable()}--${
+                            mOpenAdsShow!!
+                        }"
+                    )
+                    isAdsShowing = true
+                    openAdsShow(appOpenAd,onAppOpenShowAds)
+                } else {
+                    logD(
+                        TAG,
+                        "NextActivity :Show Ads Three--${isAdAvailable()}--${
+                            mOpenAdsShow!!
+                        }"
+                    )
+                    if (isAdAvailable() && mOpenAdsShow!!) {
+                        logD(
+                            TAG,
+                            "NextActivity :Show Ads Four--${isAdAvailable()}--${
+                                mOpenAdsShow!!
+                            }"
+                        )
+                        isAdsShowing = true
+                        openAdsShow(appOpenAd,onAppOpenShowAds)
+                    } else {
+                        logD(
+                            TAG,
+                            "NextActivity :Can not show ad.--${isAdAvailable()}--${
+                                mOpenAdsShow!!
+                            }"
+                        )
+                    }
+                }
+            }
+        }
+
+
+    }
+    private fun Context.openAdsShow(appOpenAd: Int,onAppOpenShowAds: OnAppOpenShowAds){
         if (appOpenAd==APP_OPEN_AD_ORIENTATION_PORTRAIT){
             if (mAppOpenAds!=null && mAppOpenAds is AppOpenAd){
                 (mAppOpenAds as AppOpenAd).fullScreenContentCallback=object :FullScreenContentCallback(){
                     override fun onAdDismissedFullScreenContent() {
                         mAppOpenAds=null
+                        isAdsShowing=false
                         onAppOpenShowAds.OnDismissAds()
                     }
 
                     override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                         mAppOpenAds=null
+                        isAdsShowing=false
                         onAppOpenShowAds.OnError()
                     }
 
                     override fun onAdShowedFullScreenContent() {
-
+                        isAdsShowing=true
                     }
                 }
                 (mAppOpenAds as AppOpenAd).show(this as Activity)
             }
-        }else if (mAppOpenAds_LANDSCAPE is AppOpenAd){
+        }
+        else if (mAppOpenAds_LANDSCAPE is AppOpenAd){
             if (mAppOpenAds_LANDSCAPE!=null && mAppOpenAds_LANDSCAPE is AppOpenAd){
                 (mAppOpenAds_LANDSCAPE as AppOpenAd).fullScreenContentCallback=object :FullScreenContentCallback(){
                     override fun onAdDismissedFullScreenContent() {
                         mAppOpenAds_LANDSCAPE=null
+                        isAdsShowing=false
                         onAppOpenShowAds.OnDismissAds()
                     }
 
                     override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                         mAppOpenAds_LANDSCAPE=null
+                        isAdsShowing=false
                         onAppOpenShowAds.OnError()
                     }
 
                     override fun onAdShowedFullScreenContent() {
-
+                        isAdsShowing=true
                     }
                 }
                 (mAppOpenAds_LANDSCAPE as AppOpenAd).show(this as Activity)
@@ -184,6 +250,5 @@ object AppOpenAds {
         }else{
             onAppOpenShowAds.OnDismissAds()
         }
-
     }
 }
