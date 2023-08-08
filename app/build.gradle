@@ -9,8 +9,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-//        applicationId "com.demo.myadsmanage"
-        applicationId "com.crop.photo.image.resize.cut.tools"
+        applicationId "com.demo.myadsmanage"
         minSdk 19
         targetSdk 33
         versionCode 1
