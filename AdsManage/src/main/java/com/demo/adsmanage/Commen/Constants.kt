@@ -32,11 +32,11 @@ import android.graphics.drawable.Drawable
    internal var isSettingNativeShow: Boolean=true
    internal var isCreationNativeShow: Boolean=true
    internal var is_ProgressShow: Boolean=false
-   internal var is_BackAdsShow: Boolean=false
+             var is_BackAdsShow: Boolean=false
     internal var mIsRevenuCat: Boolean? = false
     internal var misSubscription: Boolean? = false
 
-   internal var is_ABTest: Int=0
+            var is_ABTest: Int=0
 
     internal var mPreferences: SharedPreferences? = null
     internal var editor: SharedPreferences.Editor? = null
