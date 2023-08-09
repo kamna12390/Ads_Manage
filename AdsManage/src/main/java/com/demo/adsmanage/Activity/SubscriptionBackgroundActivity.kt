@@ -146,18 +146,18 @@ class SubscriptionBackgroundActivity : BaseSubscriptionActivity() {
                 .equals("BaseActivity")
         ) {
             logD("Subback", "--${BaseSharedPreferences(this).mIS_SUBSCRIBED!!}--${isOnline}")
-            if (!BaseSharedPreferences(this).mIS_SUBSCRIBED!! && isOnline) {
-                AdsManage.ActivityBuilder().Show_InterstitialInterfaceAds(this,false,object :
-                    OnInterAdsShowAds {
-                    override fun OnDismissAds() {
-                        showAppInterstitialAd()
-                    }
-
-                    override fun OnError() {
-                        showAppInterstitialAd()
-                    }
-                })
-            } else {
+//            if (!BaseSharedPreferences(this).mIS_SUBSCRIBED!! && isOnline) {
+//                AdsManage.ActivityBuilder().Show_InterstitialInterfaceAds(this,false,object :
+//                    OnInterAdsShowAds {
+//                    override fun OnDismissAds() {
+//                        showAppInterstitialAd()
+//                    }
+//
+//                    override fun OnError() {
+//                        showAppInterstitialAd()
+//                    }
+//                })
+//            } else {
                 if (intent.getStringExtra("AppOpen").equals("SplashScreen")) {
                     NextActivity()
                 } else if (intent.getStringExtra("AppOpen").equals("SettingsActivity")) {
@@ -167,7 +167,7 @@ class SubscriptionBackgroundActivity : BaseSubscriptionActivity() {
                 } else {
                     showBackPress()
                 }
-            }
+//            }
         }
     }
 
