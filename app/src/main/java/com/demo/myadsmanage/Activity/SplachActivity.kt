@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import com.demo.adsmanage.AdsManage
+import com.demo.adsmanage.InterFace.IsSplashShowAds
 import com.demo.adsmanage.InterFace.OnSplachAds
 import com.demo.adsmanage.SubscriptionBaseClass.SubSplashBaseActivity
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
@@ -18,7 +19,7 @@ class SplachActivity :  SubSplashBaseActivity(), ProductPurchaseHelper.ProductPu
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splach)
         ProductPurchaseHelper.initBillingClient(this, this)
-        AdsManage.ActivityBuilder().Splash_Init(this,"AdsManage","com.demo.myadsmanage.Activity.MainActivity")
+        AdsManage.ActivityBuilder().Splash_Init(this,"AdsManage","com.demo.myadsmanage.Activity.MainActivity",5000,IsSplashShowAds.IsAppOpenAdsORIENTATION_PORTRAIT)
     }
 
     override fun registerPurchases(

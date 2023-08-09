@@ -101,6 +101,7 @@ class myApplication : AppSubscription(), LifecycleObserver,
         )
         AdsManage.ActivityBuilder()
             .ApplicationCall(this)
+            .setIsSubscription(true)
             .setBASIC_SKU("subscribe_monthly_")
             .setPREMIUM_SKU("subscribe_yearly_")
             .setPREMIUM_SIX_SKU("subscribe_monthly_")
@@ -163,7 +164,7 @@ class myApplication : AppSubscription(), LifecycleObserver,
         val cn: ComponentName? = am.getRunningTasks(1)[0].topActivity
         if (!BaseSharedPreferences(this).mIS_SUBSCRIBED!!) {
             if (!isAdsClicking && !IsOutAppPermission && !isAdsShowing
-                && (cn?.className != "com.demo.myadsmanage.Activity")
+                && (cn?.className != "com.demo.myadsmanage.Activity.SplachActivity")
                 && (cn?.className != "com.demo.adsmanage.Activity.SubscriptionBackgroundActivity")
                 && (cn?.className != "com.demo.adsmanage.Activity.SubscriptionActivity")
             ) {

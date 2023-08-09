@@ -14,9 +14,7 @@ import android.view.ViewGroup
 import com.demo.adsmanage.Activity.SubscriptionBackgroundActivity
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBanner
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadFBAdaptiveBanner
-import com.demo.adsmanage.AdsClass.AppOpenAds
 import com.demo.adsmanage.AdsClass.AppOpenAds.loadAppOpenAd
-import com.demo.adsmanage.AdsClass.AppOpenAds.loadFirsttimeAppOpenAd
 import com.demo.adsmanage.AdsClass.AppOpenAds.showAppOpenAd
 import com.demo.adsmanage.AdsClass.InterstitialAds.loadFBInterstitialSd
 import com.demo.adsmanage.AdsClass.InterstitialAds.loadInterstitialAd
@@ -69,15 +67,17 @@ import com.demo.adsmanage.Commen.Constants.mPriceBackground
 import com.demo.adsmanage.Commen.Constants.mPriceLineColor
 import com.demo.adsmanage.Commen.Constants.mPrivacyPolicyURL
 import com.demo.adsmanage.Commen.Constants.mSmallSubLineColor
+import com.demo.adsmanage.Commen.Constants.mSplashDelayTime
 import com.demo.adsmanage.Commen.Constants.mSubLineColor
+import com.demo.adsmanage.Commen.Constants.misSubscription
 import com.demo.adsmanage.Commen.Constants.packagerenlist
+import com.demo.adsmanage.InterFace.IsSplashShowAds
 import com.demo.adsmanage.InterFace.NativeAD
 import com.demo.adsmanage.InterFace.OnAppOpenShowAds
 import com.demo.adsmanage.InterFace.OnInterAdsShowAds
 import com.demo.adsmanage.InterFace.OnInterstitialAds
 import com.demo.adsmanage.InterFace.OnNativeAds
 import com.demo.adsmanage.InterFace.OnRewardedShowAds
-import com.demo.adsmanage.InterFace.OnSplachAds
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
 import com.demo.adsmanage.billing.ProductPurchaseHelper.setSubscriptionKey
 import com.demo.adsmanage.helper.MySharedPreferences.AD_AppOpen
@@ -96,8 +96,6 @@ import com.demo.adsmanage.helper.misOnline
 import com.demo.adsmanage.model.AdsModel
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.FirebaseApp
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -107,7 +105,6 @@ import com.google.gson.GsonBuilder
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import com.revenuecat.purchases.getOfferingsWith
-import io.reactivex.annotations.NonNull
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -314,9 +311,15 @@ object AdsManage {
             BaseSharedPreferences(application).mActivityOpen = boolean
             return this
         }
+        fun setIsSubscription(isSubscription:Boolean):Builder{
+            misSubscription=isSubscription
+            return this
+        }
         abstract fun Subcall(context: Context): Builder
-        fun Splash_Init(context: Context,firebasename:String,mClass:String) {
+        fun Splash_Init(context: Context,firebasename:String,mClass:String,SplashDelayTime:Long,isSplashShowAds: IsSplashShowAds) {
             with(context){
+                mSplashDelayTime=SplashDelayTime
+                val mintent=Intent(context, Class.forName(mClass))
                 FirebaseInstallations.getInstance().id
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -389,36 +392,107 @@ object AdsManage {
                                 }else{
                                     AD_AppOpen
                                 }
-                                if (!BaseSharedPreferences(this).mIS_SUBSCRIBED!!){
-                                    Load_AppOpenAd(context,false,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT)
-                                    Load_InterstitialAd(context,false)
-                                    Handler(mainLooper).postDelayed({
-                                        mSubscriptionFlow(context,mClass)
-                                    }, 5000)
+
+                                if (misSubscription!!){
+                                    if (!BaseSharedPreferences(this).mIS_SUBSCRIBED!!){
+                                        Load_AppOpenAd(context,false,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT)
+                                        Load_InterstitialAd(context,false)
+                                        Handler(mainLooper).postDelayed({
+                                            mSubscriptionFlow(context,mClass,isSplashShowAds)
+                                        }, mSplashDelayTime)
+                                    }else{
+                                        Handler(mainLooper).postDelayed({
+                                            NextScreen(mintent)
+                                        }, mSplashDelayTime)
+                                    }
                                 }else{
-                                    val intent=Intent(context, Class.forName(mClass))
-                                    context.NextScreen(intent)
+                                    SplachToNextScreen(mintent,isSplashShowAds)
                                 }
 
                             }else{
-                                val intent=Intent(context, Class.forName(mClass))
-                                context.NextScreen(intent)
+                                SplachToNextScreen(mintent,isSplashShowAds)
                             }
 
                         }else{
-                            val intent=Intent(context, Class.forName(mClass))
-                            context.NextScreen(intent)
-//                            onSplachAds.OnNextAds()
+                            SplachToNextScreen(mintent,isSplashShowAds)
                         }
                     })
                 } else {
-                    val intent=Intent(context, Class.forName(mClass))
-                    context.NextScreen(intent)
-//                    onSplachAds.OnNextAds()
+                    SplachToNextScreen(mintent,isSplashShowAds)
                 }
             }
         }
-         fun mSubscriptionFlow(context: Context,mclass:String) {
+        private fun Context.SplachToNextScreen(mintent:Intent,isSplashShowAds: IsSplashShowAds){
+            if (isOnline){
+                Load_AppOpenAd(this,false,AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT)
+                Load_InterstitialAd(this,false)
+                    Handler(mainLooper).postDelayed({
+                        if (isSplashShowAds==IsSplashShowAds.IsInterstitialAdsShow){
+                            Show_InterstitialInterfaceAds(this,false,object : OnInterAdsShowAds {
+                                override fun OnDismissAds() {
+                                    NextScreen(mintent)
+                                }
+                                override fun OnError() {
+                                    NextScreen(mintent)
+                                }
+                            })
+                        }else if (isSplashShowAds==IsSplashShowAds.IsAppOpenAdsORIENTATION_LANDSCAPE){
+                            Show_AppOpenAd(this,false, APP_OPEN_AD_ORIENTATION_LANDSCAPE,object : OnAppOpenShowAds {
+                                override fun OnDismissAds() {
+                                    Load_AppOpenAd(this@SplachToNextScreen,false,APP_OPEN_AD_ORIENTATION_LANDSCAPE)
+                                    NextScreen(mintent)
+                                }
+                                override fun OnError() {
+                                    NextScreen(mintent)
+                                }
+                            })
+                        }else{
+                            Show_AppOpenAd(this,false, APP_OPEN_AD_ORIENTATION_PORTRAIT,object : OnAppOpenShowAds {
+                                override fun OnDismissAds() {
+                                    Load_AppOpenAd(this@SplachToNextScreen,false,APP_OPEN_AD_ORIENTATION_PORTRAIT)
+                                    NextScreen(mintent)
+                                }
+                                override fun OnError() {
+                                    NextScreen(mintent)
+                                }
+                            })
+                        }
+                    }, mSplashDelayTime)
+            }else{
+                Handler(mainLooper).postDelayed({
+                    NextScreen(mintent)
+                }, mSplashDelayTime)
+            }
+        }
+        private fun Context.SubToNextScreen(mintent:Intent,isSplashShowAds: IsSplashShowAds){
+            if (isSplashShowAds==IsSplashShowAds.IsInterstitialAdsShow){
+                Show_InterstitialInterfaceAds(this,BaseSharedPreferences(this).mIS_SUBSCRIBED!!,object : OnInterAdsShowAds {
+                    override fun OnDismissAds() {
+                        BaseSharedPreferences(this@SubToNextScreen).mOpenAdsShow = false
+                        NextScreen(mintent)
+                    }
+
+                    override fun OnError() {
+                        BaseSharedPreferences(this@SubToNextScreen).mOpenAdsShow = false
+                        NextScreen(mintent)
+                    }
+                })
+            }else{
+                ActivityBuilder().Show_AppOpenAd(this,BaseSharedPreferences(this).mIS_SUBSCRIBED!!,Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT,object : OnAppOpenShowAds {
+                    override fun OnDismissAds() {
+                        Load_AppOpenAd(this@SubToNextScreen,false,APP_OPEN_AD_ORIENTATION_PORTRAIT)
+                        BaseSharedPreferences(this@SubToNextScreen).mOpenAdsShow = false
+                        NextScreen(mintent)
+                    }
+                    override fun OnError() {
+                        BaseSharedPreferences(this@SubToNextScreen).mOpenAdsShow = false
+                        NextScreen(mintent)
+                    }
+                })
+            }
+
+        }
+         fun mSubscriptionFlow(context: Context,mclass:String,isSplashShowAds: IsSplashShowAds) {
             with(BaseSharedPreferences(context)){
                 if (!mFirstTimePremium!!) {
                     logD(TAG, "->First Day Subscription Screen Open")
@@ -466,19 +540,8 @@ object AdsManage {
                             mOneDay=false
                             logD(TAG, "->Second Day Ads Showing")
                             mOpenAdsShow = true
-                            ActivityBuilder().Show_AppOpenAd(context,mIS_SUBSCRIBED!!,Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT,object : OnAppOpenShowAds {
-                                override fun OnDismissAds() {
-                                    mOpenAdsShow = false
-                                    val intent=Intent(context, Class.forName(mclass))
-                                    context.NextScreen(intent)
-                                }
-
-                                override fun OnError() {
-                                    mOpenAdsShow = false
-                                    val intent=Intent(context, Class.forName(mclass))
-                                    context.NextScreen(intent)
-                                }
-                            })
+                            val intent=Intent(context, Class.forName(mclass))
+                            context.SubToNextScreen(intent,isSplashShowAds)
                         }
                     }
                     else if (mOneDay!! && sdf.parse(mFirstDate!!)!! == day) {
@@ -502,19 +565,8 @@ object AdsManage {
                             //Ads Showing
                             logD(TAG, "->First Day Three Time Ads Showing")
                             mOpenAdsShow = true
-                            ActivityBuilder().Show_AppOpenAd(context,mIS_SUBSCRIBED!!,Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT,object : OnAppOpenShowAds {
-                                override fun OnDismissAds() {
-                                    mOpenAdsShow = false
-                                    val intent=Intent(context, Class.forName(mclass))
-                                    context.NextScreen(intent)
-                                }
-
-                                override fun OnError() {
-                                    mOpenAdsShow = false
-                                    val intent=Intent(context, Class.forName(mclass))
-                                    context.NextScreen(intent)
-                                }
-                            })
+                            val intent=Intent(context, Class.forName(mclass))
+                            context.SubToNextScreen(intent,isSplashShowAds)
 
                         }
 
@@ -525,23 +577,13 @@ object AdsManage {
                         mOpenAdsShow = true
                         mTwoDay=false
                         mOneDay=false
-                        ActivityBuilder().Show_AppOpenAd(context,mIS_SUBSCRIBED!!,Constants.APP_OPEN_AD_ORIENTATION_PORTRAIT,object : OnAppOpenShowAds {
-                            override fun OnDismissAds() {
-                                mOpenAdsShow = false
-                                val intent=Intent(context, Class.forName(mclass))
-                                context.NextScreen(intent)
-                            }
-
-                            override fun OnError() {
-                                mOpenAdsShow = false
-                                val intent=Intent(context, Class.forName(mclass))
-                                context.NextScreen(intent)
-                            }
-                        })
+                        val intent=Intent(context, Class.forName(mclass))
+                        context.SubToNextScreen(intent,isSplashShowAds)
                     }
                 }
             }
         }
+
         fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){

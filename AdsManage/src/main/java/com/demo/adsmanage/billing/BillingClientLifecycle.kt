@@ -100,7 +100,7 @@ class BillingClientLifecycle private constructor(
 
         val result = billingClient.isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS)
 
-        Log.d(TAG, "onBillingSetupFinished: $responseCode $debugMessage")
+        Log.d(TAG, "onBillingSetupFinished 1: $responseCode $debugMessage")
         if (responseCode == BillingClient.BillingResponseCode.OK && result.responseCode == BillingClient.BillingResponseCode.OK) {
             // The billing client is ready. You can query purchases here.
             querySkuDetails()
@@ -313,8 +313,10 @@ class BillingClientLifecycle private constructor(
             Log.d(TAG, "processPurchases: Purchase list has not changed")
             return
         }
-        purchaseUpdateEvent.postValue(purchasesList!!)
-        purchases.postValue(purchasesList!!)
+        purchasesList?.let {
+            purchaseUpdateEvent.postValue(purchasesList!!)
+            purchases.postValue(purchasesList!!)
+        }
         purchasesList?.let {
             logAcknowledgementStatus(purchasesList)
         }

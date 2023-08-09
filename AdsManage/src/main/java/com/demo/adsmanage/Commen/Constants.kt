@@ -34,6 +34,7 @@ import android.graphics.drawable.Drawable
    internal var is_ProgressShow: Boolean=false
    internal var is_BackAdsShow: Boolean=false
     internal var mIsRevenuCat: Boolean? = false
+    internal var misSubscription: Boolean? = false
 
    internal var is_ABTest: Int=0
 
@@ -44,6 +45,7 @@ import android.graphics.drawable.Drawable
     val APP_OPEN_AD_ORIENTATION_LANDSCAPE = 2
 
    internal  var mInterstitialAds_clickCount=0
+   internal  var mSplashDelayTime:Long=0
 
     internal var mHEIGHT:Int?=0
     internal var mWIDTH:Int?=0
