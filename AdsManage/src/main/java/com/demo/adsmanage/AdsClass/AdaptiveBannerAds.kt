@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import com.demo.adsmanage.Commen.Constants
 import com.demo.adsmanage.Commen.Constants.isAdsClicking
 import com.demo.adsmanage.Commen.Constants.isShowAdmobAds
+import com.demo.adsmanage.InterFace.IsShowBannerAds
 import com.demo.adsmanage.helper.MySharedPreferences
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Banner
 import com.demo.adsmanage.helper.MySharedPreferences.FB_Banner
@@ -41,7 +42,7 @@ object AdaptiveBannerAds {
         val madView = AdView(this)
         madView.adUnitId = id!!
         madView.setAdSize(getAdSize(view)!!)
-//        madView.setAdSize(AdSize.SMART_BANNER)
+//        madView.setAdSize(AdSize.MEDIUM_RECTANGLE)
 //        val screenWidth = resources.displayMetrics.widthPixels
 //        val adSize = getAdaptiveAdSize(screenWidth)
 
@@ -86,6 +87,64 @@ object AdaptiveBannerAds {
         view.removeAllViews()
         view.addView(madView,params)
     }
+    internal   fun Context.loadAdaptiveCustiomBanner(
+        view: ViewGroup,isShowBannerAds: IsShowBannerAds) {
+        logD(TAG, "ADSMANAGE  AdaptiveBannerAds AdmodID->${AD_Banner}--${AdSize.BANNER.height}--${AdSize.BANNER.width}")
+        var id = if (Constants.isTestMode!!) {
+            "ca-app-pub-3940256099942544/6300978111"
+        } else{
+            AD_Banner
+        }
+        val massize=if (isShowBannerAds==IsShowBannerAds.MEDIUM_RECTANGLE){
+            AdSize.MEDIUM_RECTANGLE
+        }else if (isShowBannerAds==IsShowBannerAds.LEADERBOARD){
+            AdSize.LEADERBOARD
+        }else if (isShowBannerAds==IsShowBannerAds.SMART_BANNER){
+            AdSize.SMART_BANNER
+        }else if (isShowBannerAds==IsShowBannerAds.FULL_BANNER){
+            AdSize.FULL_BANNER
+        }else{
+            AdSize.BANNER
+        }
+        val madView = AdView(this)
+        madView.adUnitId = id!!
+        madView.setAdSize(massize)
+        madView.loadAd(AdRequest.Builder().build())
+        madView.adListener = object : AdListener() {
+            override fun onAdClicked() {
+                isAdsClicking =true
+                logD(
+                    TAG,
+                    "ADSMANAGE: onAdClicked:AdaptiveBannerAds->Admob"
+                )
+            }
+
+            override fun onAdClosed() {
+                logD(
+                    TAG,
+                    "ADSMANAGE: onAdClosed:AdaptiveBannerAds->Admob"
+                )
+            }
+
+            override fun onAdLoaded() {
+                logD(
+                    TAG,
+                    "ADSMANAGE: onAdLoaded:AdaptiveBannerAds->Admob"
+                )
+            }
+
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                logD(
+                    TAG,
+                    "ADSMANAGE: onAdFailedToLoad:AdaptiveBannerAds->Admob--${p0.message}"
+                )
+            }
+        }
+        val params: LinearLayout.LayoutParams =
+            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        view.removeAllViews()
+        view.addView(madView,params)
+    }
     internal   fun Context.getAdaptiveAdSize(screenWidth: Int): AdSize? {
         // Set the ad width based on the screen width
         var adWidth = screenWidth
@@ -117,6 +176,63 @@ object AdaptiveBannerAds {
         }
         logD(TAG, "ADSMANAGE  AdaptiveBannerAds Facebook->$id---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.height}---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.width}")
         val madView = com.facebook.ads.AdView(this, id, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
+        view.addView(madView)
+        val adListener: com.facebook.ads.AdListener = object : com.facebook.ads.AdListener {
+            override fun onError(p0: Ad?, p1: AdError?) {
+//                if (!isShowAdmobAds){
+//                    loadAdaptiveBanner(is_SUBSCRIBED,view, MySharedPreferences.AD_Banner!!)
+//                }
+                logD(
+                    TAG,
+                    "ADSMANAGE: onAdFailedToLoad:AdaptiveBannerAds->Facebook"
+                )
+            }
+
+            override fun onAdLoaded(p0: Ad?) {
+                logD(
+                    TAG,
+                    "ADSMANAGE: onAdLoaded:AdaptiveBannerAds->Facebook"
+                )
+            }
+
+            override fun onAdClicked(p0: Ad?) {
+                isAdsClicking =true
+                logD(
+                    TAG,
+                    "ADSMANAGE: onAdClicked:AdaptiveBannerAds->Facebook"
+                )
+            }
+
+            override fun onLoggingImpression(p0: Ad?) {
+
+            }
+
+
+        }
+        val loadAdConfig = madView.buildLoadAdConfig().withAdListener(adListener).build()
+        madView.loadAd(loadAdConfig)
+    }
+
+    internal fun Context.loadFBCustomAdaptiveBanner(
+        view: ViewGroup,isShowBannerAds: IsShowBannerAds) {
+        var id = if (Constants.isTestMode!!) {
+            "YOUR_PLACEMENT_ID"
+        } else{
+            FB_Banner
+        }
+        logD(TAG, "ADSMANAGE  AdaptiveBannerAds Facebook->$id---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.height}---${com.facebook.ads.AdSize.BANNER_HEIGHT_50.width}")
+//        val madView = com.facebook.ads.AdView(this, id, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
+        val madView=if (isShowBannerAds==IsShowBannerAds.MEDIUM_RECTANGLE){
+            com.facebook.ads.AdView(this, id, com.facebook.ads.AdSize.RECTANGLE_HEIGHT_250)
+        }else if (isShowBannerAds==IsShowBannerAds.LEADERBOARD){
+            com.facebook.ads.AdView(this, id, com.facebook.ads.AdSize.BANNER_HEIGHT_90)
+        }else if (isShowBannerAds==IsShowBannerAds.SMART_BANNER){
+            com.facebook.ads.AdView(this, id, com.facebook.ads.AdSize.BANNER_HEIGHT_90)
+        }else if (isShowBannerAds==IsShowBannerAds.FULL_BANNER){
+            com.facebook.ads.AdView(this, id, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
+        }else{
+            com.facebook.ads.AdView(this, id, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
+        }
         view.addView(madView)
         val adListener: com.facebook.ads.AdListener = object : com.facebook.ads.AdListener {
             override fun onError(p0: Ad?, p1: AdError?) {
@@ -196,4 +312,5 @@ private fun Context.getAdSize(fAdContainer: ViewGroup): AdSize {
     }
     val adWidth = (adWidthPixels / density).toInt()
     return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
+
 }

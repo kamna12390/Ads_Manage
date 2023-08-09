@@ -13,7 +13,9 @@ import android.util.Log
 import android.view.ViewGroup
 import com.demo.adsmanage.Activity.SubscriptionBackgroundActivity
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBanner
+import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveCustiomBanner
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadFBAdaptiveBanner
+import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadFBCustomAdaptiveBanner
 import com.demo.adsmanage.AdsClass.AppOpenAds.loadAppOpenAd
 import com.demo.adsmanage.AdsClass.AppOpenAds.showAppOpenAd
 import com.demo.adsmanage.AdsClass.InterstitialAds.loadFBInterstitialSd
@@ -71,6 +73,7 @@ import com.demo.adsmanage.Commen.Constants.mSplashDelayTime
 import com.demo.adsmanage.Commen.Constants.mSubLineColor
 import com.demo.adsmanage.Commen.Constants.misSubscription
 import com.demo.adsmanage.Commen.Constants.packagerenlist
+import com.demo.adsmanage.InterFace.IsShowBannerAds
 import com.demo.adsmanage.InterFace.IsSplashShowAds
 import com.demo.adsmanage.InterFace.NativeAD
 import com.demo.adsmanage.InterFace.OnAppOpenShowAds
@@ -315,6 +318,21 @@ object AdsManage {
             misSubscription=isSubscription
             return this
         }
+        fun setAdmobAdsID(AppOpenID:String?="",BannerAdaptiveID:String?="",InterstitialID:String?="",NativeAdsID:String?="",RewardedID:String?=""): Builder {
+            AD_Interstitial=InterstitialID!!
+            AD_Banner=BannerAdaptiveID
+            AD_AppOpen=AppOpenID
+            AD_NativeAds=NativeAdsID!!
+            AD_RewardedAds=RewardedID
+            return this
+        }
+        fun setFBAdsID(fbInterstitial:String?="",fbBanner:String?="",fbNativeAds:String?="",fbRewardedAds:String?=""): Builder {
+            FB_Interstitial=fbInterstitial
+            FB_Banner=fbBanner
+            FB_NativeAds=fbNativeAds
+            FB_RewardedAds=fbRewardedAds
+            return this
+        }
         abstract fun Subcall(context: Context): Builder
         fun Splash_Init(context: Context,firebasename:String,mClass:String,SplashDelayTime:Long,isSplashShowAds: IsSplashShowAds) {
             with(context){
@@ -373,20 +391,20 @@ object AdsManage {
                                     is_ABTest=mIs_ABTest!!
 //                                    logD("YagnikABtest","->${mIs_ABTest}")
                                 }
-                                with(lessons.appChanging!!.admob!!){
-                                    AD_Interstitial=adInterstitial!!
-                                    AD_Banner=adBanner
-                                    AD_AppOpen=adAppOpen
-                                    AD_NativeAds=adNativeAds!!
-                                    AD_RewardedAds=adRewardedAds
+//                                with(lessons.appChanging!!.admob!!){
+//                                    AD_Interstitial=adInterstitial!!
+//                                    AD_Banner=adBanner
+//                                    AD_AppOpen=adAppOpen
+//                                    AD_NativeAds=adNativeAds!!
+//                                    AD_RewardedAds=adRewardedAds
 
-                                }
-                                with(lessons.appChanging!!.faceBook!!){
-                                    FB_Interstitial=fbInterstitial
-                                    FB_Banner=fbBanner
-                                    FB_NativeAds=fbNativeAds
-                                    FB_RewardedAds=fbRewardedAds
-                                }
+//                                }
+//                                with(lessons.appChanging!!.faceBook!!){
+//                                    FB_Interstitial=fbInterstitial
+//                                    FB_Banner=fbBanner
+//                                    FB_NativeAds=fbNativeAds
+//                                    FB_RewardedAds=fbRewardedAds
+//                                }
                                 val id=if (isTestMode) {
                                     "ca-app-pub-3940256099942544/3419835294"
                                 }else{
@@ -594,6 +612,21 @@ object AdsManage {
                             return
                         }
                         loadFBAdaptiveBanner(view)
+                    }
+                }
+
+            }
+        }
+        fun Show_CustomAdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,isShowBannerAds: IsShowBannerAds){
+            with(context){
+                if (isOnline && !is_SUBSCRIBED){
+                    if (isShowAdmobAds && AD_Banner!=null && AD_Banner!=Noads){
+                        loadAdaptiveCustiomBanner(view,isShowBannerAds)
+                    }else {
+                        if(FB_Banner==null && FB_Banner==Noads){
+                            return
+                        }
+                    loadFBCustomAdaptiveBanner(view,isShowBannerAds)
                     }
                 }
 

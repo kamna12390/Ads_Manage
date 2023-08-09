@@ -101,7 +101,9 @@ class myApplication : AppSubscription(), LifecycleObserver,
         )
         AdsManage.ActivityBuilder()
             .ApplicationCall(this)
-            .setIsSubscription(true)
+            .setAdmobAdsID("","","","","")
+            .setFBAdsID("YOUR_PLACEMENT_ID","YOUR_PLACEMENT_ID","YOUR_PLACEMENT_ID","YOUR_PLACEMENT_ID")
+            .setIsSubscription(false)
             .setBASIC_SKU("subscribe_monthly_")
             .setPREMIUM_SKU("subscribe_yearly_")
             .setPREMIUM_SIX_SKU("subscribe_monthly_")
@@ -137,6 +139,7 @@ class myApplication : AppSubscription(), LifecycleObserver,
         registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
 
+        AdSettings.addTestDevice("d2ff32f8-c1aa-4948-84fd-e8828e352847")
         AdSettings.addTestDevice("369fac27-5a40-4d91-9e86-bc0a7d221977")
         AdSettings.addTestDevice("c12a6da6-0672-4112-97c6-078dc7774b7b")
         AdSettings.addTestDevice("2a2fe541-44d6-40b2-8db8-6b6c30bb1946")
