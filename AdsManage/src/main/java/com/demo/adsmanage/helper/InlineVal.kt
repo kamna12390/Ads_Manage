@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -30,6 +31,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.updateLayoutParams
 import com.demo.adsmanage.R
 import kotlin.math.roundToInt
+
 
 /**
  * ToDo.. Return true if internet or wi-fi connection is working fine
@@ -229,9 +231,10 @@ fun setStatusBarGradiant(
         val window = activity.window
         val background: Drawable = activity.resources.getDrawable(R.drawable.bg_status_)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.statusBarColor = activity.resources.getColor(android.R.color.black)
-        window.navigationBarColor = activity.resources.getColor(android.R.color.black!!)
-        window.setBackgroundDrawable(background)
+        val colorDrawable = ColorDrawable(NavigationBarColor!!)
+//            window.statusBarColor = activity.resources.getColor(android.R.color.holo_red_dark)
+        window.navigationBarColor = activity.resources.getColor(NavigationBarColor)
+        window.setBackgroundDrawable(colorDrawable)
 //        if (mSYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION == true){
 //            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 //        }
