@@ -77,6 +77,7 @@ import com.demo.adsmanage.InterFace.IsShowBannerAds
 import com.demo.adsmanage.InterFace.IsSplashShowAds
 import com.demo.adsmanage.InterFace.NativeAD
 import com.demo.adsmanage.InterFace.OnAppOpenShowAds
+import com.demo.adsmanage.InterFace.OnCustomBanner
 import com.demo.adsmanage.InterFace.OnInterAdsShowAds
 import com.demo.adsmanage.InterFace.OnInterstitialAds
 import com.demo.adsmanage.InterFace.OnNativeAds
@@ -617,16 +618,16 @@ object AdsManage {
 
             }
         }
-        fun Show_CustomAdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,isShowBannerAds: IsShowBannerAds){
+        fun Show_CustomAdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,isShowBannerAds: IsShowBannerAds,marginWidth:Int,maxHeight:Int,onCustomBanner: OnCustomBanner){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
                     if (isShowAdmobAds && AD_Banner!=null && AD_Banner!=Noads){
-                        loadAdaptiveCustiomBanner(view,isShowBannerAds)
+                        loadAdaptiveCustiomBanner(view,isShowBannerAds,marginWidth,maxHeight,onCustomBanner)
                     }else {
                         if(FB_Banner==null && FB_Banner==Noads){
                             return
                         }
-                    loadFBCustomAdaptiveBanner(view,isShowBannerAds)
+                    loadFBCustomAdaptiveBanner(view,isShowBannerAds,onCustomBanner)
                     }
                 }
 

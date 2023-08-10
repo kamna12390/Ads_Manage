@@ -110,7 +110,7 @@ class myApplication : AppSubscription(), LifecycleObserver,
             .setIsRevenuCat(false)
             .setRevenuCatPurchase_ID("goog_IvcEUSwmDPbXkcYQpLvPKAhtbfO")
             .setRevenuCatDefaultList(mPackagerenList)
-            .setPrivacyPolicyURL("https://agneshpipaliya.blogspot.com/2019/03/image-crop-n-wallpaper-changer.html")
+            .setPrivacyPolicyURL("https://imagecropnwallpaperchanger.blogspot.com/2023/07/privacy-policy.html")
             .setBackgroundSubscreenLine(mBasePremiumLine)
             .setSubScreenOfLine(mMainPremiumLine)
             .setAppName(this.resources.getString(R.string.app_name), com.demo.adsmanage.R.color.mcolorPrimary)

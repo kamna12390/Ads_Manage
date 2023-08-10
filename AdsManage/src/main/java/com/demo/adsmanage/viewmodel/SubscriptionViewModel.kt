@@ -1,13 +1,17 @@
 package com.demo.adsmanage.viewmodel
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.demo.adsmanage.Activity.PrivacyActivity
@@ -44,6 +48,8 @@ import com.demo.adsmanage.helper.logD
 import com.demo.adsmanage.helper.setCloseIconPosition
 import com.demo.adsmanage.helper.showToast
 import com.demo.adsmanage.Activity.TermsActivity
+import com.demo.adsmanage.Commen.Constants
+import com.demo.adsmanage.R
 import org.jetbrains.anko.textColor
 
 
@@ -567,7 +573,12 @@ private fun initListener() {
         }
 
         txtBtnPrivacy.click {
-            mActivity.startActivity(Intent(mActivity, PrivacyActivity::class.java))
+//            mActivity.startActivity(Intent(mActivity, PrivacyActivity::class.java))
+
+            val url= Constants.mPrivacyPolicyURL
+            val customIntent = CustomTabsIntent.Builder()
+            customIntent.setToolbarColor(ContextCompat.getColor(mActivity, R.color.white))
+            openCustomTab(mActivity, customIntent.build(), Uri.parse(url))
         }
         txtBtnCondition.click {
             mActivity.startActivity(Intent(mActivity, TermsActivity::class.java))
@@ -591,7 +602,24 @@ private fun initListener() {
             }
         }
     }
-}
 
+
+
+}
+    fun openCustomTab(activity: Activity, customTabsIntent: CustomTabsIntent, uri: Uri?) {
+        // package name is the default package
+        // for our custom chrome tab
+        val packageName = "com.android.chrome"
+
+        // we are checking if the package name is not null
+        // if package name is not null then we are calling
+        // that custom chrome tab with intent by passing its
+        // package name.
+        customTabsIntent.intent.setPackage(packageName)
+
+        // in that custom tab intent we are passing
+        // our url which we have to browse.
+        customTabsIntent.launchUrl(activity, uri!!)
+    }
 
 }

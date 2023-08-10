@@ -11,6 +11,7 @@ import com.demo.adsmanage.Activity.SubscriptionBackgroundActivity
 import com.demo.adsmanage.AdsManage
 import com.demo.adsmanage.InterFace.IsShowBannerAds
 import com.demo.adsmanage.InterFace.NativeAD
+import com.demo.adsmanage.InterFace.OnCustomBanner
 import com.demo.adsmanage.InterFace.OnInterAdsShowAds
 import com.demo.adsmanage.InterFace.OnNativeAds
 import com.demo.adsmanage.InterFace.OnRewardedShowAds
@@ -38,26 +39,26 @@ class MainActivity : BaseActivity() {
 //        binding.clThree.visibility = View.GONE
 
         with(AdsManage.ActivityBuilder()) {
-            Load_HOME_NativeAds(
-                this@MainActivity,
-                false,
-                binding.adsNativeOne,
-                R.layout.ads_native_layout,
-                R.layout.ads_fbnative_layout,
-                NativeAD.NativeFull,
-                object : OnNativeAds {
-                    override fun OnNativeAdsShow() {
-                        binding.clOne.visibility = View.VISIBLE
-                    }
-
-                    override fun OnNativeAdsClick() {
-
-                    }
-
-                    override fun OnNativeAdsError() {
-                        binding.clOne.visibility = View.GONE
-                    }
-                })
+//            Load_HOME_NativeAds(
+//                this@MainActivity,
+//                false,
+//                binding.adsNativeOne,
+//                R.layout.ads_native_layout,
+//                R.layout.ads_fbnative_layout,
+//                NativeAD.NativeFull,
+//                object : OnNativeAds {
+//                    override fun OnNativeAdsShow() {
+//                        binding.clOne.visibility = View.VISIBLE
+//                    }
+//
+//                    override fun OnNativeAdsClick() {
+//
+//                    }
+//
+//                    override fun OnNativeAdsError() {
+//                        binding.clOne.visibility = View.GONE
+//                    }
+//                })
 
 //            Load_CREATION_NativeAds(
 //                this@MainActivity,
@@ -79,7 +80,19 @@ class MainActivity : BaseActivity() {
 //                        binding.clThree.visibility = View.GONE
 //                    }
 //                })
-            Show_CustomAdaptiveBanner(this@MainActivity,false, binding.adsNativeThree,IsShowBannerAds.MEDIUM_RECTANGLE)
+            Show_CustomAdaptiveBanner(this@MainActivity,false, binding.adsNativeThree,IsShowBannerAds.MEDIUM_RECTANGLE,5,300,object : OnCustomBanner {
+                override fun OnNativeAdsShow() {
+
+                }
+
+                override fun OnNativeAdsClick() {
+
+                }
+
+                override fun OnNativeAdsError() {
+
+                }
+            })
             Load_InterstitialAd(this@MainActivity, false)
         }
         Handler().postDelayed(object : Runnable {

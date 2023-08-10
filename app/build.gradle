@@ -71,6 +71,10 @@ dependencies {
     //Billing
     implementation "com.android.billingclient:billing-ktx:5.0.0"
 
+    implementation 'androidx.browser:browser:1.2.0'
+
+
+
 
 
 }
