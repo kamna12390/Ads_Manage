@@ -9,7 +9,9 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        tools:layout_editor_absoluteX="66dp"
+        tools:layout_editor_absoluteY="-318dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -43,6 +45,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_interstitial_two" />
+
             <Button
                 android:id="@+id/btn_Rewarde_four"
                 android:layout_width="wrap_content"
@@ -51,6 +54,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_interstitial_three" />
+
             <Button
                 android:id="@+id/btn_sub"
                 android:layout_width="wrap_content"
@@ -59,6 +63,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_Rewarde_four" />
+
             <FrameLayout
                 android:id="@+id/ads_adaptivebanner"
                 android:layout_width="match_parent"
@@ -67,14 +72,16 @@
                 android:foregroundGravity="center"
                 android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/cl_one"
-                app:layout_constraintTop_toBottomOf="@+id/btn_sub"/>
+                app:layout_constraintTop_toBottomOf="@+id/btn_sub" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_one"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_280sdp"
                 android:layout_margin="@dimen/_3sdp"
-                android:padding="@dimen/_3sdp"
                 android:background="@drawable/ads_border"
+                android:padding="@dimen/_3sdp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_two"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,9 +103,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_280sdp"
                 android:layout_margin="@dimen/_3sdp"
-                android:padding="@dimen/_3sdp"
                 android:background="@drawable/ads_border"
-               app:layout_constraintBottom_toTopOf="@+id/cl_three"
+                android:padding="@dimen/_3sdp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_three"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cl_one">
@@ -112,14 +120,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_three"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_3sdp"
-                android:padding="@dimen/_3sdp"
                 android:background="@drawable/ads_border"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="@dimen/_3sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cl_two">

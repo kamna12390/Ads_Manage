@@ -145,17 +145,15 @@ class SubscriptionBackgroundActivityViewModel(
                                     }/Month."
                                     txtUnlockKriadl.text = "Continue"
                                 } else {
-                                    textPrice.text =
-                                        "${
-                                            getSubTrial(
-                                                subscriptionManager.getString(PreferencesKeys.MONTH_TRIAL_PERIOD,"")
-                                            )
-                                        } FREE trial, then ${
-                                            price[PREMIUM_SIX_SKU]?.replace(
-                                                ".00",
-                                                ""
-                                            )
-                                        }/Month."
+
+                                    textPrice.text="${ price[PREMIUM_SIX_SKU]?.replace(
+                                        ".00",
+                                        ""
+                                    )}/Month after ${
+                                        getSubTrial(
+                                            subscriptionManager.getString(PreferencesKeys.MONTH_TRIAL_PERIOD,"")
+                                        )
+                                    } FREE trial"
                                     txtUnlockKriadl.text = "start free trial"
                                 }
                             }

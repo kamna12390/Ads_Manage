@@ -58,6 +58,7 @@ dependencies {
     def lifecycle_version = '2.2.0'
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation project(path: ':AdsManage')
+    implementation 'com.github.kamaravichow:admob-templates-android:1.1.3'
     //FaceBook Ads
     implementation 'com.facebook.android:audience-network-sdk:6.12.0'
     //Admob Ads
