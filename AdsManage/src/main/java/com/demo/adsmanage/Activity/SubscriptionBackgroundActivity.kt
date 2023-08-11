@@ -35,7 +35,7 @@ class SubscriptionBackgroundActivity : BaseSubscriptionActivity() {
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        hideSystemUI()
+        hideSystemUI()
         setStatusBarGradiant(this,NavigationBarColor,true)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_subscription_background)
         binding.viewmodel = SubscriptionBackgroundActivityViewModel(binding, this,liveDataPeriod,liveDataPrice,subscriptionManager,object :SubscriptionBackgroundActivityViewModel.IsSelecterdPlan{

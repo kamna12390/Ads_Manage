@@ -5,15 +5,12 @@ import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
 import android.view.ViewGroup
-import android.view.WindowMetrics
-import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.getAdSize
 import com.demo.adsmanage.Commen.Constants
 import com.demo.adsmanage.Commen.Constants.isAdsClicking
-import com.demo.adsmanage.Commen.Constants.isShowAdmobAds
 import com.demo.adsmanage.InterFace.IsShowBannerAds
 import com.demo.adsmanage.InterFace.OnCustomBanner
-import com.demo.adsmanage.helper.MySharedPreferences
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Banner
 import com.demo.adsmanage.helper.MySharedPreferences.FB_Banner
 import com.demo.adsmanage.helper.displayMetrics
@@ -26,7 +23,6 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
-import org.jetbrains.anko.windowManager
 
 
 object AdaptiveBannerAds {
@@ -91,7 +87,17 @@ object AdaptiveBannerAds {
     }
     internal   fun Context.loadAdaptiveCustiomBanner(
         view: ViewGroup,isShowBannerAds: IsShowBannerAds,marginWidth:Int,maxHeight:Int,onCustomBanner: OnCustomBanner) {
-        logD(TAG, "ADSMANAGE  AdaptiveBannerAds AdmodID->${AD_Banner}--${AdSize.BANNER.height}--${AdSize.BANNER.width}")
+        val display =(this as Activity). windowManager.defaultDisplay
+        val outMetrics = DisplayMetrics()
+        display.getMetrics(outMetrics)
+        val density = outMetrics.density
+        var adWidthPixels = view.width.toFloat()
+        if (adWidthPixels == 0f) {
+            adWidthPixels = outMetrics.widthPixels.toFloat()
+        }
+        var adWidth = (adWidthPixels / density).toInt()
+        var adHight=adWidth-150
+        logD(TAG, "ADSMANAGE  AdaptiveBannerAds AdmodID->${AD_Banner}--${adWidth}--${adHight}")
         var id = if (Constants.isTestMode!!) {
             "ca-app-pub-3940256099942544/6300978111"
         } else{
@@ -111,7 +117,11 @@ object AdaptiveBannerAds {
 //        }
         val madView = AdView(this)
         madView.adUnitId = id!!
-        madView.setAdSize(getAdSize(view,maxHeight,marginWidth))
+
+        val customAdSize: AdSize = CustomAdSizeHelper.getCustomAdSize(adWidth, adHight)
+//        madView.setAdSize(getAdSize(view,maxHeight,marginWidth))
+        val adSize = AdSize(adWidth, adHight)
+        madView.setAdSize(adSize)
         madView.loadAd(AdRequest.Builder().build())
         madView.adListener = object : AdListener() {
             override fun onAdClicked() {
@@ -151,6 +161,12 @@ object AdaptiveBannerAds {
         view.removeAllViews()
         view.addView(madView,params)
     }
+
+    object CustomAdSizeHelper {
+        fun getCustomAdSize(width: Int, height: Int): AdSize {
+            return AdSize(width, height)
+        }
+    }
     private fun Context.getAdSize(fAdContainer: ViewGroup,marginWidth:Int,maxHeight:Int): AdSize {
         val display =(this as Activity). windowManager.defaultDisplay
         val outMetrics = DisplayMetrics()
@@ -161,7 +177,7 @@ object AdaptiveBannerAds {
             adWidthPixels = outMetrics.widthPixels.toFloat()
         }
         var adWidth = (adWidthPixels / density).toInt()
-        adWidth -= marginWidth
+//        adWidth -= marginWidth
         return AdSize.getInlineAdaptiveBannerAdSize(adWidth,maxHeight)
     }
 

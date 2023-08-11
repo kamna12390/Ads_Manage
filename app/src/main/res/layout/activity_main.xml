@@ -132,7 +132,7 @@
 
                 <FrameLayout
                     android:id="@+id/ads_native_three"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -35,7 +35,7 @@ class SubscriptionActivity : BaseSubscriptionActivity() , ProductPurchaseHelper.
     @SuppressLint("SetTextI18n", "NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        hideSystemUI()
+        hideSystemUI()
         setStatusBarGradiant(this, NavigationBarColor,true)
         logD("DeviceHeightAndWeight", "height==${mHEIGHT}===weight==${mWIDTH}")
         binding = DataBindingUtil.setContentView(this, R.layout.activity_subscription)
