@@ -246,7 +246,7 @@ class SubscriptionViewModel (
                                         getSubTrial(
                                             subscriptionManager.getString(PreferencesKeys.MONTH_TRIAL_PERIOD,"")
                                         )
-                                    } Free Trial"
+                                    } FREE Trial"
                                 }
                             }
                         }

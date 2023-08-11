@@ -236,7 +236,7 @@ fun setStatusBarGradiant(
         window.navigationBarColor = activity.resources.getColor(NavigationBarColor)
         window.setBackgroundDrawable(colorDrawable)
 //        if (mSYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION == true){
-//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 //        }
 
     }

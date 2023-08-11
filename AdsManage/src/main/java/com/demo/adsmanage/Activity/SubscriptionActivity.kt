@@ -64,7 +64,7 @@ class SubscriptionActivity : BaseSubscriptionActivity() , ProductPurchaseHelper.
             if (mHEIGHT == 592 && mWIDTH == 360) {
                 newLayoutParams.bottomMargin = (getNavigationBarHeight() + 83)
             } else {
-                newLayoutParams.bottomMargin = (10)
+                newLayoutParams.bottomMargin = (getNavigationBarHeight()+30)
             }
 
             binding.mCLPriceLayer.layoutParams = newLayoutParams
