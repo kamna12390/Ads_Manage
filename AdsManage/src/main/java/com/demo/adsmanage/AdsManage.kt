@@ -134,6 +134,7 @@ object AdsManage {
         Builder() {
         override fun Subcall(context: Context): Builder {
             if (mIsRevenuCat!!){
+                logD(TAG,"Purchase_ID->$Purchase_ID")
                 Purchases.debugLogsEnabled = true
                 Purchases.configure(
                     PurchasesConfiguration.Builder(context, Purchase_ID).build()

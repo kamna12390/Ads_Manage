@@ -19,7 +19,8 @@ class SplachActivity :  SubSplashBaseActivity(), ProductPurchaseHelper.ProductPu
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splach)
         ProductPurchaseHelper.initBillingClient(this, this)
-        AdsManage.ActivityBuilder().Splash_Init(this,"AdsManage","com.demo.myadsmanage.Activity.MainActivity",2000,IsSplashShowAds.IsAppOpenAdsORIENTATION_PORTRAIT)
+        AdsManage.ActivityBuilder()
+            .Splash_Init(this,"AdsManage","com.demo.myadsmanage.Activity.MainActivity",2000,IsSplashShowAds.IsAppOpenAdsORIENTATION_PORTRAIT)
     }
 
     override fun registerPurchases(

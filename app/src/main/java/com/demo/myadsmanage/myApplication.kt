@@ -103,7 +103,7 @@ class myApplication : AppSubscription(), LifecycleObserver,
             .ApplicationCall(this)
             .setAdmobAdsID("ca-app-pub-3940256099942544/3419835294","ca-app-pub-3940256099942544/9214589741","ca-app-pub-3940256099942544/1033173712","ca-app-pub-3940256099942544/2247696110","ca-app-pub-3940256099942544/5224354917")
             .setFBAdsID("YOUR_PLACEMENT_ID","YOUR_PLACEMENT_ID","YOUR_PLACEMENT_ID","YOUR_PLACEMENT_ID")
-            .setIsSubscription(false)
+            .setIsSubscription(true)
             .setBASIC_SKU("subscribe_monthly_")
             .setPREMIUM_SKU("subscribe_yearly_")
             .setPREMIUM_SIX_SKU("subscribe_monthly_")

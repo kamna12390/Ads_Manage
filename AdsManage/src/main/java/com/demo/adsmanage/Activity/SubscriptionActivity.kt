@@ -61,11 +61,11 @@ class SubscriptionActivity : BaseSubscriptionActivity() , ProductPurchaseHelper.
         if (getNavigationBarHeight() >= 20) {
             val newLayoutParams: ConstraintLayout.LayoutParams =
                 binding.mCLPriceLayer.layoutParams as ConstraintLayout.LayoutParams
-//            if (mHEIGHT == 592 && mWIDTH == 360) {
-//                newLayoutParams.bottomMargin = (getNavigationBarHeight() + 83)
-//            } else {
+            if (mHEIGHT == 592 && mWIDTH == 360) {
+                newLayoutParams.bottomMargin = (getNavigationBarHeight() + 83)
+            } else {
                 newLayoutParams.bottomMargin = (10)
-//            }
+            }
 
             binding.mCLPriceLayer.layoutParams = newLayoutParams
         } else {

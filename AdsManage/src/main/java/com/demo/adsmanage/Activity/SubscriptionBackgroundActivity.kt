@@ -77,11 +77,11 @@ class SubscriptionBackgroundActivity : BaseSubscriptionActivity() {
         if (getNavigationBarHeight() >= 20) {
             val newLayoutParams: ConstraintLayout.LayoutParams =
                 binding.mCLCenter.layoutParams as ConstraintLayout.LayoutParams
-//            if (mHEIGHT == 592 && mWIDTH == 360) {
-//                newLayoutParams.bottomMargin = (getNavigationBarHeight() + 80)
-//            } else {
+            if (mHEIGHT == 592 && mWIDTH == 360) {
+                newLayoutParams.bottomMargin = (getNavigationBarHeight() + 80)
+            } else {
                 newLayoutParams.bottomMargin = (10)
-//            }
+            }
             binding.mCLCenter.layoutParams = newLayoutParams
 //            logD("IsCheckNavigation", "IsNavigationHegiht->${getNavigationBarHeight()}")
         } else {
