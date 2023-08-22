@@ -86,7 +86,7 @@ object AdaptiveBannerAds {
         view.addView(madView,params)
     }
     internal   fun Context.loadAdaptiveCustiomBanner(
-        view: ViewGroup,isShowBannerAds: IsShowBannerAds,marginWidth:Int,maxHeight:Int,onCustomBanner: OnCustomBanner) {
+        view: ViewGroup,isShowBannerAds: IsShowBannerAds,onCustomBanner: OnCustomBanner) {
         val display =(this as Activity). windowManager.defaultDisplay
         val outMetrics = DisplayMetrics()
         display.getMetrics(outMetrics)
@@ -104,24 +104,24 @@ object AdaptiveBannerAds {
 //            AD_Banner
             "ca-app-pub-7441144866662686/3939039229"
         }
-//        val massize=if (isShowBannerAds==IsShowBannerAds.MEDIUM_RECTANGLE){
-//            AdSize.MEDIUM_RECTANGLE
-//        }else if (isShowBannerAds==IsShowBannerAds.LEADERBOARD){
-//            AdSize.LEADERBOARD
-//        }else if (isShowBannerAds==IsShowBannerAds.SMART_BANNER){
-//            AdSize.SMART_BANNER
-//        }else if (isShowBannerAds==IsShowBannerAds.FULL_BANNER){
-//            AdSize.FULL_BANNER
-//        }else{
-//            AdSize.BANNER
-//        }
+        val massize=if (isShowBannerAds==IsShowBannerAds.MEDIUM_RECTANGLE){
+            AdSize.MEDIUM_RECTANGLE
+        }else if (isShowBannerAds==IsShowBannerAds.LEADERBOARD){
+            AdSize.LEADERBOARD
+        }else if (isShowBannerAds==IsShowBannerAds.SMART_BANNER){
+            AdSize.SMART_BANNER
+        }else if (isShowBannerAds==IsShowBannerAds.FULL_BANNER){
+            AdSize.FULL_BANNER
+        }else{
+            AdSize.BANNER
+        }
         val madView = AdView(this)
         madView.adUnitId = id!!
 
         val customAdSize: AdSize = CustomAdSizeHelper.getCustomAdSize(adWidth, adHight)
 //        madView.setAdSize(getAdSize(view,maxHeight,marginWidth))
         val adSize = AdSize(adWidth, adHight)
-        madView.setAdSize(adSize)
+        madView.setAdSize(massize)
         madView.loadAd(AdRequest.Builder().build())
         madView.adListener = object : AdListener() {
             override fun onAdClicked() {

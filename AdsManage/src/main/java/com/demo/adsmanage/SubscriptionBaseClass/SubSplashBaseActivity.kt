@@ -12,13 +12,13 @@ import com.demo.adsmanage.Commen.Constants.BASIC_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SIX_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
 //import com.example.demo.subscriptionbackgroundflow.AppSubscription
-//import com.demo.adsmanage.billing.BillingClientLifecycle
+//import com.demo.adsmanage.mbilling.BillingClientLifecycle
 //import com.example.demo.subscriptionbackgroundflow.constants.Constants
 import com.demo.adsmanage.SubscriptionBaseClass.manager.PreferencesKeys
 import com.demo.adsmanage.SubscriptionBaseClass.manager.SubscriptionManager
 import com.demo.adsmanage.viewmodel.AppSubscription
-import com.demo.adsmanage.billing.BillingClientLifecycle
-import com.demo.adsmanage.billing.BillingViewModel
+import com.demo.adsmanage.mbilling.BillingClientLifecycle
+import com.demo.adsmanage.mbilling.BillingViewModel
 
 //import com.example.demo.subscriptionbackgroundflow.viewmodel.BillingViewModel
 
@@ -99,7 +99,7 @@ abstract class SubSplashBaseActivity : AppCompatActivity() {
             for (purchase in purchaseList) {
                 Log.d(TAG, "registerPurchases: ${purchase.purchaseState} $purchase")
                 paymentState = purchase.purchaseState
-                orderId = purchase.orderId
+                orderId = purchase.orderId!!
                 sku = purchase.skus[0]
             }
 

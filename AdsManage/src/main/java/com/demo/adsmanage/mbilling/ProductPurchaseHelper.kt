@@ -1,4 +1,4 @@
-package com.demo.adsmanage.billing
+package com.demo.adsmanage.mbilling
 
 import android.app.Activity
 import android.content.Context
@@ -9,7 +9,7 @@ import androidx.annotation.Keep
 import androidx.annotation.NonNull
 import com.android.billingclient.api.*
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
-import com.demo.adsmanage.billing.repository.AdsManagerRepo
+import com.demo.adsmanage.mbilling.repository.AdsManagerRepo
 import com.demo.adsmanage.helper.logE
 import com.demo.adsmanage.helper.logI
 import com.demo.adsmanage.helper.logW
@@ -142,11 +142,11 @@ object ProductPurchaseHelper {
                                 BillingClient.BillingResponseCode.BILLING_UNAVAILABLE,
                                 BillingClient.BillingResponseCode.USER_CANCELED -> {
                                     if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
-                                        Toast.makeText(context, "You've cancelled the Google play billing process", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "You've cancelled the Google play mbilling process", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                                 else -> {
-                                    Toast.makeText(context, "Item not found or Google play billing error", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Item not found or Google play mbilling error", Toast.LENGTH_SHORT).show()
                                 }
                             }
                             logResponseCode(responseMsg = "onPurchasesUpdated: ", billingResult = billingResult)
@@ -236,7 +236,7 @@ object ProductPurchaseHelper {
                     }
                 }
             } else {
-                Log.e(TAG, "initSubscription: =>> The billing client is not ready")
+                Log.e(TAG, "initSubscription: =>> The mbilling client is not ready")
                 onComplete.invoke()
             }
         } else {
@@ -420,7 +420,7 @@ object ProductPurchaseHelper {
                 }
             }
         } else {
-            logE(tag = TAG, message = "$methodName: =>> The billing client is not ready")
+            logE(tag = TAG, message = "$methodName: =>> The mbilling client is not ready")
             onComplete.invoke()
         }
     }
@@ -584,7 +584,7 @@ object ProductPurchaseHelper {
             CoroutineScope(Dispatchers.Main).launch {
                 Toast.makeText(activity, "The Billing Client Is Not Ready", Toast.LENGTH_SHORT).show()
             }
-            logE(tag = TAG, message = "$methodName: =>> The billing client is not ready")
+            logE(tag = TAG, message = "$methodName: =>> The mbilling client is not ready")
         }
     }
     //</editor-fold>

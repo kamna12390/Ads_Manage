@@ -80,7 +80,7 @@ class MainActivity : BaseActivity() {
 //                        binding.clThree.visibility = View.GONE
 //                    }
 //                })
-            Show_CustomAdaptiveBanner(this@MainActivity,false, binding.adsNativeThree,IsShowBannerAds.MEDIUM_RECTANGLE,0,150,object : OnCustomBanner {
+            Show_CustomAdaptiveBanner(this@MainActivity,false, binding.adsNativeThree,IsShowBannerAds.MEDIUM_RECTANGLE,object : OnCustomBanner {
                 override fun OnNativeAdsShow() {
 
                 }

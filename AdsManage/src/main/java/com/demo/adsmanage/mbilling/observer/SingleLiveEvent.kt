@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.demo.adsmanage.billing.observer
+package com.demo.adsmanage.mbilling.observer
 
 import android.util.Log
 import androidx.annotation.MainThread

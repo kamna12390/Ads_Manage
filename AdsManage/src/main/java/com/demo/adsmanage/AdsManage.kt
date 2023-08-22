@@ -83,7 +83,7 @@ import com.demo.adsmanage.InterFace.OnInterstitialAds
 import com.demo.adsmanage.InterFace.OnNativeAds
 import com.demo.adsmanage.InterFace.OnRewardedShowAds
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
-import com.demo.adsmanage.billing.ProductPurchaseHelper.setSubscriptionKey
+import com.demo.adsmanage.mbilling.ProductPurchaseHelper.setSubscriptionKey
 import com.demo.adsmanage.helper.MySharedPreferences.AD_AppOpen
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Banner
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Interstitial
@@ -134,57 +134,58 @@ object AdsManage {
         Builder() {
         override fun Subcall(context: Context): Builder {
             if (mIsRevenuCat!!){
-                logD(TAG,"Purchase_ID->$Purchase_ID")
+                logD(TAG,"SubscriptionList Purchase_ID->$Purchase_ID")
+
                 Purchases.debugLogsEnabled = true
                 Purchases.configure(
                     PurchasesConfiguration.Builder(context, Purchase_ID).build()
                 )
-//                Purchases.sharedInstance.getOfferingsWith({ error ->
-//                    // An error occurred
-//                    logD("SubscriptionList", "error->${error.message}")
-//                }) { offerings ->
-//                    offerings.current?.availablePackages?.takeUnless { it.isNullOrEmpty() }?.let {
-//                        // Display packages for sale
-////                    logD(
-////                        "yagnik",
-////                        "suc-> 1 ${"originalPrice :- " + it[0].product.originalPrice + "\n" + "freeTrialPeriod :- " + it[0].product.freeTrialPeriod + "\n" + "title :- " + it[0].product.title + "\n" + "price :- " + it[0].product.price + "\n" + "description :- " + it[0].product.description + "\n" + "subscriptionPeriod :- " + it[0].product.subscriptionPeriod + "\n" + "sku :- " + it[0].product.sku + "\n"}"
-////                    )
-//                        logD("SubscriptionList", "1->${it[0].product.sku}--2->${it[1].product.sku}--3->${it[0].product.sku}")
-//                        packagerenlist?.clear()
-//                        Constants.BASIC_SKU = it[0].product.sku
-//                        Constants.PREMIUM_SKU = it[1].product.sku
-//                        Constants.PREMIUM_SIX_SKU = it[0].product.sku
-//
-//                        packagerenlist = arrayListOf()
-//                        packagerenlist?.add(
-//                            Constants.PackagesRen(
-//                                it[0].product.originalPrice.toString(),
-//                                it[0].product.freeTrialPeriod.toString(),
-//                                it[0].product.title,
-//                                it[0].product.price,
-//                                it[0].product.description,
-//                                it[0].product.subscriptionPeriod.toString(),
-//                                it[0].product.sku
-//                            )
-//                        )
-//                        packagerenlist?.add(
-//                            Constants.PackagesRen(
-//                                it[1].product.originalPrice.toString(),
-//                                it[1].product.freeTrialPeriod.toString(),
-//                                it[1].product.title,
-//                                it[1].product.price,
-//                                it[1].product.description,
-//                                it[1].product.subscriptionPeriod.toString(),
-//                                it[1].product.sku
-//                            )
-//                        )
-////                    logD(
-////                        "yagnik",
-////                        "suc-> 2 ${"originalPrice :- " + it[1].product.originalPrice + "\n" + "freeTrialPeriod :- " + it[1].product.freeTrialPeriod + "\n" + "title :- " + it[1].product.title + "\n" + "price :- " + it[1].product.price + "\n" + "description :- " + it[1].product.description + "\n" + "subscriptionPeriod :- " + it[1].product.subscriptionPeriod + "\n" + "sku :- " + it[1].product.sku + "\n"}"
-////                    )
-//
-//                    }
-//                }
+                Purchases.sharedInstance.getOfferingsWith({ error ->
+                    // An error occurred
+                    logD("SubscriptionList", "error->${error.message}")
+                }) { offerings ->
+                    offerings.current?.availablePackages?.takeUnless { it.isNullOrEmpty() }?.let {
+                        // Display packages for sale
+//                    logD(
+//                        "yagnik",
+//                        "suc-> 1 ${"originalPrice :- " + it[0].product.originalPrice + "\n" + "freeTrialPeriod :- " + it[0].product.freeTrialPeriod + "\n" + "title :- " + it[0].product.title + "\n" + "price :- " + it[0].product.price + "\n" + "description :- " + it[0].product.description + "\n" + "subscriptionPeriod :- " + it[0].product.subscriptionPeriod + "\n" + "sku :- " + it[0].product.sku + "\n"}"
+//                    )
+                        logD("SubscriptionList", "->${it.toString()}")
+                        packagerenlist?.clear()
+                        Constants.BASIC_SKU = it[0].product.sku
+                        Constants.PREMIUM_SKU = it[1].product.sku
+                        Constants.PREMIUM_SIX_SKU = it[0].product.sku
+
+                        packagerenlist = arrayListOf()
+                        packagerenlist?.add(
+                            Constants.PackagesRen(
+                                it[0].product.originalPrice.toString(),
+                                it[0].product.freeTrialPeriod.toString(),
+                                it[0].product.title,
+                                it[0].product.price,
+                                it[0].product.description,
+                                it[0].product.subscriptionPeriod.toString(),
+                                it[0].product.sku
+                            )
+                        )
+                        packagerenlist?.add(
+                            Constants.PackagesRen(
+                                it[1].product.originalPrice.toString(),
+                                it[1].product.freeTrialPeriod.toString(),
+                                it[1].product.title,
+                                it[1].product.price,
+                                it[1].product.description,
+                                it[1].product.subscriptionPeriod.toString(),
+                                it[1].product.sku
+                            )
+                        )
+                    logD(
+                        "yagnik",
+                        "suc-> 2 ${"originalPrice :- " + it[1].product.originalPrice + "\n" + "freeTrialPeriod :- " + it[1].product.freeTrialPeriod + "\n" + "title :- " + it[1].product.title + "\n" + "price :- " + it[1].product.price + "\n" + "description :- " + it[1].product.description + "\n" + "subscriptionPeriod :- " + it[1].product.subscriptionPeriod + "\n" + "sku :- " + it[1].product.sku + "\n"}"
+                    )
+
+                    }
+                }
             }else{
                 setSubscriptionKey(BASIC_SKU, PREMIUM_SIX_SKU, PREMIUM_SKU)
             }
@@ -619,11 +620,11 @@ object AdsManage {
 
             }
         }
-        fun Show_CustomAdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,isShowBannerAds: IsShowBannerAds,marginWidth:Int,maxHeight:Int,onCustomBanner: OnCustomBanner){
+        fun Show_CustomAdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,isShowBannerAds: IsShowBannerAds,onCustomBanner: OnCustomBanner){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
                     if (isShowAdmobAds && AD_Banner!=null && AD_Banner!=Noads){
-                        loadAdaptiveCustiomBanner(view,isShowBannerAds,marginWidth,maxHeight,onCustomBanner)
+                        loadAdaptiveCustiomBanner(view,isShowBannerAds,onCustomBanner)
                     }else {
                         if(FB_Banner==null && FB_Banner==Noads){
                             return

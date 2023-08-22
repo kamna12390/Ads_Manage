@@ -70,6 +70,8 @@ dependencies {
 
     //Billing
     implementation "com.android.billingclient:billing-ktx:5.0.0"
+//    def billing_version = "4.0.0"
+//    implementation "com.android.billingclient:mbilling:$billing_version"
 
     implementation 'androidx.browser:browser:1.2.0'
 

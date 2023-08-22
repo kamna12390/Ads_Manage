@@ -9,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
-import com.demo.adsmanage.Commen.Constants
 import com.demo.adsmanage.Commen.Constants.NavigationBarColor
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
 import com.demo.adsmanage.Commen.Constants.mHEIGHT
@@ -18,7 +17,7 @@ import com.demo.adsmanage.R
 import com.demo.adsmanage.SubscriptionBaseClass.BaseSubscriptionActivity
 import com.demo.adsmanage.viewmodel.SubscriptionViewModel
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
-import com.demo.adsmanage.billing.ProductPurchaseHelper
+import com.demo.adsmanage.mbilling.ProductPurchaseHelper
 import com.demo.adsmanage.databinding.ActivitySubscriptionBinding
 import com.demo.adsmanage.helper.getNavigationBarHeight
 import com.demo.adsmanage.helper.getStatusBarHeight

@@ -1,4 +1,4 @@
-package com.demo.adsmanage.billing
+package com.demo.adsmanage.mbilling
 
 import android.app.Application
 import android.util.Log
@@ -10,12 +10,12 @@ import com.demo.adsmanage.Commen.Constants.PREMIUM_SIX_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
 import com.demo.adsmanage.viewmodel.AppSubscription
 import com.demo.adsmanage.db.data.SubscriptionStatus
-import com.demo.adsmanage.billing.observer.SingleLiveEvent
+import com.demo.adsmanage.mbilling.observer.SingleLiveEvent
 
 class BillingViewModel(application : Application) : AndroidViewModel(application) {
 
     /**
-     * Local billing purchase data.
+     * Local mbilling purchase data.
      */
     private val purchases = (application as AppSubscription).billingClientLifecycle.purchases
 
@@ -176,7 +176,7 @@ class BillingViewModel(application : Application) : AndroidViewModel(application
             null
         }
 
-        // Third, create the billing parameters for the purchase.
+        // Third, create the mbilling parameters for the purchase.
         if (sku == oldSkuToBeReplaced) {
             Log.i("Billing", "Re-subscribe.")
         } else if (PREMIUM_SKU == sku && BASIC_SKU == oldSkuToBeReplaced) {
@@ -200,7 +200,7 @@ class BillingViewModel(application : Application) : AndroidViewModel(application
 //        }
         val billingParams = billingBuilder.build()
 
-        // Send the parameters to the Activity in order to launch the billing flow.
+        // Send the parameters to the Activity in order to launch the mbilling flow.
         buyEvent.postValue(billingParams)
     }
 

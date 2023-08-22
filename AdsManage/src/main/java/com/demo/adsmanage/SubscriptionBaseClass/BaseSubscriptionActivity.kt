@@ -11,11 +11,11 @@ import com.android.billingclient.api.SkuDetails
 import com.demo.adsmanage.Commen.Constants.BASIC_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SIX_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
-import com.demo.adsmanage.billing.BillingClientLifecycle
+import com.demo.adsmanage.mbilling.BillingClientLifecycle
 import com.demo.adsmanage.SubscriptionBaseClass.manager.PreferencesKeys
 import com.demo.adsmanage.SubscriptionBaseClass.manager.SubscriptionManager
 import com.demo.adsmanage.viewmodel.AppSubscription
-import com.demo.adsmanage.billing.BillingViewModel
+import com.demo.adsmanage.mbilling.BillingViewModel
 
 abstract class BaseSubscriptionActivity : AppCompatActivity() {
 
@@ -92,7 +92,7 @@ abstract class BaseSubscriptionActivity : AppCompatActivity() {
             registerPurchases(it)
         })
 
-        // Launch the billing flow when the user clicks a button to buy something.
+        // Launch the mbilling flow when the user clicks a button to buy something.
         mBillingViewModel.buyEvent.observe(this, Observer {
             it?.let {
                 billingClientLifecycle.launchBillingFlow(this, it)
@@ -150,7 +150,7 @@ abstract class BaseSubscriptionActivity : AppCompatActivity() {
             Log.d(TAG, "registerPurchases: ${purchaseList.size}")
             if (it.isNotEmpty()) {
                 subscriptionManager.setSubscribe(true)
-                onPurchases(it[0].orderId,it[0].skus[0])
+                onPurchases(it[0].orderId!!,it[0].skus[0])
             } else {
                 subscriptionManager.setSubscribe(false)
             }

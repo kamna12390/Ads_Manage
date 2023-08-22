@@ -3,6 +3,7 @@ package com.demo.adsmanage.viewmodel
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
@@ -32,7 +33,6 @@ import com.demo.adsmanage.Commen.Constants.packagerenlist
 import com.demo.adsmanage.SubscriptionBaseClass.manager.PreferencesKeys
 import com.demo.adsmanage.SubscriptionBaseClass.manager.SubscriptionManager
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
-import com.demo.adsmanage.billing.ProductPurchaseHelper.getProductInfo
 import com.demo.adsmanage.databinding.ActivitySubscriptionBackgroundBinding
 import com.demo.adsmanage.helper.IconPosition
 import com.demo.adsmanage.helper.click
@@ -41,6 +41,9 @@ import com.demo.adsmanage.helper.isOnline
 import com.demo.adsmanage.helper.logD
 import com.demo.adsmanage.helper.setCloseIconPosition
 import com.demo.adsmanage.helper.showToast
+import com.demo.adsmanage.mbilling.ProductPurchaseHelper.getProductInfo
+import com.google.firebase.analytics.FirebaseAnalytics
+
 import org.jetbrains.anko.textColor
 
 class SubscriptionBackgroundActivityViewModel(
@@ -51,6 +54,7 @@ class SubscriptionBackgroundActivityViewModel(
     var subscriptionManager: SubscriptionManager,
     var isSelecterdPlan: IsSelecterdPlan
 ) : ViewModel() {
+    var mFirebaseAnalytics: FirebaseAnalytics? = null
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
     fun isPiePlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
     val idname = arrayOf("_one", "_two", "_three","_four","_five","_six","_seven","_eight")
@@ -65,16 +69,68 @@ class SubscriptionBackgroundActivityViewModel(
     }
     fun onMain(){
 //        InterstitialAds().loadInterstitialAd(mActivity)
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(mActivity)
         setUI()
         setSubScriptionUI()
         setLineView()
         initListener()
     }
+//    val itemJeggings = Bundle().apply {
+//        putString(FirebaseAnalytics.Param.ITEM_ID, "SKU_123")
+//        putString(FirebaseAnalytics.Param.ITEM_VARIANT, "Monthly")
+//        putDouble(FirebaseAnalytics.Param.VALUE, (8*80).toDouble())
+//    }
+    val itemJeggings = Bundle().apply {
+        putString(FirebaseAnalytics.Param.ITEM_ID, "SKU_123")
+        putString(FirebaseAnalytics.Param.ITEM_NAME, "jeggings")
+        putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "pants")
+        putString(FirebaseAnalytics.Param.ITEM_VARIANT, "black")
+        putString(FirebaseAnalytics.Param.ITEM_BRAND, "Google")
+        putDouble(FirebaseAnalytics.Param.PRICE, 9.99)
+    }
+    val itemJeggingsCart = Bundle(itemJeggings).apply {
+        putLong(FirebaseAnalytics.Param.QUANTITY, 1)
+    }
+    @SuppressLint("InvalidAnalyticsName")
     fun initListener() {
         binding.ivClose.click {
             isSelecterdPlan.monBackPress()
         }
         binding.mCLUnlockLayout.click {
+            val productBundle =  Bundle()
+//            productBundle.putString("product_id", "sku1234")
+//            productBundle.putString("product_name", "Monthly")
+//            productBundle.putDouble("price", (8*80).toDouble())
+//            productBundle.putString("product_name", "sku1234");
+//            productBundle.putString("purchase_type", "Monthly");
+//            val bundle = Bundle()
+//            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "sku1234")
+//            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "In App Purchase")
+//            bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Monthly")
+//            bundle.putString(FirebaseAnalytics.Param.CURRENCY, "USD")
+            val bundle = Bundle()
+            bundle.putString("IsCheckPurchaseEvent", "IsVerent")
+            mFirebaseAnalytics!!.logEvent("IsCheckPurchaseEvent", bundle)
+
+//            IsCheckPurchaseEvent
+//            mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.PURCHASE) {
+//                param(FirebaseAnalytics.Param.TRANSACTION_ID, "T12345")
+//                param(FirebaseAnalytics.Param.AFFILIATION, "Google Store")
+//                param(FirebaseAnalytics.Param.CURRENCY, "USD")
+//                param(FirebaseAnalytics.Param.VALUE, 14.98)
+//                param(FirebaseAnalytics.Param.TAX, 2.58)`
+//                param(FirebaseAnalytics.Param.SHIPPING, 5.34)
+//                param(FirebaseAnalytics.Param.COUPON, "SUMMER_FUN")
+//                param(FirebaseAnalytics.Param.ITEMS, arrayOf(itemJeggingsCart))
+//            }
+//            mFirebaseAnalytics!!.logEvent("purchase_event_check") {
+//                param(FirebaseAnalytics.Param.ITEMS, arrayOf(productBundle))
+//            }
+//            mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.PURCHASE) {
+//                param(FirebaseAnalytics.Param.ITEMS, arrayOf(itemJeggings))
+//            }
+//            mFirebaseAnalytics!!.logEvent("purchase_event_check", productBundle)
+            mActivity.showToast("Click.", android.widget.Toast.LENGTH_SHORT)
             if (mActivity.isOnline) {
                 isSelecterdPlan.monMonthPlan()
 

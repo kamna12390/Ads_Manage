@@ -1,17 +1,15 @@
 package com.demo.myadsmanage.Activity
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.Purchase
 import com.demo.adsmanage.AdsManage
 import com.demo.adsmanage.InterFace.IsSplashShowAds
-import com.demo.adsmanage.InterFace.OnSplachAds
 import com.demo.adsmanage.SubscriptionBaseClass.SubSplashBaseActivity
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
-import com.demo.adsmanage.billing.ProductPurchaseHelper
-import com.demo.adsmanage.billing.repository.AdsManagerRepo
+import com.demo.adsmanage.mbilling.ProductPurchaseHelper
+import com.demo.adsmanage.mbilling.repository.AdsManagerRepo
 import com.demo.myadsmanage.R
 
 class SplachActivity :  SubSplashBaseActivity(), ProductPurchaseHelper.ProductPurchaseListener {
@@ -33,7 +31,7 @@ class SplachActivity :  SubSplashBaseActivity(), ProductPurchaseHelper.ProductPu
         BaseSharedPreferences(this).mIS_SUBSCRIBED=isSubscribe
     }
 
-    override fun onPurchasedSuccess(purchase: com.android.billingclient.api.Purchase) {
+    override fun onPurchasedSuccess(purchase: Purchase) {
 
     }
 
@@ -41,7 +39,7 @@ class SplachActivity :  SubSplashBaseActivity(), ProductPurchaseHelper.ProductPu
 
     }
 
-    override fun onBillingSetupFinished(billingResult: com.android.billingclient.api.BillingResult) {
+    override fun onBillingSetupFinished(billingResult: BillingResult) {
         ProductPurchaseHelper.initProductsKeys(this) {
             val sub = !AdsManagerRepo(this).isNeedToShowAds()
             BaseSharedPreferences(this).mIS_SUBSCRIBED=sub

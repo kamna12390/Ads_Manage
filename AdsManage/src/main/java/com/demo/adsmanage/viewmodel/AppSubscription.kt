@@ -3,8 +3,8 @@ package com.demo.adsmanage.viewmodel
 import android.app.Application
 import com.demo.adsmanage.Commen.Constants.mHEIGHT
 import com.demo.adsmanage.Commen.Constants.mWIDTH
-import com.demo.adsmanage.billing.BillingClientLifecycle
-import com.demo.adsmanage.billing.repository.DataRepository
+import com.demo.adsmanage.mbilling.BillingClientLifecycle
+import com.demo.adsmanage.mbilling.repository.DataRepository
 import com.demo.adsmanage.db.AppDatabase
 import com.demo.adsmanage.db.data.LocalDataSource
 import com.demo.adsmanage.db.executors.AppExecutors

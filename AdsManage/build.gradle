@@ -69,10 +69,12 @@ dependencies {
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
 
     //Billing
-    implementation "com.android.billingclient:billing-ktx:5.0.0"
+    implementation "com.android.billingclient:billing-ktx:6.0.0"
 
     //Revenucat
     implementation 'com.revenuecat.purchases:purchases:5.4.0'
+//    implementation 'com.revenuecat.purchases:purchases:6.0.0'
+
 
     //view Model
     implementation 'androidx.fragment:fragment-ktx:1.6.1'

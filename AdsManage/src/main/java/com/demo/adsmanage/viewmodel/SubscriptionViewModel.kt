@@ -14,7 +14,6 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.demo.adsmanage.Activity.PrivacyActivity
 import com.demo.adsmanage.Activity.SubscriptionActivity.Companion.plans
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SIX_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
@@ -36,7 +35,7 @@ import com.demo.adsmanage.Commen.Constants.mSubLineColor
 import com.demo.adsmanage.Commen.Constants.packagerenlist
 import com.demo.adsmanage.SubscriptionBaseClass.manager.PreferencesKeys
 import com.demo.adsmanage.SubscriptionBaseClass.manager.SubscriptionManager
-import com.demo.adsmanage.billing.ProductPurchaseHelper.getProductInfo
+import com.demo.adsmanage.mbilling.ProductPurchaseHelper.getProductInfo
 import com.demo.adsmanage.databinding.ActivitySubscriptionBinding
 import com.demo.adsmanage.helper.IconPosition
 import com.demo.adsmanage.helper.click

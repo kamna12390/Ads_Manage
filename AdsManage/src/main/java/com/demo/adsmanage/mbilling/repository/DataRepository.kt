@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.demo.adsmanage.billing.repository
+package com.demo.adsmanage.mbilling.repository
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -23,7 +23,7 @@ import com.android.billingclient.api.Purchase
 import com.demo.adsmanage.Commen.Constants.BASIC_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SIX_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
-import com.demo.adsmanage.billing.BillingClientLifecycle
+import com.demo.adsmanage.mbilling.BillingClientLifecycle
 import com.demo.adsmanage.db.data.ContentResource
 import com.demo.adsmanage.db.data.LocalDataSource
 import com.demo.adsmanage.db.data.SubscriptionStatus

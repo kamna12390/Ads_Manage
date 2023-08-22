@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.demo.adsmanage.billing
+package com.demo.adsmanage.mbilling
 
 import com.android.billingclient.api.Purchase
 import com.demo.adsmanage.Commen.Constants.BASIC_SKU

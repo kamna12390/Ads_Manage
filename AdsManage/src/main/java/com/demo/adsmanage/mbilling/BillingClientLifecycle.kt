@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.demo.adsmanage.billing
+package com.demo.adsmanage.mbilling
 
 import android.app.Activity
 import android.app.Application
@@ -27,7 +27,7 @@ import com.android.billingclient.api.*
 import com.demo.adsmanage.Commen.Constants.BASIC_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SIX_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
-import com.demo.adsmanage.billing.observer.SingleLiveEvent
+import com.demo.adsmanage.mbilling.observer.SingleLiveEvent
 
 class BillingClientLifecycle private constructor(
     private val app: Application
@@ -102,7 +102,7 @@ class BillingClientLifecycle private constructor(
 
         Log.d(TAG, "onBillingSetupFinished 1: $responseCode $debugMessage")
         if (responseCode == BillingClient.BillingResponseCode.OK && result.responseCode == BillingClient.BillingResponseCode.OK) {
-            // The billing client is ready. You can query purchases here.
+            // The mbilling client is ready. You can query purchases here.
             querySkuDetails()
             queryPurchases()
         }else{
@@ -234,6 +234,21 @@ class BillingClientLifecycle private constructor(
         Log.d(TAG, "queryPurchases: SUBS is")
 //        Log.d(TAG, "queryPurchases: SUBS is--${billingClient.queryPurchases(BillingClient.SkuType.SUBS)}")
 //        val result = billingClient.queryPurchases(BillingClient.SkuType.SUBS)
+//        if (result == null) {
+//            Log.i(TAG, "queryPurchases: null purchase result")
+//            processPurchases(null)
+//        } else {
+//            if (result.purchasesList == null) {
+//                Log.i(TAG, "queryPurchases: null purchase list")
+//                processPurchases(null)
+//            } else {
+//                Log.i(TAG, "queryPurchases:  else null purchase list")
+//                processPurchases(result.purchasesList)
+//            }
+//        }
+
+
+        // TODO: Yagnik  12/08/2023 Sunday
         billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder()
             .setProductType(BillingClient.ProductType.SUBS)
             .build()
@@ -247,18 +262,6 @@ class BillingClientLifecycle private constructor(
                 Log.i(TAG, "queryPurchases: null purchase result")
             }
         }
-//        if (result == null) {
-//            Log.i(TAG, "queryPurchases: null purchase result")
-//            processPurchases(null)
-//        } else {
-//            if (result.purchasesList == null) {
-//                Log.i(TAG, "queryPurchases: null purchase list")
-//                processPurchases(null)
-//            } else {
-//                Log.i(TAG, "queryPurchases:  else null purchase list")
-//                processPurchases(result.purchasesList)
-//            }
-//        }
     }
 
     /**
@@ -333,7 +336,7 @@ class BillingClientLifecycle private constructor(
     /**
      * Log the number of purchases that are acknowledge and not acknowledged.
      *
-     * https://developer.android.com/google/play/billing/billing_library_releases_notes#2_0_acknowledge
+     * https://developer.android.com/google/play/mbilling/billing_library_releases_notes#2_0_acknowledge
      *
      * When the purchase is first received, it will not be acknowledge.
      * This application sends the purchase token to the server for registration. After the
@@ -354,7 +357,7 @@ class BillingClientLifecycle private constructor(
     }
 
     /**
-     * Launching the billing flow.
+     * Launching the mbilling flow.
      *
      * Launching the UI to make a purchase requires a reference to the Activity.
      */
@@ -376,7 +379,7 @@ class BillingClientLifecycle private constructor(
     /**
      * Acknowledge a purchase.
      *
-     * https://developer.android.com/google/play/billing/billing_library_releases_notes#2_0_acknowledge
+     * https://developer.android.com/google/play/mbilling/billing_library_releases_notes#2_0_acknowledge
      *
      * Apps should acknowledge the purchase after confirming that the purchase token
      * has been associated with a user. This app only acknowledges purchases after
