@@ -80,7 +80,7 @@ class SubscriptionBackgroundActivity : BaseSubscriptionActivity() {
             if (mHEIGHT == 592 && mWIDTH == 360) {
                 newLayoutParams.bottomMargin = (getNavigationBarHeight() + 80)
             } else {
-                newLayoutParams.bottomMargin = (getNavigationBarHeight()+30)
+                newLayoutParams.bottomMargin = (getNavigationBarHeight()+50)
             }
             binding.mCLCenter.layoutParams = newLayoutParams
 //            logD("IsCheckNavigation", "IsNavigationHegiht->${getNavigationBarHeight()}")

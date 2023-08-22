@@ -97,40 +97,6 @@ class SubscriptionBackgroundActivityViewModel(
             isSelecterdPlan.monBackPress()
         }
         binding.mCLUnlockLayout.click {
-            val productBundle =  Bundle()
-//            productBundle.putString("product_id", "sku1234")
-//            productBundle.putString("product_name", "Monthly")
-//            productBundle.putDouble("price", (8*80).toDouble())
-//            productBundle.putString("product_name", "sku1234");
-//            productBundle.putString("purchase_type", "Monthly");
-//            val bundle = Bundle()
-//            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "sku1234")
-//            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "In App Purchase")
-//            bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "Monthly")
-//            bundle.putString(FirebaseAnalytics.Param.CURRENCY, "USD")
-            val bundle = Bundle()
-            bundle.putString("IsCheckPurchaseEvent", "IsVerent")
-            mFirebaseAnalytics!!.logEvent("IsCheckPurchaseEvent", bundle)
-
-//            IsCheckPurchaseEvent
-//            mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.PURCHASE) {
-//                param(FirebaseAnalytics.Param.TRANSACTION_ID, "T12345")
-//                param(FirebaseAnalytics.Param.AFFILIATION, "Google Store")
-//                param(FirebaseAnalytics.Param.CURRENCY, "USD")
-//                param(FirebaseAnalytics.Param.VALUE, 14.98)
-//                param(FirebaseAnalytics.Param.TAX, 2.58)`
-//                param(FirebaseAnalytics.Param.SHIPPING, 5.34)
-//                param(FirebaseAnalytics.Param.COUPON, "SUMMER_FUN")
-//                param(FirebaseAnalytics.Param.ITEMS, arrayOf(itemJeggingsCart))
-//            }
-//            mFirebaseAnalytics!!.logEvent("purchase_event_check") {
-//                param(FirebaseAnalytics.Param.ITEMS, arrayOf(productBundle))
-//            }
-//            mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.PURCHASE) {
-//                param(FirebaseAnalytics.Param.ITEMS, arrayOf(itemJeggings))
-//            }
-//            mFirebaseAnalytics!!.logEvent("purchase_event_check", productBundle)
-            mActivity.showToast("Click.", android.widget.Toast.LENGTH_SHORT)
             if (mActivity.isOnline) {
                 isSelecterdPlan.monMonthPlan()
 
