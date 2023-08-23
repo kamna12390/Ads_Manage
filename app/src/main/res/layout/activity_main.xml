@@ -75,11 +75,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_one"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_280sdp"
-                android:layout_margin="@dimen/_3sdp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/ads_border"
-                android:padding="@dimen/_3sdp"
-                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_two"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,12 +85,11 @@
                 <FrameLayout
                     android:id="@+id/ads_native_one"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.428" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

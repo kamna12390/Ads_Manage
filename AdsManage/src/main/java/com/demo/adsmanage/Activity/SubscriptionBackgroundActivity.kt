@@ -70,10 +70,7 @@ class SubscriptionBackgroundActivity : BaseSubscriptionActivity() {
     fun setUI(){
         mHEIGHT = (displayMetrics.heightPixels / resources.displayMetrics.density).toInt()
         mWIDTH = (displayMetrics.widthPixels / resources.displayMetrics.density).toInt()
-        logD(
-            "DeviceHeightAndWeight",
-            "height==$mHEIGHT===weight==$mWIDTH---${getNavigationBarHeight()}"
-        )
+        logD("DeviceHeightAndWeight", "height==$mHEIGHT===weight==$mWIDTH---${getNavigationBarHeight()}")
         if (getNavigationBarHeight() >= 20) {
             val newLayoutParams: ConstraintLayout.LayoutParams =
                 binding.mCLCenter.layoutParams as ConstraintLayout.LayoutParams
@@ -130,14 +127,12 @@ class SubscriptionBackgroundActivity : BaseSubscriptionActivity() {
 
 
     }
-
     override fun onResume() {
         super.onResume()
         if (BaseSharedPreferences(this).mIS_SUBSCRIBED!!){
             onBackPressed()
         }
     }
-
     override fun onBackPressed() {
 
         if (intent.getStringExtra("AppOpen")
@@ -170,13 +165,11 @@ class SubscriptionBackgroundActivity : BaseSubscriptionActivity() {
 //            }
         }
     }
-
     fun NextActivity() {
         isActivitychange=true
         startActivity(Intent(this, Class.forName(mNextIntent)))
 //        finish()
     }
-
     private fun showAppInterstitialAd() {
             if (intent.getStringExtra("AppOpen").equals("SplashScreen")) {
                 NextActivity()
@@ -189,7 +182,6 @@ class SubscriptionBackgroundActivity : BaseSubscriptionActivity() {
             }
 
     }
-
     private fun showBackPress() {
         isActivitychange=true
         super.onBackPressed()

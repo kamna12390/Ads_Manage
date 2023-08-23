@@ -13,9 +13,11 @@ import android.util.Log
 import android.view.ViewGroup
 import com.demo.adsmanage.Activity.SubscriptionBackgroundActivity
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBanner
-import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveCustiomBanner
+import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBannerCustomSize
+import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBannerSize
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadFBAdaptiveBanner
-import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadFBCustomAdaptiveBanner
+import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadFBAdaptiveBannerCustomSize
+import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadFBAdaptiveBannerSize
 import com.demo.adsmanage.AdsClass.AppOpenAds.loadAppOpenAd
 import com.demo.adsmanage.AdsClass.AppOpenAds.showAppOpenAd
 import com.demo.adsmanage.AdsClass.InterstitialAds.loadFBInterstitialSd
@@ -620,19 +622,32 @@ object AdsManage {
 
             }
         }
-        fun Show_CustomAdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,isShowBannerAds: IsShowBannerAds,onCustomBanner: OnCustomBanner){
+        fun Show_AdaptiveBannerSize(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,isShowBannerAds: IsShowBannerAds,onCustomBanner: OnCustomBanner){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
                     if (isShowAdmobAds && AD_Banner!=null && AD_Banner!=Noads){
-                        loadAdaptiveCustiomBanner(view,isShowBannerAds,onCustomBanner)
+                        loadAdaptiveBannerSize(view,isShowBannerAds,onCustomBanner)
                     }else {
                         if(FB_Banner==null && FB_Banner==Noads){
                             return
                         }
-                    loadFBCustomAdaptiveBanner(view,isShowBannerAds,onCustomBanner)
+                        loadFBAdaptiveBannerSize(view,isShowBannerAds,onCustomBanner)
                     }
                 }
-
+            }
+        }
+        fun Show_AdaptiveBannerCustomSize(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,maxWidth:Int,maxHeight:Int,onCustomBanner: OnCustomBanner){
+            with(context){
+                if (isOnline && !is_SUBSCRIBED){
+                    if (isShowAdmobAds && AD_Banner!=null && AD_Banner!=Noads){
+                        loadAdaptiveBannerCustomSize(view,maxWidth,maxHeight,onCustomBanner)
+                    }else {
+                        if(FB_Banner==null && FB_Banner==Noads){
+                            return
+                        }
+                        loadFBAdaptiveBannerCustomSize(view,maxWidth,maxHeight,onCustomBanner)
+                    }
+                }
             }
         }
         fun Load_HOME_NativeAds(context: Context,is_SUBSCRIBED: Boolean,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){

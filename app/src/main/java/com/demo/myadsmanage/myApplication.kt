@@ -139,17 +139,9 @@ class myApplication : AppSubscription(), LifecycleObserver,
         registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
 
-        AdSettings.addTestDevice("d2ff32f8-c1aa-4948-84fd-e8828e352847")
-        AdSettings.addTestDevice("369fac27-5a40-4d91-9e86-bc0a7d221977")
-        AdSettings.addTestDevice("c12a6da6-0672-4112-97c6-078dc7774b7b")
-        AdSettings.addTestDevice("2a2fe541-44d6-40b2-8db8-6b6c30bb1946")
-        AdSettings.addTestDevice("e09c375f-c62a-4cfe-a545-abb4fbfd8e3b")
-        AdSettings.addTestDevice("c3a7427f-18eb-4349-bffd-d3c8e46059f4")
-        AdSettings.addTestDevice("39f6d89e-52bf-431f-a14f-a10089fb4133")
-        AdSettings.addTestDevice("1af51df7-5a30-424b-9b37-3e996ad7adeb")
-        AdSettings.addTestDevice("52b2b83c-a4a4-4982-bf25-14b8b787297d")
-        AdSettings.addTestDevice("2e16c27e-34cf-432e-bfaf-18654b3791d3")
-        AdSettings.addTestDevice("0d016b06-da99-44a4-8362-e0d0b6ff733d");
+
+        AdSettings.addTestDevice("6346fcdc-e401-4861-b6d7-784db5e16e62")
+        AdSettings.addTestDevice("671f6024-072e-40db-8d06-88b486f9b29a")
 
     }
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
