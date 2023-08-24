@@ -3,14 +3,21 @@ package com.demo.adsmanage
 
 import android.app.Activity
 import android.app.Application
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.CountDownTimer
 import android.os.Handler
+import android.os.Looper
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.Toast
 import com.demo.adsmanage.Activity.SubscriptionBackgroundActivity
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBanner
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBannerCustomSize
@@ -37,6 +44,8 @@ import com.demo.adsmanage.Commen.Constants.NavigationBarColor
 import com.demo.adsmanage.Commen.Constants.Noads
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SIX_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
+import com.demo.adsmanage.Commen.Constants.ProgressDialogBackgroundColor
+import com.demo.adsmanage.Commen.Constants.ProgressDialoglayout
 import com.demo.adsmanage.Commen.Constants.Purchase_ID
 import com.demo.adsmanage.Commen.Constants.SUBButtonTextColor
 import com.demo.adsmanage.Commen.Constants.SubscriptionBackground
@@ -101,6 +110,7 @@ import com.demo.adsmanage.helper.logD
 import com.demo.adsmanage.helper.misOnline
 import com.demo.adsmanage.model.AdsModel
 import com.google.android.gms.ads.appopen.AppOpenAd
+import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
@@ -111,6 +121,7 @@ import com.google.gson.GsonBuilder
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import com.revenuecat.purchases.getOfferingsWith
+import org.jetbrains.anko.windowManager
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -120,7 +131,7 @@ object AdsManage {
     val TAG="AdsManageclassTAG"
     private val COUNTER_TIME = 2L
     private var mcountRemaining: Long = 0L
-    var dialog_ad:ProgressDialog?=null
+    private var dialog_ad: Dialog? = null
     val configSettings: FirebaseRemoteConfigSettings
         get() {
             return FirebaseRemoteConfigSettings.Builder().setMinimumFetchIntervalInSeconds(0)
@@ -244,6 +255,14 @@ object AdsManage {
         }
         fun setSUBButtonTextColor(color: Int): Builder {
             SUBButtonTextColor=color
+            return this
+        }
+        fun setProgressDialogBackgroundColor(color: Int): Builder {
+            ProgressDialogBackgroundColor=color
+            return this
+        }
+        fun setProgressDialogLayout(layout: Int): Builder {
+            ProgressDialoglayout=layout
             return this
         }
         fun setPriceTextColor(color: Int): Builder {
@@ -375,7 +394,7 @@ object AdsManage {
                                         AdsModel::class.java
                                     )
                                 }catch (e:Exception){
-
+                                    logD("ResponseCheck","Exception->${e.message}")
                                 }
                                 if (lessons==null){
                                     val intent=Intent(context, Class.forName(mClass))
@@ -437,6 +456,7 @@ object AdsManage {
                             }
 
                         }else{
+                            logD("ResponseCheck","Error->${it.exception}")
                             SplachToNextScreen(mintent,isSplashShowAds)
                         }
                     })
@@ -609,7 +629,10 @@ object AdsManage {
 
         fun Show_AdaptiveBanner(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup){
             with(context){
+                val mview = LayoutInflater.from(this).inflate(R.layout.ads_shimmer_adptive_banner_layout, null)
                 if (isOnline && !is_SUBSCRIBED){
+                    view.removeAllViews()
+                    view.addView(mview)
                     if (isShowAdmobAds && AD_Banner!=null && AD_Banner!=Noads){
                         loadAdaptiveBanner(view)
                     }else {
@@ -618,13 +641,19 @@ object AdsManage {
                         }
                         loadFBAdaptiveBanner(view)
                     }
+                }else{
+                    view.removeAllViews()
+                    view.addView(mview)
                 }
 
             }
         }
         fun Show_AdaptiveBannerSize(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,isShowBannerAds: IsShowBannerAds,onCustomBanner: OnCustomBanner){
             with(context){
+                val mview = LayoutInflater.from(this).inflate(R.layout.ads_shimmer_adptive_banner_layout, null)
                 if (isOnline && !is_SUBSCRIBED){
+                    view.removeAllViews()
+                    view.addView(mview)
                     if (isShowAdmobAds && AD_Banner!=null && AD_Banner!=Noads){
                         loadAdaptiveBannerSize(view,isShowBannerAds,onCustomBanner)
                     }else {
@@ -633,12 +662,18 @@ object AdsManage {
                         }
                         loadFBAdaptiveBannerSize(view,isShowBannerAds,onCustomBanner)
                     }
+                }else{
+                    view.removeAllViews()
+                    view.addView(mview)
                 }
             }
         }
         fun Show_AdaptiveBannerCustomSize(context: Context,is_SUBSCRIBED: Boolean, view:ViewGroup,maxWidth:Int,maxHeight:Int,onCustomBanner: OnCustomBanner){
             with(context){
+                val mview = LayoutInflater.from(this).inflate(R.layout.ads_shimmer_adptive_banner_layout, null)
                 if (isOnline && !is_SUBSCRIBED){
+                    view.removeAllViews()
+                    view.addView(mview)
                     if (isShowAdmobAds && AD_Banner!=null && AD_Banner!=Noads){
                         loadAdaptiveBannerCustomSize(view,maxWidth,maxHeight,onCustomBanner)
                     }else {
@@ -647,12 +682,24 @@ object AdsManage {
                         }
                         loadFBAdaptiveBannerCustomSize(view,maxWidth,maxHeight,onCustomBanner)
                     }
+                }else{
+                    view.removeAllViews()
+                    view.addView(mview)
                 }
             }
         }
         fun Load_HOME_NativeAds(context: Context,is_SUBSCRIBED: Boolean,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
+                val mview=if (nativeAD==NativeAD.NativeFull){
+                    LayoutInflater.from(this).inflate(R.layout.ads_shimmer_native_layout, null)
+                }else if (nativeAD==NativeAD.NariveBanner){
+                    LayoutInflater.from(this).inflate(R.layout.ads_shimmer_native_banner_layout, null)
+                } else {
+                    LayoutInflater.from(this).inflate(R.layout.ads_shimmer_native_layout, null)
+                }
                 if (isOnline && !is_SUBSCRIBED){
+                    adsNative.removeAllViews()
+                    adsNative.addView(mview)
                     if (isHomeNativeShow){
                         if (isShowAdmobAds && AD_NativeAds!=null && AD_NativeAds!=Noads){
                             loadNativeAd(adsNative,mlayout,mfbLayout,nativeAD,onNativeAds)
@@ -665,6 +712,10 @@ object AdsManage {
                     }else{
                         onNativeAds.OnNativeAdsError()
                     }
+                }else{
+
+                    adsNative.removeAllViews()
+                    adsNative.addView(mview)
                 }
             }
 
@@ -672,8 +723,16 @@ object AdsManage {
         }
         fun Load_SETTING_NativeAds(context: Context,is_SUBSCRIBED: Boolean,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
+                val mview=if (nativeAD==NativeAD.NativeFull){
+                    LayoutInflater.from(this).inflate(R.layout.ads_shimmer_native_layout, null)
+                }else if (nativeAD==NativeAD.NariveBanner){
+                    LayoutInflater.from(this).inflate(R.layout.ads_shimmer_native_banner_layout, null)
+                } else {
+                    LayoutInflater.from(this).inflate(R.layout.ads_shimmer_native_layout, null)
+                }
                 if (isOnline && !is_SUBSCRIBED){
-
+                    adsNative.removeAllViews()
+                    adsNative.addView(mview)
                     if (isSettingNativeShow){
                         if (isShowAdmobAds && AD_NativeAds!=null && AD_NativeAds!=Noads){
                             loadNativeAd(adsNative,mlayout,mfbLayout,nativeAD,onNativeAds)
@@ -687,6 +746,9 @@ object AdsManage {
                     }else{
                         onNativeAds.OnNativeAdsError()
                     }
+                }else{
+                    adsNative.removeAllViews()
+                    adsNative.addView(mview)
                 }
             }
 
@@ -694,8 +756,16 @@ object AdsManage {
         }
         fun Load_CREATION_NativeAds(context: Context,is_SUBSCRIBED: Boolean,adsNative: ViewGroup,mlayout:Int,mfbLayout:Int,nativeAD: NativeAD,onNativeAds: OnNativeAds){
             with(context){
+                val mview=if (nativeAD==NativeAD.NativeFull){
+                    LayoutInflater.from(this).inflate(R.layout.ads_shimmer_native_layout, null)
+                }else if (nativeAD==NativeAD.NariveBanner){
+                    LayoutInflater.from(this).inflate(R.layout.ads_shimmer_native_banner_layout, null)
+                } else {
+                    LayoutInflater.from(this).inflate(R.layout.ads_shimmer_native_layout, null)
+                }
                 if (isOnline && !is_SUBSCRIBED){
-
+                    adsNative.removeAllViews()
+                    adsNative.addView(mview)
                     if (isCreationNativeShow){
                         if (isShowAdmobAds && AD_NativeAds!=null && AD_NativeAds!=Noads){
                             loadNativeAd(adsNative,mlayout,mfbLayout,nativeAD,onNativeAds)
@@ -708,6 +778,9 @@ object AdsManage {
                     }else{
                         onNativeAds.OnNativeAdsError()
                     }
+                }else{
+                    adsNative.removeAllViews()
+                    adsNative.addView(mview)
                 }
             }
 
@@ -882,7 +955,6 @@ object AdsManage {
 
             }
         }
-
         fun Load_RewardedAd(context: Context,is_SUBSCRIBED: Boolean){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
@@ -923,19 +995,23 @@ object AdsManage {
                 }
             }
         }
-        fun Context.showDialog() {
-            dialog_ad = ProgressDialog(this)
-            dialog_ad!!.setCancelable(false)
-            dialog_ad!!.setCanceledOnTouchOutside(false)
-            dialog_ad!!.setTitle(this.getString(R.string.please_wait))
-            dialog_ad!!.setMessage(this.getString(R.string.load_ad))
-            dialog_ad!!.show()
 
-        }
         fun Context.dismiss(){
             if (dialog_ad!=null){
                 dialog_ad!!.dismiss()
             }
+
+        }
+        private fun Context.showDialog() {
+            dialog_ad= Dialog(this)
+            dialog_ad!!.setCancelable(true)
+            dialog_ad!!.window!!.setBackgroundDrawableResource(ProgressDialogBackgroundColor!!)
+            dialog_ad!!.setContentView(ProgressDialoglayout!!)
+            dialog_ad!!.window!!.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            dialog_ad!!.show()
 
         }
     }

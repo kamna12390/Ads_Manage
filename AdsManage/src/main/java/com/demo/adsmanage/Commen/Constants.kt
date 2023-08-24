@@ -74,6 +74,8 @@ import android.graphics.drawable.Drawable
    internal var mPriceLineColor:Int?=null
    internal var SUBButtonTextColor:Int?=null
    internal var NavigationBarColor:Int?=null
+   internal var ProgressDialogBackgroundColor:Int?=null
+   internal var ProgressDialoglayout:Int?=null
 
     internal var mPremiumLine: ArrayList<LineWithIconModel>?=null
     internal var mPremiumScreenLine: ArrayList<LineWithIconModel>?=null

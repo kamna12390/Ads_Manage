@@ -31,7 +31,7 @@ object AdaptiveBannerAds {
         view: ViewGroup
     ) {
 
-        var id = if (Constants.isTestMode!!) {
+        var id = if (Constants.isTestMode) {
             "ca-app-pub-3940256099942544/6300978111"
         } else{
             AD_Banner
@@ -62,6 +62,10 @@ object AdaptiveBannerAds {
                     TAG,
                     "ADSMANAGE: onAdLoaded:AdaptiveBannerAds->Admob"
                 )
+                val params: LinearLayout.LayoutParams =
+                    LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                view.removeAllViews()
+                view.addView(madView,params)
             }
 
             override fun onAdFailedToLoad(p0: LoadAdError) {
@@ -74,10 +78,7 @@ object AdaptiveBannerAds {
 //                }
             }
         }
-        val params: LinearLayout.LayoutParams =
-            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        view.removeAllViews()
-        view.addView(madView,params)
+
     }
     internal   fun Context.loadAdaptiveBannerSize(
         view: ViewGroup,isShowBannerAds: IsShowBannerAds,onCustomBanner: OnCustomBanner) {
@@ -127,6 +128,10 @@ object AdaptiveBannerAds {
                     TAG,
                     "ADSMANAGE: onAdLoaded:AdaptiveBannerAds->Admob"
                 )
+                val params: LinearLayout.LayoutParams =
+                    LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                view.removeAllViews()
+                view.addView(madView,params)
                 onCustomBanner.OnBannerAdsShow()
             }
 
@@ -138,10 +143,7 @@ object AdaptiveBannerAds {
                 onCustomBanner.OnBannerAdsError()
             }
         }
-        val params: LinearLayout.LayoutParams =
-            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        view.removeAllViews()
-        view.addView(madView,params)
+
     }
 
     internal fun Context.loadAdaptiveBannerCustomSize(view: ViewGroup, maxWidth:Int?=0, maxHeight:Int?=0,onCustomBanner: OnCustomBanner) {
@@ -173,6 +175,7 @@ object AdaptiveBannerAds {
         madView.loadAd(AdRequest.Builder().build())
         madView.adListener = object : AdListener() {
             override fun onAdClicked() {
+                isAdsClicking =true
                 Log.d(
                     TAG,
                     "ADSMANAGE: onAdClicked:AdaptiveBannerAds->Admob"
@@ -192,6 +195,10 @@ object AdaptiveBannerAds {
                     TAG,
                     "ADSMANAGE: onAdLoaded:AdaptiveBannerAds->Admob"
                 )
+                val params: LinearLayout.LayoutParams =
+                    LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                view.removeAllViews()
+                view.addView(madView,params)
                 onCustomBanner.OnBannerAdsShow()
             }
 
@@ -203,10 +210,7 @@ object AdaptiveBannerAds {
                 onCustomBanner.OnBannerAdsError()
             }
         }
-        val params: LinearLayout.LayoutParams =
-            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        view.removeAllViews()
-        view.addView(madView,params)
+
     }
     internal fun Context.loadFBAdaptiveBanner(
         view: ViewGroup
@@ -329,7 +333,7 @@ object AdaptiveBannerAds {
 
         val bannerWidth = screenWidth
         val bannerHeight =  screenHeight
-        var id = if (Constants.isTestMode!!) {
+        var id = if (Constants.isTestMode) {
             "YOUR_PLACEMENT_ID"
         } else{
             FB_Banner

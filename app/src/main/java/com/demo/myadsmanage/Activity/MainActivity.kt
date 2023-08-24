@@ -10,11 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.demo.adsmanage.Activity.SubscriptionBackgroundActivity
 import com.demo.adsmanage.AdsManage
 import com.demo.adsmanage.InterFace.IsShowBannerAds
+import com.demo.adsmanage.InterFace.NativeAD
 import com.demo.adsmanage.InterFace.OnCustomBanner
 import com.demo.adsmanage.InterFace.OnInterAdsShowAds
+import com.demo.adsmanage.InterFace.OnNativeAds
 import com.demo.adsmanage.InterFace.OnRewardedShowAds
 import com.demo.adsmanage.basemodule.BaseActivity
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
+import com.demo.myadsmanage.R
 import com.demo.myadsmanage.databinding.ActivityMainBinding
 
 
@@ -31,7 +34,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        binding.clTwo.visibility = View.GONE
 
         with(AdsManage.ActivityBuilder()) {
 //            Show_AdaptiveBannerSize(this@MainActivity,false, binding.adsNativeThree,IsShowBannerAds.MEDIUM_RECTANGLE,object : OnCustomBanner {
@@ -48,7 +50,29 @@ class MainActivity : BaseActivity() {
 //                }
 //
 //            })
-            Show_AdaptiveBannerCustomSize(this@MainActivity,false,binding.adsNativeOne,0,0,object : OnCustomBanner {
+            AdsManage.ActivityBuilder().Load_HOME_NativeAds(this@MainActivity,false,binding.adsNativeOne,R.layout.ads_native_layout,R.layout.ads_fbnative_layout,NativeAD.NativeFull,object : OnNativeAds {
+                override fun OnNativeAdsShow() {
+
+                }
+
+                override fun OnNativeAdsClick() {
+                }
+
+                override fun OnNativeAdsError() {
+                }
+            })
+            AdsManage.ActivityBuilder().Load_HOME_NativeAds(this@MainActivity,false,binding.adsNativeThree,R.layout.ads_native_layout,R.layout.ads_fbnative_layout,NativeAD.NariveBanner,object : OnNativeAds {
+                override fun OnNativeAdsShow() {
+
+                }
+
+                override fun OnNativeAdsClick() {
+                }
+
+                override fun OnNativeAdsError() {
+                }
+            })
+            Show_AdaptiveBannerCustomSize(this@MainActivity,false,binding.adsNativeTwo,0,0,object : OnCustomBanner {
                 override fun OnBannerAdsShow() {
 
                 }

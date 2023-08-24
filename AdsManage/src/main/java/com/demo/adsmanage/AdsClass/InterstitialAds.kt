@@ -26,7 +26,6 @@ object InterstitialAds {
 
     internal  fun Context.loadInterstitialAd(
     ) {
-
             var id = if (isTestMode!!) {
                 "ca-app-pub-3940256099942544/1033173712"
             } else {

@@ -120,6 +120,8 @@ class myApplication : AppSubscription(), LifecycleObserver,
             .setNavigationBarColor(com.demo.adsmanage.R.color.white)
             .setSmallSubLineColor(com.demo.adsmanage.R.color.light_gray_color)
             .setSUBButtonTextColor(R.color.black)
+            .setProgressDialogBackgroundColor(R.color.transparent)
+            .setProgressDialogLayout(R.layout.layout_dialog)
             .setAppIcon(this.resources.getDrawable(com.demo.adsmanage.R.drawable.ic_launcher))
             .setPremium_True_Icon(this.resources.getDrawable(R.drawable.ic_true_icon))
             .setBasic_Line_Icon(this.resources.getDrawable(R.drawable.ic_line_lock))

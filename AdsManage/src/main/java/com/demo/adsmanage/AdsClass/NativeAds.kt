@@ -52,6 +52,7 @@ object NativeAds {
         }
         logD(TAG, "ADSMANAGE  NativeAdID Admob->$id")
         if (mNativeAdlist == null) {
+
             val builder = AdLoader.Builder(this, id!!)
             builder.forNativeAd { nativeAd ->
                 mNativeAdlist = nativeAd

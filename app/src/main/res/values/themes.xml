@@ -13,6 +13,9 @@
         <item name="android:background">@android:color/transparent</item>
 <!--        <item name="android:indeterminateDrawable">@drawable/circular_progress_dialog</item>-->
     </style>
+    <style name="progressBarWhite" parent="@style/Theme.AppCompat">
+        <item name="colorAccent">@color/white</item>
+    </style>
     <style name="Base.Theme.MyAdsManage.AdAttributionTest">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
