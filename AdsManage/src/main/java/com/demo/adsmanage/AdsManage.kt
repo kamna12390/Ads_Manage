@@ -642,8 +642,8 @@ object AdsManage {
                         loadFBAdaptiveBanner(view)
                     }
                 }else{
-                    view.removeAllViews()
-                    view.addView(mview)
+//                    view.removeAllViews()
+//                    view.addView(mview)
                 }
 
             }
@@ -663,8 +663,8 @@ object AdsManage {
                         loadFBAdaptiveBannerSize(view,isShowBannerAds,onCustomBanner)
                     }
                 }else{
-                    view.removeAllViews()
-                    view.addView(mview)
+//                    view.removeAllViews()
+//                    view.addView(mview)
                 }
             }
         }
@@ -683,8 +683,8 @@ object AdsManage {
                         loadFBAdaptiveBannerCustomSize(view,maxWidth,maxHeight,onCustomBanner)
                     }
                 }else{
-                    view.removeAllViews()
-                    view.addView(mview)
+//                    view.removeAllViews()
+//                    view.addView(mview)
                 }
             }
         }
@@ -714,8 +714,8 @@ object AdsManage {
                     }
                 }else{
 
-                    adsNative.removeAllViews()
-                    adsNative.addView(mview)
+//                    adsNative.removeAllViews()
+//                    adsNative.addView(mview)
                 }
             }
 
@@ -747,8 +747,8 @@ object AdsManage {
                         onNativeAds.OnNativeAdsError()
                     }
                 }else{
-                    adsNative.removeAllViews()
-                    adsNative.addView(mview)
+//                    adsNative.removeAllViews()
+//                    adsNative.addView(mview)
                 }
             }
 
@@ -779,8 +779,8 @@ object AdsManage {
                         onNativeAds.OnNativeAdsError()
                     }
                 }else{
-                    adsNative.removeAllViews()
-                    adsNative.addView(mview)
+//                    adsNative.removeAllViews()
+//                    adsNative.addView(mview)
                 }
             }
 
