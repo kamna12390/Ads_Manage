@@ -83,15 +83,15 @@ class SubscriptionBackgroundActivityViewModel(
         }
         binding.mCLUnlockLayout.click {
             if (mActivity.isOnline) {
-                val bundle = Bundle()
-        bundle.putString(this.javaClass.simpleName, this.javaClass.simpleName)
-        mFirebaseAnalytics!!.logEvent("TestAdsManage", bundle)
+//                val bundle = Bundle()
+//        bundle.putString(this.javaClass.simpleName, this.javaClass.simpleName)
+//        mFirebaseAnalytics!!.logEvent("TestAdsManage", bundle)
 //                val bundle = Bundle()
 //                bundle.putString("First_Category", "First_catValue")
 //                bundle.putString("sub_Cat", "sub_CatValue")
 //                bundle.putLong(FirebaseAnalytics.Param.VALUE, 250)
 //                mFirebaseAnalytics!!.logEvent("My_Custom_Event", bundle)
-//                isSelecterdPlan.monMonthPlan()
+                isSelecterdPlan.monMonthPlan()
 
             } else {
                 mActivity.showToast("Please check internet connection.", android.widget.Toast.LENGTH_SHORT)

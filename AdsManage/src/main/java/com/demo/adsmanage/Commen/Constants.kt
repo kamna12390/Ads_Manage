@@ -76,6 +76,9 @@ import android.graphics.drawable.Drawable
    internal var NavigationBarColor:Int?=null
    internal var ProgressDialogBackgroundColor:Int?=null
    internal var ProgressDialoglayout:Int?=null
+   internal var Progresscolor:Int?=null
+   internal var Progresstextcolor:Int?=null
+   internal var ProgressBGcolor:Int?=null
 
     internal var mPremiumLine: ArrayList<LineWithIconModel>?=null
     internal var mPremiumScreenLine: ArrayList<LineWithIconModel>?=null

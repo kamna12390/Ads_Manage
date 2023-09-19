@@ -1,23 +1,27 @@
 package com.demo.adsmanage
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.CountDownTimer
 import android.os.Handler
-import android.os.Looper
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import com.demo.adsmanage.Activity.SubscriptionBackgroundActivity
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBanner
 import com.demo.adsmanage.AdsClass.AdaptiveBannerAds.loadAdaptiveBannerCustomSize
@@ -44,8 +48,11 @@ import com.demo.adsmanage.Commen.Constants.NavigationBarColor
 import com.demo.adsmanage.Commen.Constants.Noads
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SIX_SKU
 import com.demo.adsmanage.Commen.Constants.PREMIUM_SKU
+import com.demo.adsmanage.Commen.Constants.ProgressBGcolor
 import com.demo.adsmanage.Commen.Constants.ProgressDialogBackgroundColor
 import com.demo.adsmanage.Commen.Constants.ProgressDialoglayout
+import com.demo.adsmanage.Commen.Constants.Progresscolor
+import com.demo.adsmanage.Commen.Constants.Progresstextcolor
 import com.demo.adsmanage.Commen.Constants.Purchase_ID
 import com.demo.adsmanage.Commen.Constants.SUBButtonTextColor
 import com.demo.adsmanage.Commen.Constants.SubscriptionBackground
@@ -94,7 +101,6 @@ import com.demo.adsmanage.InterFace.OnInterstitialAds
 import com.demo.adsmanage.InterFace.OnNativeAds
 import com.demo.adsmanage.InterFace.OnRewardedShowAds
 import com.demo.adsmanage.basemodule.BaseSharedPreferences
-import com.demo.adsmanage.mbilling.ProductPurchaseHelper.setSubscriptionKey
 import com.demo.adsmanage.helper.MySharedPreferences.AD_AppOpen
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Banner
 import com.demo.adsmanage.helper.MySharedPreferences.AD_Interstitial
@@ -108,9 +114,9 @@ import com.demo.adsmanage.helper.MySharedPreferences.Interstitial_CountShow
 import com.demo.adsmanage.helper.isOnline
 import com.demo.adsmanage.helper.logD
 import com.demo.adsmanage.helper.misOnline
+import com.demo.adsmanage.mbilling.ProductPurchaseHelper.setSubscriptionKey
 import com.demo.adsmanage.model.AdsModel
 import com.google.android.gms.ads.appopen.AppOpenAd
-import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
@@ -121,7 +127,6 @@ import com.google.gson.GsonBuilder
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import com.revenuecat.purchases.getOfferingsWith
-import org.jetbrains.anko.windowManager
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -131,7 +136,7 @@ object AdsManage {
     val TAG="AdsManageclassTAG"
     private val COUNTER_TIME = 2L
     private var mcountRemaining: Long = 0L
-    private var dialog_ad: Dialog? = null
+    private var dialog_ad: ProgressDialog? = null
     val configSettings: FirebaseRemoteConfigSettings
         get() {
             return FirebaseRemoteConfigSettings.Builder().setMinimumFetchIntervalInSeconds(0)
@@ -263,6 +268,18 @@ object AdsManage {
         }
         fun setProgressDialogLayout(layout: Int): Builder {
             ProgressDialoglayout=layout
+            return this
+        }
+        fun SetProgressColor(color: Int):Builder{
+            Progresscolor=color
+            return this
+        }
+        fun SetProgresstextColor(color: Int):Builder{
+            Progresstextcolor=color
+            return this
+        }
+        fun SetProgressBGColor(color: Int):Builder{
+            ProgressBGcolor=color
             return this
         }
         fun setPriceTextColor(color: Int): Builder {
@@ -803,7 +820,8 @@ object AdsManage {
 
 
         }
-        fun Show_InterstitialAds(context: Context,is_SUBSCRIBED: Boolean,intent: Intent?=null){
+        @SuppressLint("NewApi")
+        fun Show_InterstitialAds(context: Context, is_SUBSCRIBED: Boolean, intent: Intent?=null){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
                     if (Interstitial_CountShow!! == mInterstitialAds_clickCount){
@@ -862,7 +880,8 @@ object AdsManage {
                 }
             }
         }
-        fun Show_InterstitialInterfaceAds(context: Context,is_SUBSCRIBED: Boolean,onInterAdsShowAds: OnInterAdsShowAds){
+        @SuppressLint("NewApi")
+        fun Show_InterstitialInterfaceAds(context: Context, is_SUBSCRIBED: Boolean, onInterAdsShowAds: OnInterAdsShowAds){
             with(context){
                 if (isOnline && !is_SUBSCRIBED){
 
@@ -970,7 +989,8 @@ object AdsManage {
                 }
             }
         }
-        fun Show_RewardedAd(context: Context,is_SUBSCRIBED: Boolean,onRewardedShowAds: OnRewardedShowAds){
+        @SuppressLint("NewApi")
+        fun Show_RewardedAd(context: Context, is_SUBSCRIBED: Boolean, onRewardedShowAds: OnRewardedShowAds){
             with(context){
                 if (isOnline){
                     if (is_SUBSCRIBED){
@@ -1002,15 +1022,26 @@ object AdsManage {
             }
 
         }
+
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         private fun Context.showDialog() {
-            dialog_ad= Dialog(this)
+            dialog_ad= ProgressDialog(this)
             dialog_ad!!.setCancelable(true)
             dialog_ad!!.window!!.setBackgroundDrawableResource(ProgressDialogBackgroundColor!!)
-            dialog_ad!!.setContentView(ProgressDialoglayout!!)
+            dialog_ad!!.setMessage("Loading Ads..");
+//            dialog_ad!!.setContentView(ProgressDialoglayout!!)
+//            val progressBar=dialog_ad!!.findViewById<ProgressBar>(R.id.progress_loader)
+//            val progresstextBar=dialog_ad!!.findViewById<TextView>(R.id.progress_txt)
+//            val llMainLayout=dialog_ad!!.findViewById<LinearLayout>(R.id.llMainLayout)
             dialog_ad!!.window!!.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
+//            llMainLayout.setBackgroundColor(ProgressBGcolor!!)
+//            progresstextBar.setTextColor(Progresstextcolor!!)
+//            progressBar.indeterminateTintList= ColorStateList.valueOf(Progresscolor!!)
+//            progressBar.indeterminateDrawable.setColorFilter(Progresscolor!!, PorterDuff.Mode.SRC_IN)
+//            progressBar.progressDrawable.setColorFilter(Progresscolor!!, PorterDuff.Mode.SRC_IN)
             dialog_ad!!.show()
 
         }
