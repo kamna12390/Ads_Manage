@@ -49,7 +49,7 @@ class MainActivity : BaseActivity() {
 //
 //                }
 //
-//            })
+//            }) AdsManage.ActivityBuilder().Lo
             AdsManage.ActivityBuilder().Load_HOME_NativeAds(this@MainActivity,false,binding.adsNativeOne,R.layout.ads_native_layout,R.layout.ads_fbnative_layout,NativeAD.NativeFull,object : OnNativeAds {
                 override fun OnNativeAdsShow() {
 
@@ -72,6 +72,7 @@ class MainActivity : BaseActivity() {
                 override fun OnNativeAdsError() {
                 }
             })
+
             Show_AdaptiveBannerCustomSize(this@MainActivity,false,binding.adsNativeTwo,0,0,object : OnCustomBanner {
                 override fun OnBannerAdsShow() {
 

@@ -75,22 +75,7 @@ class SubscriptionBackgroundActivityViewModel(
         setLineView()
         initListener()
     }
-//    val itemJeggings = Bundle().apply {
-//        putString(FirebaseAnalytics.Param.ITEM_ID, "SKU_123")
-//        putString(FirebaseAnalytics.Param.ITEM_VARIANT, "Monthly")
-//        putDouble(FirebaseAnalytics.Param.VALUE, (8*80).toDouble())
-//    }
-    val itemJeggings = Bundle().apply {
-        putString(FirebaseAnalytics.Param.ITEM_ID, "SKU_123")
-        putString(FirebaseAnalytics.Param.ITEM_NAME, "jeggings")
-        putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "pants")
-        putString(FirebaseAnalytics.Param.ITEM_VARIANT, "black")
-        putString(FirebaseAnalytics.Param.ITEM_BRAND, "Google")
-        putDouble(FirebaseAnalytics.Param.PRICE, 9.99)
-    }
-    val itemJeggingsCart = Bundle(itemJeggings).apply {
-        putLong(FirebaseAnalytics.Param.QUANTITY, 1)
-    }
+
     @SuppressLint("InvalidAnalyticsName")
     fun initListener() {
         binding.ivClose.click {
@@ -98,7 +83,15 @@ class SubscriptionBackgroundActivityViewModel(
         }
         binding.mCLUnlockLayout.click {
             if (mActivity.isOnline) {
-                isSelecterdPlan.monMonthPlan()
+                val bundle = Bundle()
+        bundle.putString(this.javaClass.simpleName, this.javaClass.simpleName)
+        mFirebaseAnalytics!!.logEvent("TestAdsManage", bundle)
+//                val bundle = Bundle()
+//                bundle.putString("First_Category", "First_catValue")
+//                bundle.putString("sub_Cat", "sub_CatValue")
+//                bundle.putLong(FirebaseAnalytics.Param.VALUE, 250)
+//                mFirebaseAnalytics!!.logEvent("My_Custom_Event", bundle)
+//                isSelecterdPlan.monMonthPlan()
 
             } else {
                 mActivity.showToast("Please check internet connection.", android.widget.Toast.LENGTH_SHORT)

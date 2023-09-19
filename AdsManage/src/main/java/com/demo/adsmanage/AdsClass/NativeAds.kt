@@ -273,14 +273,14 @@ object NativeAds {
         if (nativeAd.body == null) {
             nativeAdView.bodyView!!.visibility = View.INVISIBLE
         } else {
-            nativeAdView.bodyView!!.visibility = View.VISIBLE
+//            nativeAdView.bodyView!!.visibility = View.VISIBLE
             (nativeAdView.bodyView as TextView).text = nativeAd.body
         }
 
         if (nativeAd.callToAction == null) {
             nativeAdView.callToActionView!!.visibility = View.INVISIBLE
         } else {
-            nativeAdView.callToActionView!!.visibility = View.VISIBLE
+//            nativeAdView.callToActionView!!.visibility = View.VISIBLE
             (nativeAdView.callToActionView as AppCompatTextView).text = nativeAd.callToAction
         }
 
@@ -288,19 +288,19 @@ object NativeAds {
             nativeAdView.iconView!!.visibility = View.GONE
         } else {
             (nativeAdView.iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
-            nativeAdView.iconView!!.visibility = View.VISIBLE
+//            nativeAdView.iconView!!.visibility = View.VISIBLE
         }
         if (nativeAD == NativeAD.NativeFull) {
             if (nativeAd.price == null) {
                 nativeAdView.priceView!!.visibility = View.INVISIBLE
             } else {
-                nativeAdView.priceView!!.visibility = View.VISIBLE
+//                nativeAdView.priceView!!.visibility = View.VISIBLE
                 (nativeAdView.priceView as TextView).text = nativeAd.price
             }
             if (nativeAd.store == null) {
                 nativeAdView.storeView!!.visibility = View.INVISIBLE
             } else {
-                nativeAdView.storeView!!.visibility = View.VISIBLE
+//                nativeAdView.storeView!!.visibility = View.VISIBLE
                 (nativeAdView.storeView as TextView).text = nativeAd.store
             }
         }
@@ -312,14 +312,14 @@ object NativeAds {
             nativeAdView.starRatingView!!.visibility = View.INVISIBLE
         } else {
             (nativeAdView.starRatingView as RatingBar).rating = nativeAd.starRating!!.toFloat()
-            nativeAdView.starRatingView!!.visibility = View.VISIBLE
+//            nativeAdView.starRatingView!!.visibility = View.VISIBLE
         }
 
         if (nativeAd.advertiser == null) {
             nativeAdView.advertiserView!!.visibility = View.INVISIBLE
         } else {
             (nativeAdView.advertiserView as TextView).text = nativeAd.advertiser
-            nativeAdView.advertiserView!!.visibility = View.VISIBLE
+//            nativeAdView.advertiserView!!.visibility = View.VISIBLE
         }
 
         // This method tells the Google Mobile Ads SDK that you have finished populating your
